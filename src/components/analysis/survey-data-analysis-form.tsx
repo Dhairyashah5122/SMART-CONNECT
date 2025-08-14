@@ -22,12 +22,19 @@ const MOCK_OBJECTIVES = `1. Enhance student practical skills in AI/ML.
 2. Foster industry partnerships for future collaborations.
 3. Ensure 85% of projects meet or exceed client expectations.`;
 
+const MOCK_INITIAL_RESULT: AnalyzeSurveyDataOutput = {
+    keyTrends: "The primary trend is positive skill acquisition, with students frequently mentioning gains in technical abilities (React) and soft skills (communication). A secondary trend indicates a need for improved project management, particularly around team dynamics and feedback channels.",
+    thematicAnalysis: "Three key themes emerge: 1) Technical Skill Development (React, data analysis), 2) Project Support Systems (mentorship is a positive, team tools need improvement), and 3) Stakeholder Communication (desire for more direct client feedback).",
+    sentimentAnalysis: "The overall sentiment is Positive. Despite challenges mentioned, most responses use positive language ('fantastic', 'successful', 'invaluable') and express satisfaction with the learning outcomes and final product.",
+    projectAlignment: "The analysis shows a strong alignment between student outcomes and Safirnaction's objectives. Students are gaining practical AI/ML-adjacent skills (React, data analysis). However, the identified communication and collaboration gaps suggest a potential misalignment with the objective of fostering deep industry partnerships, which could be strengthened by more structured interaction."
+};
+
 export function SurveyDataAnalysisForm() {
   const [surveyData, setSurveyData] = useState(MOCK_SURVEY_DATA);
   const [projectScope, setProjectScope] = useState(MOCK_PROJECT_SCOPE);
   const [safirnactionObjectives, setSafirnactionObjectives] = useState(MOCK_OBJECTIVES);
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<AnalyzeSurveyDataOutput | null>(null);
+  const [result, setResult] = useState<AnalyzeSurveyDataOutput | null>(MOCK_INITIAL_RESULT);
 
   const handleAnalyze = async () => {
     if (!surveyData || !projectScope || !safirnactionObjectives) {

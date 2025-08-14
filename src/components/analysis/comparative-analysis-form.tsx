@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -24,12 +25,18 @@ const MOCK_OBJECTIVES = `1. Enhance student practical skills in AI/ML.
 3. Ensure 85% of projects meet or exceed client expectations.
 4. Improve the real-world problem-solving abilities of students.`;
 
+const MOCK_INITIAL_RESULT: ComparativeAnalysisOutput = {
+    analysis: "The project successfully met its core objective of developing an AI-powered visualization platform. Student outcomes, as detailed in the final report, show a significant improvement in practical React and data analysis skills, directly aligning with organizational objectives. The final deliverable exceeded the initial scope outlined in the charter by incorporating an advanced machine learning model not originally planned.",
+    gaps: "A notable gap exists in stakeholder communication. The final report indicates that while the development team communicated well internally, client feedback loops were not as frequent as desired. This represents a procedural gap that could be addressed in future projects to better align with the organizational goal of fostering strong industry partnerships.",
+    alignments: "There is a strong alignment between the skills gained by the students (React, Node.js, Data Analysis) and the organizational objective to enhance practical, in-demand skills. The project's successful completion and positive client feedback (despite communication gaps) align with the goal of ensuring high project success rates."
+};
+
 export function ComparativeAnalysisForm() {
   const [projectCharter, setProjectCharter] = useState<File | null>(null);
   const [finalReport, setFinalReport] = useState<File | null>(null);
   const [organizationalObjectives, setOrganizationalObjectives] = useState(MOCK_OBJECTIVES);
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<ComparativeAnalysisOutput | null>(null);
+  const [result, setResult] = useState<ComparativeAnalysisOutput | null>(MOCK_INITIAL_RESULT);
 
   const handleAnalyze = async () => {
     if (!projectCharter || !finalReport || !organizationalObjectives) {

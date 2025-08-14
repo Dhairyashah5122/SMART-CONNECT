@@ -8,6 +8,9 @@ export const students: Student[] = [
     email1: 'aisha.khan@example.com',
     skills: ['JavaScript', 'React', 'Node.js', 'Data Analysis'],
     resume: 'Aisha Khan has a strong background in web development and data analysis. She has worked on several projects involving front-end development with React and back-end with Node.js. She is also proficient in using data analysis tools to derive insights.',
+    status: 'Approved',
+    projectId: 'p1',
+    mentorId: 'm1',
   },
   {
     id: '2',
@@ -16,6 +19,9 @@ export const students: Student[] = [
     email1: 'ben.carter@example.com',
     skills: ['Python', 'Machine Learning', 'TensorFlow', 'Project Management'],
     resume: 'Ben Carter is a machine learning enthusiast with experience in developing predictive models using Python and TensorFlow. He has a proven track record of managing projects from conception to completion and is an excellent communicator.',
+    status: 'Approved',
+    projectId: 'p1',
+    mentorId: 'm1',
   },
   {
     id: '3',
@@ -24,6 +30,9 @@ export const students: Student[] = [
     email1: 'carla.rodriguez@example.com',
     skills: ['UX/UI Design', 'Figma', 'Adobe XD', 'User Research'],
     resume: 'Carla Rodriguez is a creative UX/UI designer with a passion for creating intuitive and user-friendly interfaces. She is skilled in using Figma and Adobe XD for prototyping and has conducted extensive user research to inform her design decisions.',
+    status: 'Approved',
+    projectId: 'p2',
+    mentorId: 'm1',
   },
   {
     id: '4',
@@ -32,6 +41,7 @@ export const students: Student[] = [
     email1: 'david.lee@example.com',
     skills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
     resume: 'David Lee is a software engineer specializing in building scalable microservices with Java and Spring Boot. He has experience deploying applications on AWS and is knowledgeable about cloud architecture best practices.',
+    status: 'Pending',
   },
 ];
 

@@ -6,6 +6,9 @@ export type Student = {
   email2?: string;
   skills: string[];
   resume: string;
+  status: 'Approved' | 'Pending';
+  projectId?: string;
+  mentorId?: string;
 };
 
 export type Project = {

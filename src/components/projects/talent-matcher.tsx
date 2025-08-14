@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -61,7 +61,7 @@ export function TalentMatcher() {
               <SelectContent>
                 {students.map(student => (
                   <SelectItem key={student.id} value={student.id}>
-                    {student.name}
+                    {student.firstName} {student.lastName}
                   </SelectItem>
                 ))}
               </SelectContent>

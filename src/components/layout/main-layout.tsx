@@ -28,7 +28,8 @@ import {
   Shield,
   User,
   GraduationCap,
-  Building
+  Building,
+  Wand2
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -60,7 +61,8 @@ function MainSidebarContent() {
     { href: "/surveys", icon: ClipboardList, label: "Surveys", tooltip: "Surveys" },
     { href: "/students", icon: Users, label: "Students", tooltip: "Students" },
     { href: "/companies", icon: Building, label: "Companies", tooltip: "Companies" },
-    { href: "/projects", icon: Briefcase, label: "Talent Matching", tooltip: "Talent Matching" },
+    { href: "/projects", icon: Briefcase, label: "Projects", tooltip: "Projects" },
+    { href: "/talent-matching", icon: Wand2, label: "Talent Matching", tooltip: "Talent Matching" },
     { href: "/analysis", icon: GitMerge, label: "Comparative Analysis", tooltip: "Analysis" },
     { href: "/reports", icon: PieChart, label: "Reporting", tooltip: "Reporting" },
   ];
@@ -140,7 +142,8 @@ const pageTitles: { [key: string]: string } = {
   '/': 'Dashboard',
   '/surveys': 'Survey Administration',
   '/students': 'Student Roster',
-  '/projects': 'Talent Matching',
+  '/projects': 'Projects',
+  '/talent-matching': 'Talent Matching',
   '/analysis': 'Comparative Analysis',
   '/reports': 'Reporting',
   '/admin/dashboard': 'Admin Dashboard',

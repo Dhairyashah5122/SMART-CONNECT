@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useState } from 'react';
@@ -171,8 +170,75 @@ function EditSkillsDialog({ mentor, onSkillsUpdate }: { mentor: Mentor, onSkills
     )
 }
 
+function EditProjectsDialog({ mentor, onProjectsUpdate }: { mentor: Mentor, onProjectsUpdate: (mentorId: string, projects: string[]) => void }) {
+    const [currentProjects, setCurrentProjects] = useState(mentor.pastProjects);
+    const [newProject, setNewProject] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
-function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills }: { mentors: Mentor[], onRemoveMentor: (id: string) => void, onUpdateMentorSkills: (id: string, skills: string[]) => void }) {
+    const handleAddProject = () => {
+        if(newProject && !currentProjects.includes(newProject)) {
+            setCurrentProjects([...currentProjects, newProject]);
+            setNewProject('');
+        }
+    }
+    
+    const handleRemoveProject = (projectToRemove: string) => {
+        setCurrentProjects(currentProjects.filter(project => project !== projectToRemove));
+    }
+
+    const handleSave = () => {
+        onProjectsUpdate(mentor.id, currentProjects);
+        setIsOpen(false);
+    }
+
+    return (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+                 <Button variant="ghost" size="icon">
+                    <Edit className="h-4 w-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Edit Past Projects for {mentor.name}</DialogTitle>
+                    <DialogDescription>Add or remove past project titles below.</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <div className="flex gap-2">
+                        <Input 
+                            placeholder="Add new project title" 
+                            value={newProject} 
+                            onChange={(e) => setNewProject(e.target.value)} 
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddProject();}}}
+                        />
+                        <Button onClick={handleAddProject}>Add</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2 p-2 border rounded-md min-h-[40px] bg-secondary/50">
+                        {currentProjects.length > 0 ? (
+                             currentProjects.map(project => (
+                                <Badge key={project} variant="secondary">
+                                    {project}
+                                    <button onClick={() => handleRemoveProject(project)} className="ml-2 rounded-full hover:bg-black/20 dark:hover:bg-white/20 p-0.5">
+                                        <X className="h-3 w-3"/>
+                                    </button>
+                                </Badge>
+                             ))
+                        ) : (
+                            <p className="text-sm text-muted-foreground p-2">No past projects listed.</p>
+                        )}
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+                    <Button onClick={handleSave}><Check className="mr-2"/>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+
+function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills, onUpdateMentorProjects }: { mentors: Mentor[], onRemoveMentor: (id: string) => void, onUpdateMentorSkills: (id: string, skills: string[]) => void, onUpdateMentorProjects: (id: string, projects: string[]) => void }) {
     
     const getStatusVariant = (status: MentorStatus) => {
         switch (status) {
@@ -216,6 +282,7 @@ function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills }: { mentors
                             <TableHead>Name</TableHead>
                             <TableHead>Email</TableHead>
                             <TableHead>Skills</TableHead>
+                            <TableHead>Past Projects</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Mentees</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
@@ -227,11 +294,25 @@ function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills }: { mentors
                                 <TableCell className="font-medium">{mentor.name}</TableCell>
                                 <TableCell>{mentor.email}</TableCell>
                                 <TableCell>
-                                    <div className="flex flex-wrap gap-1 max-w-xs">
-                                        {mentor.skills.slice(0, 4).map(skill => (
-                                            <Badge key={skill} variant="secondary">{skill}</Badge>
-                                        ))}
-                                         {mentor.skills.length > 4 && <Badge variant="outline">+{mentor.skills.length - 4}</Badge>}
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex flex-wrap gap-1 max-w-xs">
+                                            {mentor.skills.slice(0, 2).map(skill => (
+                                                <Badge key={skill} variant="secondary">{skill}</Badge>
+                                            ))}
+                                            {mentor.skills.length > 2 && <Badge variant="outline">+{mentor.skills.length - 2}</Badge>}
+                                        </div>
+                                         <EditSkillsDialog mentor={mentor} onSkillsUpdate={onUpdateMentorSkills}/>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex flex-wrap gap-1 max-w-xs">
+                                            {mentor.pastProjects.slice(0, 1).map(project => (
+                                                <Badge key={project} variant="outline" className="truncate">{project}</Badge>
+                                            ))}
+                                             {mentor.pastProjects.length > 1 && <Badge variant="outline">+{mentor.pastProjects.length - 1}</Badge>}
+                                        </div>
+                                         <EditProjectsDialog mentor={mentor} onProjectsUpdate={onUpdateMentorProjects}/>
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -241,12 +322,9 @@ function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills }: { mentors
                                 </TableCell>
                                 <TableCell>{students.filter(s => s.mentorId === mentor.id).length}</TableCell>
                                 <TableCell className="text-right">
-                                    <div className='flex justify-end items-center'>
-                                        <EditSkillsDialog mentor={mentor} onSkillsUpdate={onUpdateMentorSkills}/>
-                                        <Button variant="ghost" size="icon" onClick={() => onRemoveMentor(mentor.id)}>
-                                            <Trash2 className="h-4 w-4 text-destructive" />
-                                        </Button>
-                                    </div>
+                                    <Button variant="ghost" size="icon" onClick={() => onRemoveMentor(mentor.id)}>
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -270,6 +348,14 @@ export default function MentorsPage() {
         toast({
             title: 'Skills Updated',
             description: `Skills for mentor have been successfully updated.`,
+        });
+    }
+
+    const updateMentorProjects = (mentorId: string, projects: string[]) => {
+        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, pastProjects: projects} : m));
+        toast({
+            title: 'Past Projects Updated',
+            description: `Past projects for mentor have been successfully updated.`,
         });
     }
 
@@ -298,7 +384,14 @@ export default function MentorsPage() {
                 <p className="text-muted-foreground">Add, view, or remove mentors from the program.</p>
             </div>
             <AddMentorForm onAddMentor={addMentor} />
-            <MentorList mentors={mentors} onRemoveMentor={removeMentor} onUpdateMentorSkills={updateMentorSkills} />
+            <MentorList 
+                mentors={mentors} 
+                onRemoveMentor={removeMentor} 
+                onUpdateMentorSkills={updateMentorSkills}
+                onUpdateMentorProjects={updateMentorProjects} 
+            />
         </div>
     )
 }
+
+    

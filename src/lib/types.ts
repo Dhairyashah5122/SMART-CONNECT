@@ -1,4 +1,5 @@
 
+
 export type Student = {
   id: string;
   timestamp?: string;
@@ -45,6 +46,8 @@ export type Project = {
   projectCharterUrl?: string;
   status: 'Ongoing' | 'Completed' | 'Not Assigned';
   studentIds: string[];
+  startDate: string;
+  completionDate: string;
 };
 
 export type Survey = {

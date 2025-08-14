@@ -111,6 +111,8 @@ export const projects: Project[] = [
     description: 'Develop an interactive platform that uses AI to automatically generate insightful visualizations from raw data sets. Requires skills in data analysis, machine learning, and front-end development (React).',
     status: 'Ongoing',
     studentIds: ['1', '2'],
+    startDate: '2024-01-15',
+    completionDate: '2024-05-15',
   },
   {
     id: 'p2',
@@ -119,6 +121,8 @@ export const projects: Project[] = [
     description: 'Create a new mobile e-commerce application with a heavy focus on user experience and intuitive design. Looking for a student with strong UX/UI design skills and experience in user research.',
     status: 'Ongoing',
     studentIds: ['3'],
+    startDate: '2024-02-01',
+    completionDate: '2024-06-01',
   },
   {
     id: 'p3',
@@ -127,6 +131,8 @@ export const projects: Project[] = [
     description: 'Build a robust and scalable backend system for a high-traffic application using microservices architecture. Ideal candidates have experience with Java, Spring Boot, and cloud platforms like AWS.',
     status: 'Completed',
     studentIds: [],
+    startDate: '2023-09-01',
+    completionDate: '2024-01-01',
   },
   {
     id: 'p4',
@@ -135,6 +141,8 @@ export const projects: Project[] = [
     description: 'Design and implement a fully automated data pipeline for real-time analytics. This project involves working with large datasets, ETL processes, and scheduling tools like Airflow. Strong Python and SQL skills are essential.',
     status: 'Not Assigned',
     studentIds: [],
+    startDate: '2024-08-01',
+    completionDate: '2024-12-01',
   },
    {
     id: 'p5',
@@ -143,6 +151,8 @@ export const projects: Project[] = [
     description: 'Develop a machine learning model to detect and classify cybersecurity threats in real-time network traffic. Requires a deep understanding of network protocols, machine learning algorithms, and cybersecurity principles.',
     status: 'Not Assigned',
     studentIds: [],
+    startDate: '2024-09-01',
+    completionDate: '2025-01-01',
   }
 ];
 

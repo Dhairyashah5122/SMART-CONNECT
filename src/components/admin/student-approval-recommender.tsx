@@ -222,6 +222,12 @@ export function StudentApprovalRecommender() {
                         ))}
                     </div>
                 </ScrollArea>
+            ) : rankedStudents && rankedStudents.length === 0 ? (
+                 <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed h-96 bg-card text-center text-muted-foreground p-8">
+                    <CheckCircle className="h-12 w-12 text-green-500" />
+                    <p className="mt-4 font-semibold">All pending students have been reviewed.</p>
+                    <p className="text-sm max-w-sm mx-auto">There are no more students awaiting approval. You can register new students above.</p>
+                </div>
             ) : (
                 <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed h-96 bg-card text-center text-muted-foreground p-8">
                     <User className="h-12 w-12" />

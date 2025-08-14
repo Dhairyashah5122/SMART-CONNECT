@@ -12,6 +12,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import type { Student } from '@/lib/types';
 import { ScrollArea } from '../ui/scroll-area';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Code } from 'lucide-react';
 
 // The type for a ranked student would be defined by what the FastAPI backend returns.
 // We'll keep this structure for the frontend component.
@@ -203,6 +205,13 @@ export function TalentMatcher() {
                     </p>
                 </div>
             )}
+             <Alert>
+                <Code className="h-4 w-4" />
+                <AlertTitle>Developer Note</AlertTitle>
+                <AlertDescription>
+                    This component is configured to call a Python backend at <code>http://127.0.0.1:8000/api/v1/rank-students</code>. This is for demonstration purposes. Ensure your FastAPI server with the corresponding Genkit flow is running.
+                </AlertDescription>
+            </Alert>
         </CardContent>
       </Card>
       

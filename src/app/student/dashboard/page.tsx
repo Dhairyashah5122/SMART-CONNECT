@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Briefcase, CheckSquare, Trophy, User, FileText, ExternalLink } from 'lucide-react';
+import { Briefcase, CheckSquare, Trophy, User, FileText, ExternalLink, ArrowRight } from 'lucide-react';
 import { students, projects } from '@/lib/data';
 import Link from 'next/link';
 
@@ -70,12 +70,14 @@ export default function StudentDashboardPage() {
             <CardDescription>Manage your profile and project documents.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-4">
-            <Button>
-              <User className="mr-2" /> View Profile
-            </Button>
-            <Link href={`/projects`}>
-                <Button variant="secondary">
-                <Briefcase className="mr-2" /> View Project Details
+             <Link href="/profile">
+                <Button>
+                    <User className="mr-2" /> View Profile
+                </Button>
+            </Link>
+            <Link href={`/student/project`}>
+                <Button variant="secondary" className="w-full justify-between">
+                    <Briefcase className="mr-2" /> Manage My Project <ArrowRight />
                 </Button>
             </Link>
             <Link href="/surveys">

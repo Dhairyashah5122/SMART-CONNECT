@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -27,6 +28,7 @@ import {
   User,
   Shield,
   LayoutDashboard,
+  LogOut,
   ChevronDown
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
@@ -63,10 +65,16 @@ function AppHeader() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/profile"><User className="mr-2"/>Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2"/>Settings
+            </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log out</DropdownMenuItem>
+          <DropdownMenuItem>
+            <LogOut className="mr-2"/>Log out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
@@ -161,7 +169,7 @@ function MainSidebarContent() {
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  const noLayoutRoutes = ['/login', '/nda'];
+  const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
   if (noLayoutRoutes.includes(pathname)) {
     return <>{children}</>
   }

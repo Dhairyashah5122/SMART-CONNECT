@@ -2,10 +2,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon, UserCheck, Activity, GitCompareArrows } from "lucide-react";
+import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon, UserCheck, Activity, GitCompareArrows, FilePlus } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -13,7 +13,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
-const reportTypes = [
+const initialReportTypes = [
    {
     title: 'Overall Project Analysis',
     description: 'Generates a summary and analysis of all projects within a selected date range.',
@@ -39,6 +39,7 @@ const reportTypes = [
     actionText: 'Generate',
     category: 'Project Analysis',
     isDateBased: true,
+    href: undefined, // Not yet implemented
   },
   {
     title: 'Student Engagement Report',
@@ -47,6 +48,7 @@ const reportTypes = [
     actionText: 'Generate',
     category: 'Student Analytics',
     isDateBased: true,
+    href: undefined, // Not yet implemented
   },
   {
     title: 'Project Matching Success Rate',
@@ -54,17 +56,21 @@ const reportTypes = [
     category: 'Matching Analytics',
     icon: GitCompareArrows,
     isDateBased: true,
+    href: undefined, // Not yet implemented
   },
   {
     title: 'Survey Response Summary',
     description: 'Aggregates data from a specific survey to highlight key trends and insights.',
     category: 'Survey Reports',
     isDateBased: false,
+    href: undefined, // Not yet implemented
   },
   {
     title: 'Alignment Gap Analysis Report',
     description: 'Generates a formal document based on the results of the comparative analysis.',
     href: '/analysis',
+    icon: BarChart4,
+    actionText: 'Generate',
     category: 'Project Analysis',
     isDateBased: false,
   },
@@ -88,12 +94,31 @@ const reportTypes = [
   },
 ];
 
-const reportCategories = ["All", ...Array.from(new Set(reportTypes.map(r => r.category)))];
-
 export default function ReportsPage() {
+  const [reportTypes, setReportTypes] = useState(initialReportTypes);
+  const [reportCategories, setReportCategories] = useState(["All", ...Array.from(new Set(initialReportTypes.map(r => r.category)))]);
   const [filter, setFilter] = useState('All');
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+
+  useEffect(() => {
+    try {
+        const customReports = JSON.parse(localStorage.getItem('custom_reports') || '[]');
+        if (customReports.length > 0) {
+            const newReportTypes = customReports.map((r: any) => ({
+                ...r,
+                icon: FileText, // Default icon
+                href: '/reports', // Default link, not functional
+                isDateBased: false,
+            }));
+            const allReports = [...initialReportTypes, ...newReportTypes];
+            setReportTypes(allReports);
+            setReportCategories(["All", ...Array.from(new Set(allReports.map(r => r.category)))]);
+        }
+    } catch (e) {
+        console.error("Could not load custom reports", e);
+    }
+  }, []);
 
   const filteredReports = filter === 'All' 
     ? reportTypes 
@@ -111,6 +136,11 @@ export default function ReportsPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Button asChild variant="outline">
+                <Link href="/reports/define">
+                    <FilePlus className="mr-2"/> Define New Report
+                </Link>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
               <Button variant="outline">
@@ -190,7 +220,7 @@ export default function ReportsPage() {
         {filteredReports.map((report) => {
           const Icon = report.icon || FileText;
           const isDateRangeRequired = report.isDateBased;
-          const canGenerate = !isDateRangeRequired || (isDateRangeRequired && !!startDate && !!endDate);
+          const canGenerate = report.href && (!isDateRangeRequired || (isDateRangeRequired && !!startDate && !!endDate));
 
           const generateHref = () => {
             if (!report.href) return '';

@@ -1,11 +1,11 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, KeyRound, Save, Database } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Bell, KeyRound, Save, Database, Cloud, Link as LinkIcon } from "lucide-react";
 
 export default function SystemSettingsPage() {
   return (
@@ -62,7 +62,7 @@ export default function SystemSettingsPage() {
 
         <Card>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Database /> Database Integration</CardTitle>
+                <CardTitle className="flex items-center gap-2"><Database /> Database Configuration</CardTitle>
                 <CardDescription>Configure the connection to your application's database.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -76,6 +76,42 @@ export default function SystemSettingsPage() {
                 </div>
                  <div className="flex justify-end">
                     <Button>Save Database Settings</Button>
+                 </div>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Cloud /> Storage Configuration</CardTitle>
+                <CardDescription>Configure the connection to your cloud storage provider.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                <div className="space-y-2">
+                    <Label htmlFor="storage-provider">Storage Provider</Label>
+                    <Input id="storage-provider" placeholder="e.g., Firebase Storage, Amazon S3" />
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="storage-bucket">Bucket Name / ID</Label>
+                    <Input id="storage-bucket" placeholder="Enter your storage bucket name" />
+                </div>
+                 <div className="flex justify-end">
+                    <Button>Save Storage Settings</Button>
+                 </div>
+            </CardContent>
+        </Card>
+        
+         <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><LinkIcon /> Web Integration</CardTitle>
+                <CardDescription>Manage public URLs and webhook connections.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                <div className="space-y-2">
+                    <Label htmlFor="public-url">Public URL</Label>
+                    <Input id="public-url" placeholder="https://your-app-domain.com" />
+                </div>
+                 <div className="flex justify-end">
+                    <Button>Save Integration Settings</Button>
                  </div>
             </CardContent>
         </Card>

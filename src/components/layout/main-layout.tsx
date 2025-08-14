@@ -31,7 +31,8 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronDown,
-  Star
+  Star,
+  BookOpen,
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -91,6 +92,7 @@ function MainSidebarContent() {
     { href: "/", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/analysis", icon: BarChart2, label: "Analysis" },
     { href: "/projects", icon: Briefcase, label: "Projects" },
+    { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/students", icon: GraduationCap, label: "Students" },
     { href: "/mentors", icon: User, label: "Mentors" },
     { href: "/companies", icon: Building, label: "Companies" },

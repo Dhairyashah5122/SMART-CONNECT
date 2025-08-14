@@ -63,9 +63,9 @@ export const students: Student[] = [
     studentId: 'S004',
     skills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
     resume: 'David Lee is a software engineer specializing in building scalable microservices with Java and Spring Boot. He has experience deploying applications on AWS and is knowledgeable about cloud architecture best practices.',
-    status: 'Approved',
-    ndaStatus: 'Pending',
-    consentLetter: false,
+    status: 'Pending',
+    ndaStatus: 'Signed',
+    consentLetter: true,
   },
    {
     id: '5',
@@ -91,9 +91,9 @@ export const students: Student[] = [
     studentId: 'S006',
     skills: ['Cybersecurity', 'Penetration Testing', 'Network Security', 'Python'],
     resume: 'Frank Miller is a cybersecurity analyst with hands-on experience in penetration testing and network security. He uses Python to automate security tasks and is passionate about protecting digital assets.',
-    status: 'Approved',
-    ndaStatus: 'Signed',
-    consentLetter: true,
+    status: 'Pending',
+    ndaStatus: 'Pending',
+    consentLetter: false,
   },
 ];
 

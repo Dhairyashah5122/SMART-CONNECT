@@ -1,7 +1,7 @@
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2 } from 'lucide-react';
+import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatCard title="Total Users" value="150" icon={Users} />
         <StatCard title="Active Projects" value="5" icon={Briefcase} />
-        <StatCard title="Pending Approvals" value="12" icon={Bell} />
+        <StatCard title="Pending Approvals" value="2" icon={Bell} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -24,6 +24,12 @@ export default function AdminDashboardPage() {
             <CardDescription>Manage your platform efficiently.</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
+             <Link href="/admin/approvals" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                  <UserCheck className="mr-2" />
+                  Student Approvals
+                </Button>
+            </Link>
             <Link href="/students" passHref>
                 <Button variant="outline" className="w-full justify-start">
                   <UserCog className="mr-2" />

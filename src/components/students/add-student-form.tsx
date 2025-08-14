@@ -5,13 +5,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, UserPlus, Sparkles, Upload } from "lucide-react";
+import { Loader2, UserPlus, Sparkles } from "lucide-react";
 import {
   extractSkillsFromResume,
   type ExtractSkillsFromResumeOutput,
 } from "@/ai/flows/extract-skills-from-resume";
 import { Badge } from "../ui/badge";
-import { Checkbox } from "../ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -33,7 +32,6 @@ const fileToText = (file: File): Promise<string> => {
 
 export function AddStudentForm() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [ndaFiles, setNdaFiles] = useState<File[]>([]);
   const [resumeText, setResumeText] = useState("");
   const [extractedSkills, setExtractedSkills] =
     useState<ExtractSkillsFromResumeOutput | null>(null);
@@ -46,17 +44,6 @@ export function AddStudentForm() {
       setResumeFile(file);
       const text = await fileToText(file);
       setResumeText(text);
-    }
-  };
-
-  const handleNdaFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-        const files = Array.from(event.target.files);
-        if (files.length > 4) {
-            alert("You can upload a maximum of 4 files.");
-            return;
-        }
-        setNdaFiles(files);
     }
   };
 
@@ -85,7 +72,6 @@ export function AddStudentForm() {
     console.log({
       // Collect all form fields here
       skills: extractedSkills?.skills || [],
-      ndaFiles,
     });
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
     alert("Student added successfully!");
@@ -189,34 +175,13 @@ export function AddStudentForm() {
           <Label htmlFor="project-interests">Project Interests</Label>
           <Textarea id="project-interests" placeholder="AI/ML, Web Development, UI/UX Design..." />
         </div>
-
-        <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="nda-upload">NDA Upload (up to 4 files)</Label>
-              <Input id="nda-upload" type="file" onChange={handleNdaFileChange} accept=".pdf,.doc,.docx" multiple required />
-              <p className="text-xs text-muted-foreground">Please upload your signed Non-Disclosure Agreement(s).</p>
-            </div>
-
-            <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="consent-letter" required />
-                    <Label htmlFor="consent-letter" className="text-sm font-normal">
-                    I have submitted the consent letter.
-                    </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="acknowledgement" required />
-                    <Label htmlFor="acknowledgement" className="text-sm font-normal">
-                    I acknowledge the mandatory requirements.
-                    </Label>
-                </div>
-            </div>
+        
+        <div className="mt-auto pt-6">
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+                {isSubmitting ? <Loader2 className="animate-spin" /> : <UserPlus />}
+                <span className="ml-2">Add Student</span>
+            </Button>
         </div>
-
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? <Loader2 className="animate-spin" /> : <UserPlus />}
-            <span className="ml-2">Add Student</span>
-        </Button>
       </div>
     </form>
   );

@@ -25,6 +25,7 @@ import {
   Users,
   Settings,
   UserCircle,
+  Shield,
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -58,6 +59,7 @@ function MainSidebarContent() {
     { href: "/projects", icon: Briefcase, label: "Talent Matching", tooltip: "Talent Matching" },
     { href: "/analysis", icon: GitMerge, label: "Comparative Analysis", tooltip: "Analysis" },
     { href: "/reports", icon: PieChart, label: "Reporting", tooltip: "Reporting" },
+    { href: "/admin/dashboard", icon: Shield, label: "Admin", tooltip: "Admin" },
   ];
 
   return (
@@ -116,6 +118,9 @@ const pageTitles: { [key: string]: string } = {
   '/projects': 'Talent Matching',
   '/analysis': 'Comparative Analysis',
   '/reports': 'Reporting',
+  '/admin/dashboard': 'Admin Dashboard',
+  '/mentor/dashboard': 'Mentor Dashboard',
+  '/student/dashboard': 'Student Dashboard',
 };
 
 export function MainLayout({ children }: { children: React.ReactNode }) {

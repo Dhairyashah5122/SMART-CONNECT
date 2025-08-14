@@ -41,19 +41,25 @@ export default function DashboardPage() {
             <CardDescription>Navigate to key areas of the application.</CardDescription>
           </CardHeader>
           <CardContent className="flex-grow flex flex-col justify-center gap-4">
-            <Link href="/analysis">
-              <Button variant="outline" className="w-full justify-between">
-                Run Comparative Analysis <ArrowRight className="h-4 w-4" />
+            <Link href="/analysis" passHref>
+              <Button asChild variant="outline" className="w-full justify-between">
+                <a>
+                  Run Comparative Analysis <ArrowRight className="h-4 w-4" />
+                </a>
               </Button>
             </Link>
-            <Link href="/projects">
-              <Button variant="outline" className="w-full justify-between">
-                Match Students to Projects <ArrowRight className="h-4 w-4" />
+            <Link href="/projects" passHref>
+              <Button asChild variant="outline" className="w-full justify-between">
+                <a>
+                  Match Students to Projects <ArrowRight className="h-4 w-4" />
+                </a>
               </Button>
             </Link>
-            <Link href="/surveys">
-              <Button className="w-full justify-between bg-accent text-accent-foreground hover:bg-accent/90">
-                Administer Surveys <ArrowRight className="h-4 w-4" />
+            <Link href="/surveys" passHref>
+              <Button asChild className="w-full justify-between bg-accent text-accent-foreground hover:bg-accent/90">
+                <a>
+                  Administer Surveys <ArrowRight className="h-4 w-4" />
+                </a>
               </Button>
             </Link>
           </CardContent>

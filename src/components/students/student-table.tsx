@@ -67,7 +67,7 @@ export function StudentTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {students.map((student) => {
+            {students.filter(s => s.status === 'Approved').map((student) => {
               const project = projects.find(p => p.id === student.projectId);
               const mentor = mentors.find(m => m.id === student.mentorId);
               const studentName = student.fullName || `${student.firstName} ${student.lastName}`;
@@ -77,7 +77,7 @@ export function StudentTable() {
                 <TableRow key={student.id}>
                   <TableCell>
                     <Avatar>
-                      <AvatarImage src={`https://placehold.co/40x40.png?text=${studentName.charAt(0)}`} data-ai-hint="person" />
+                      <AvatarImage src={`https://i.pravatar.cc/150?u=${student.id}`} data-ai-hint="person" />
                       <AvatarFallback>{studentName.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </TableCell>

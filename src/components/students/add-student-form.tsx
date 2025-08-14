@@ -172,12 +172,6 @@ export function AddStudentForm() {
           <p className="text-xs text-muted-foreground">Upload resume to automatically extract skills.</p>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="nda-upload">NDA Upload (up to 4 files)</Label>
-          <Input id="nda-upload" type="file" onChange={handleNdaFileChange} accept=".pdf,.doc,.docx" multiple required />
-          <p className="text-xs text-muted-foreground">Please upload your signed Non-Disclosure Agreement(s).</p>
-        </div>
-
         {extractedSkills && (
             <div className="space-y-2">
                 <Label>Extracted Skills</Label>
@@ -196,18 +190,26 @@ export function AddStudentForm() {
           <Textarea id="project-interests" placeholder="AI/ML, Web Development, UI/UX Design..." />
         </div>
 
-        <div className="space-y-2">
-            <div className="flex items-center space-x-2">
-                <Checkbox id="consent-letter" required />
-                <Label htmlFor="consent-letter" className="text-sm font-normal">
-                I have submitted the consent letter.
-                </Label>
+        <div className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="nda-upload">NDA Upload (up to 4 files)</Label>
+              <Input id="nda-upload" type="file" onChange={handleNdaFileChange} accept=".pdf,.doc,.docx" multiple required />
+              <p className="text-xs text-muted-foreground">Please upload your signed Non-Disclosure Agreement(s).</p>
             </div>
-            <div className="flex items-center space-x-2">
-                <Checkbox id="acknowledgement" required />
-                <Label htmlFor="acknowledgement" className="text-sm font-normal">
-                I acknowledge the mandatory requirements.
-                </Label>
+
+            <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="consent-letter" required />
+                    <Label htmlFor="consent-letter" className="text-sm font-normal">
+                    I have submitted the consent letter.
+                    </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="acknowledgement" required />
+                    <Label htmlFor="acknowledgement" className="text-sm font-normal">
+                    I acknowledge the mandatory requirements.
+                    </Label>
+                </div>
             </div>
         </div>
 

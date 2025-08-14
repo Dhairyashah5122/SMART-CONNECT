@@ -40,7 +40,7 @@ export function TalentMatcher() {
     setResult(null);
 
     try {
-        if (selectedStudentId) {
+        if (selectedStudentId && selectedStudentId !== 'recommend') {
             // Specific student-project analysis
             const student = students.find(s => s.id === selectedStudentId);
             if (!student) {
@@ -121,7 +121,7 @@ export function TalentMatcher() {
   };
   
   const canAnalyze = selectedProjectId;
-  const analysisMode = selectedStudentId ? "Analyze Match" : "Find Best Match";
+  const analysisMode = (selectedStudentId && selectedStudentId !== 'recommend') ? "Analyze Match" : "Find Best Match";
   const selectedProject = projects.find(p => p.id === selectedProjectId);
 
   return (
@@ -156,7 +156,7 @@ export function TalentMatcher() {
                     <SelectValue placeholder="Select a student" />
                 </SelectTrigger>
                 <SelectContent>
-                     <SelectItem value="">None (Recommend for me)</SelectItem>
+                     <SelectItem value="recommend">None (Recommend for me)</SelectItem>
                     {students.filter(s => !s.projectId).map(student => (
                         <SelectItem key={student.id} value={student.id}>
                             {student.fullName}

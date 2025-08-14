@@ -1,6 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send, Star, CaseStudy, BarChart4 } from "lucide-react";
+import { Download, FileText, Send, Star, FilePenLine, BarChart4 } from "lucide-react";
 import Link from "next/link";
 
 const reportTypes = [
@@ -38,7 +39,7 @@ const reportTypes = [
     title: 'Case Study Generation',
     description: 'Creates a detailed case study from a project report.',
     href: '/showcase',
-    icon: CaseStudy,
+    icon: FilePenLine,
     actionText: 'Generate'
   },
 ];

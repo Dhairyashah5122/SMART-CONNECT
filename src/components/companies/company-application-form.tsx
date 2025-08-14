@@ -26,11 +26,11 @@ export function CompanyApplicationForm() {
             <Input id="primary-industry" placeholder="Technology" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="company-age">Company Age</Label>
+            <Label htmlFor="company-age">How long has your company been in business?</Label>
             <Input id="company-age" type="number" placeholder="5" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="employee-count">Number of Employees</Label>
+            <Label htmlFor="employee-count">How many employees do you have?</Label>
             <Select>
               <SelectTrigger id="employee-count">
                 <SelectValue placeholder="Select range" />
@@ -45,7 +45,7 @@ export function CompanyApplicationForm() {
             </Select>
           </div>
           <div className="space-y-2 lg:col-span-2">
-            <Label htmlFor="website-url">Website URL</Label>
+            <Label htmlFor="website-url">Company Website URL (if applicable)</Label>
             <Input id="website-url" type="url" placeholder="https://acme.com" />
           </div>
         </div>
@@ -84,11 +84,11 @@ export function CompanyApplicationForm() {
             <Input id="contact-email" type="email" placeholder="jane.doe@acme.com" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="contact-phone">Phone Number</Label>
+            <Label htmlFor="contact-phone">Phone Number (include area code)</Label>
             <Input id="contact-phone" type="tel" placeholder="+1 (555) 123-4567" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="alternative-contact">Alternative Contact</Label>
+            <Label htmlFor="alternative-contact">Alternative Contact (name and email)</Label>
             <Input id="alternative-contact" placeholder="John Smith, john.smith@acme.com" />
           </div>
         </div>
@@ -104,7 +104,7 @@ export function CompanyApplicationForm() {
                 <Input id="primary-operating-location" placeholder="e.g., California, USA" />
             </div>
             <div className="space-y-2">
-                <Label htmlFor="non-us-hq">Non-US HQ Location (if applicable)</Label>
+                <Label htmlFor="non-us-hq">HQ Location if Outside U.S.</Label>
                 <Input id="non-us-hq" placeholder="e.g., London, UK" />
             </div>
             <div className="space-y-2">
@@ -123,7 +123,7 @@ export function CompanyApplicationForm() {
       <div className="space-y-4">
         <h3 className="text-lg font-medium">Project Details</h3>
         <div className="space-y-2">
-          <Label htmlFor="project-scope">Project Scope Description</Label>
+          <Label htmlFor="project-scope">Project Scope Description (1-2 paragraphs)</Label>
           <Textarea id="project-scope" rows={5} placeholder="Describe the project goals, deliverables, and any relevant background information." />
         </div>
         <div className="space-y-2">
@@ -131,7 +131,7 @@ export function CompanyApplicationForm() {
           <Textarea id="project-expectations" rows={3} placeholder="e.g., A functional prototype, a market research report, a data analysis model..." />
         </div>
          <div className="space-y-2">
-          <Label htmlFor="specific-expertise">Specific expertise required</Label>
+          <Label htmlFor="specific-expertise">Specific expertise or skills required</Label>
           <Textarea id="specific-expertise" rows={2} placeholder="e.g., Python, UI/UX Design, Machine Learning..." />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -149,7 +149,7 @@ export function CompanyApplicationForm() {
                 </RadioGroup>
             </div>
             <div className="space-y-3">
-                <Label>Are you willing to share this info with students under an NDA?</Label>
+                <Label>Are you willing to share this info with the student team under an NDA?</Label>
                  <RadioGroup defaultValue="yes" className="flex gap-4">
                     <div className="flex items-center space-x-2">
                         <RadioGroupItem value="yes" id="nda-yes" />
@@ -169,7 +169,7 @@ export function CompanyApplicationForm() {
        <div className="space-y-4">
           <h3 className="text-lg font-medium">Program Awareness</h3>
             <div className="space-y-2">
-                <Label htmlFor="source-awareness">How did you hear about the SMART Capstone Program?</Label>
+                <Label htmlFor="source-awareness">How did you hear about the SMART™ Program?</Label>
                 <Input id="source-awareness" placeholder="e.g., Westcliff University website, colleague, event..." />
             </div>
       </div>

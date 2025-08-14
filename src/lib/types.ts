@@ -20,7 +20,8 @@ export type Student = {
   dailyDuties?: string;
   skills: string[];
   resume: string; // Keep as text content for now
-  workshopSelection?: string;
+  ndaFile?: string; // data URI
+  consentLetter?: boolean;
   acknowledgement?: boolean;
   status: 'Approved' | 'Pending';
   projectId?: string;
@@ -46,10 +47,12 @@ export type Project = {
 export type Survey = {
   id: string;
   title: string;
+  type: 'Student Satisfaction' | 'Company Feedback' | 'Mentor Review' | 'Self-Assessment';
   status: 'Active' | 'Closed';
   responses: number;
   totalParticipants: number;
   createdAt: string;
+  dueDate: string;
   lastReminderSent?: string;
 };
 

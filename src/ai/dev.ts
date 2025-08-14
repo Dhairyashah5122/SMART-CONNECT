@@ -8,3 +8,4 @@ import '@/ai/flows/extract-skills-from-resume.ts';
 import '@/ai/flows/generate-reminder.ts';
 import '@/ai/flows/process-student-excel.ts';
 import '@/ai/flows/generate-nda-reminder.ts';
+import '@/ai/flows/generate-survey-report.ts';

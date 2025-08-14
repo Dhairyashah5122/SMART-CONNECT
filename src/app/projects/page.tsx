@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { projects } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function ProjectsPage() {
   return (
@@ -70,9 +71,13 @@ export default function ProjectsPage() {
                             </TableCell>
                             <TableCell>{project.studentIds.length}</TableCell>
                             <TableCell className="text-right">
-                                <Button variant="outline" size="sm">View Details</Button>
+                                <Link href={`/projects/view-details`}>
+                                    <Button variant="outline" size="sm">View Details</Button>
+                                </Link>
                                 {project.status !== 'Completed' && (
+                                    <Link href={`/projects/edit`}>
                                      <Button variant="secondary" size="sm" className="ml-2">Edit</Button>
+                                    </Link>
                                 )}
                             </TableCell>
                         </TableRow>

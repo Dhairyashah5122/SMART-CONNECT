@@ -18,6 +18,7 @@ export const students: Student[] = [
     ndaStatus: 'Signed',
     consentLetter: true,
     postCapstoneSurveyStatus: 'Completed',
+    currentGpa: 3.9,
   },
   {
     id: '2',
@@ -35,6 +36,7 @@ export const students: Student[] = [
     ndaStatus: 'Pending',
     consentLetter: true,
     postCapstoneSurveyStatus: 'Pending',
+    currentGpa: 3.8,
   },
   {
     id: '3',
@@ -52,6 +54,7 @@ export const students: Student[] = [
     ndaStatus: 'Signed',
     consentLetter: true,
     postCapstoneSurveyStatus: 'Not Started',
+    currentGpa: 3.7,
   },
   {
     id: '4',
@@ -66,6 +69,7 @@ export const students: Student[] = [
     status: 'Pending',
     ndaStatus: 'Signed',
     consentLetter: true,
+    currentGpa: 3.9,
   },
    {
     id: '5',
@@ -80,6 +84,7 @@ export const students: Student[] = [
     status: 'Approved',
     ndaStatus: 'Signed',
     consentLetter: true,
+    currentGpa: 3.6,
   },
   {
     id: '6',
@@ -94,6 +99,7 @@ export const students: Student[] = [
     status: 'Pending',
     ndaStatus: 'Pending',
     consentLetter: false,
+    currentGpa: 3.5,
   },
 ];
 

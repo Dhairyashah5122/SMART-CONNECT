@@ -13,3 +13,4 @@ import '@/ai/flows/generate-success-story.ts';
 import '@/ai/flows/generate-case-study.ts';
 import '@/ai/flows/recommend-student-for-project.ts';
 import '@/ai/flows/rank-students-for-project.ts';
+import '@/ai/flows/rank-students-for-program.ts';

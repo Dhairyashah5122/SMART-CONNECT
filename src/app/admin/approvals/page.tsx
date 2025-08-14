@@ -1,11 +1,4 @@
-import { StudentApprovalTable } from "@/components/admin/student-approval-table";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { StudentApprovalRecommender } from "@/components/admin/student-approval-recommender";
 
 export default function StudentApprovalsPage() {
   return (
@@ -13,23 +6,10 @@ export default function StudentApprovalsPage() {
       <div>
         <h1 className="text-3xl font-bold">Student Approvals</h1>
         <p className="text-muted-foreground">
-          Review and approve pending student applications for the SMART Capstone
-          program.
+          Use AI to rank and review pending student applications for the SMART Capstone program.
         </p>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Pending Applications</CardTitle>
-          <CardDescription>
-            The following students have submitted their applications and are
-            awaiting approval.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <StudentApprovalTable />
-        </CardContent>
-      </Card>
+      <StudentApprovalRecommender />
     </div>
   );
 }

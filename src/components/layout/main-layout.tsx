@@ -30,7 +30,8 @@ import {
   Shield,
   LayoutDashboard,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Star
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -96,6 +97,7 @@ function MainSidebarContent() {
     { href: "/surveys", icon: FileText, label: "Surveys" },
     { href: "/talent-matching", icon: Users, label: "Talent Matching" },
     { href: "/reports", icon: BarChart2, label: "Reports" },
+    { href: "/showcase", icon: Star, label: "Showcase" },
   ];
   
   const secondaryMenuItems = [

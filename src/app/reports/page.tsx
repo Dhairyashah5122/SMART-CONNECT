@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send } from "lucide-react";
+import { Download, FileText, Send, Star, CaseStudy } from "lucide-react";
+import Link from "next/link";
 
 const reportTypes = [
   {
@@ -18,6 +19,16 @@ const reportTypes = [
   {
     title: 'Alignment Gap Analysis Report',
     description: 'Generates a formal document based on the results of the comparative analysis.',
+  },
+  {
+    title: 'Success Story Report',
+    description: 'Generates a success story from project reports uploaded by mentors.',
+    href: '/showcase'
+  },
+  {
+    title: 'Case Study Generation',
+    description: 'Creates a detailed case study from a project report.',
+    href: '/showcase'
   },
 ];
 
@@ -47,14 +58,25 @@ export default function ReportsPage() {
               </div>
             </CardHeader>
             <CardContent className="mt-auto flex gap-2">
-              <Button variant="outline" className="w-full">
-                <Download className="mr-2 h-4 w-4" />
-                Download
-              </Button>
-               <Button className="w-full">
-                <Send className="mr-2 h-4 w-4" />
-                Email Report
-              </Button>
+              {report.href ? (
+                 <Button asChild className="w-full">
+                    <Link href={report.href}>
+                        {report.title.includes('Success') ? <Star className="mr-2 h-4 w-4" /> : <FileText className="mr-2 h-4 w-4" />}
+                        Generate
+                    </Link>
+                </Button>
+              ) : (
+                <>
+                <Button variant="outline" className="w-full">
+                    <Download className="mr-2 h-4 w-4" />
+                    Download
+                </Button>
+                <Button className="w-full">
+                    <Send className="mr-2 h-4 w-4" />
+                    Email Report
+                </Button>
+                </>
+              )}
             </CardContent>
           </Card>
         ))}

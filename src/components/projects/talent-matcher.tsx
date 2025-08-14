@@ -7,26 +7,29 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { students as initialStudents, projects, mentors } from '@/lib/data';
 import { recommendStudentForProject, type RecommendStudentOutput } from '@/ai/flows/recommend-student-for-project';
-import { Loader2, Sparkles, Wand2, CheckCircle, User } from 'lucide-react';
+import { matchStudentsToProjects, type MatchStudentsToProjectsOutput } from '@/ai/flows/match-students-to-projects';
+import { Loader2, Sparkles, Wand2, CheckCircle, User, Users } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import type { Student } from '@/lib/types';
+import { Separator } from '../ui/separator';
 
 
-type RecommendationResult = RecommendStudentOutput & {
+type MatcherResult = (RecommendStudentOutput | MatchStudentsToProjectsOutput) & {
     student?: Student;
 }
 
 export function TalentMatcher() {
   const [students, setStudents] = useState<Student[]>(initialStudents);
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+  const [selectedStudentId, setSelectedStudentId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<RecommendationResult | null>(null);
+  const [result, setResult] = useState<MatcherResult | null>(null);
   const { toast } = useToast();
 
-  const handleRecommend = async () => {
+  const handleAnalyze = async () => {
     const project = projects.find(p => p.id === selectedProjectId);
     if (!project) {
       alert('Please select a project.');
@@ -37,37 +40,52 @@ export function TalentMatcher() {
     setResult(null);
 
     try {
-      // Filter for students who are not already assigned to a project
-      const availableStudents = students
-        .filter(s => !s.projectId)
-        .map(s => ({
-            id: s.id,
-            name: s.fullName,
-            resume: s.resume,
-        }));
-      
-      if (availableStudents.length === 0) {
-          toast({
-              variant: 'destructive',
-              title: 'No Available Students',
-              description: 'All students are currently assigned to projects.',
-          });
-          setIsLoading(false);
-          return;
-      }
+        if (selectedStudentId) {
+            // Specific student-project analysis
+            const student = students.find(s => s.id === selectedStudentId);
+            if (!student) {
+                alert('Selected student not found.');
+                setIsLoading(false);
+                return;
+            }
+             const matchResult = await matchStudentsToProjects({
+                projectDescription: project.description,
+                studentResume: student.resume,
+            });
+            setResult({ ...matchResult, student: student });
 
-      const recommendation = await recommendStudentForProject({
-        projectDescription: project.description,
-        students: availableStudents,
-      });
+        } else {
+            // Project-based recommendation
+            const availableStudents = students
+                .filter(s => !s.projectId)
+                .map(s => ({
+                    id: s.id,
+                    name: s.fullName,
+                    resume: s.resume,
+                }));
+            
+            if (availableStudents.length === 0) {
+                toast({
+                    variant: 'destructive',
+                    title: 'No Available Students',
+                    description: 'All students are currently assigned to projects.',
+                });
+                setIsLoading(false);
+                return;
+            }
 
-      const recommendedStudent = students.find(s => s.id === recommendation.studentId);
-      
-      setResult({ ...recommendation, student: recommendedStudent });
+            const recommendation = await recommendStudentForProject({
+                projectDescription: project.description,
+                students: availableStudents,
+            });
+
+            const recommendedStudent = students.find(s => s.id === recommendation.studentId);
+            setResult({ ...recommendation, student: recommendedStudent });
+        }
 
     } catch (error) {
-      console.error('Error recommending student:', error);
-      alert('An error occurred while getting a recommendation. Please try again.');
+      console.error('Error in AI analysis:', error);
+      alert('An error occurred during analysis. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -99,17 +117,19 @@ export function TalentMatcher() {
 
     setResult(null);
     setSelectedProjectId('');
+    setSelectedStudentId('');
   };
   
-  const canRecommend = selectedProjectId;
+  const canAnalyze = selectedProjectId;
+  const analysisMode = selectedStudentId ? "Analyze Match" : "Find Best Match";
   const selectedProject = projects.find(p => p.id === selectedProjectId);
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Project-Based Recommendation</CardTitle>
-          <CardDescription>Select a project and let our AI recommend the best student candidate for the job.</CardDescription>
+          <CardTitle>Talent Matching AI</CardTitle>
+          <CardDescription>Select a project to get an AI recommendation, or select both a project and a student to analyze a specific match.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6 md:grid-cols-2">
            <div className="space-y-4">
@@ -121,21 +141,39 @@ export function TalentMatcher() {
                 </SelectTrigger>
                 <SelectContent>
                     {projects.filter(p => p.status !== 'Completed').map(project => (
-                        <SelectItem key={project.id} value={project.id} disabled={students.filter(s => s.projectId === project.id).length > 0}>
-                            {project.name} {students.filter(s => s.projectId === project.id).length > 0 ? '(Assigned)' : ''}
+                        <SelectItem key={project.id} value={project.id} disabled={students.some(s => s.projectId === project.id)}>
+                            {project.name} {students.some(s => s.projectId === project.id) ? '(Assigned)' : ''}
                         </SelectItem>
                     ))}
                 </SelectContent>
                 </Select>
                  <p className="text-xs text-muted-foreground">Only projects that are not completed or assigned are shown.</p>
             </div>
-             <Button onClick={handleRecommend} disabled={!canRecommend || isLoading} className="w-full">
+             <div className="grid gap-2">
+                <Label htmlFor="student">2. Select a Student (Optional)</Label>
+                <Select onValueChange={setSelectedStudentId} value={selectedStudentId} disabled={!selectedProjectId}>
+                <SelectTrigger id="student">
+                    <SelectValue placeholder="Select a student" />
+                </SelectTrigger>
+                <SelectContent>
+                     <SelectItem value="">None (Recommend for me)</SelectItem>
+                    {students.filter(s => !s.projectId).map(student => (
+                        <SelectItem key={student.id} value={student.id}>
+                            {student.fullName}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+                </Select>
+                 <p className="text-xs text-muted-foreground">Only unassigned students are shown.</p>
+            </div>
+            
+             <Button onClick={handleAnalyze} disabled={!canAnalyze || isLoading} className="w-full">
                 {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                <Wand2 className="mr-2 h-4 w-4" />
+                    analysisMode === 'Analyze Match' ? <Users className="mr-2 h-4 w-4" /> : <Wand2 className="mr-2 h-4 w-4" />
                 )}
-                Find Best Match
+                {analysisMode}
             </Button>
 
             {selectedProject && (
@@ -150,15 +188,15 @@ export function TalentMatcher() {
             <Card className="flex flex-col bg-muted/20">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <User className="text-primary" /> AI Recommendation
+                        <User className="text-primary" /> AI Result
                     </CardTitle>
-                    <CardDescription>The best student candidate will be shown here after analysis.</CardDescription>
+                    <CardDescription>The match analysis or recommendation will appear here.</CardDescription>
                 </CardHeader>
                  <CardContent className="flex-grow flex flex-col justify-center">
                     {isLoading && <div className="flex justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}
                     {!isLoading && !result && (
                         <div className="text-center text-muted-foreground p-4">
-                            <p>Select a project and click "Find Best Match".</p>
+                            <p>Select a project and click "{analysisMode}".</p>
                         </div>
                     )}
                     {result && result.student && (
@@ -210,7 +248,7 @@ export function TalentMatcher() {
           {result && (
              <div className="space-y-4 h-full flex flex-col">
                 <p className="text-sm text-muted-foreground bg-secondary/30 p-3 rounded-md border flex-grow">{result.justification}</p>
-                <Button onClick={handleApproveMatch} className="w-full bg-green-600 hover:bg-green-700 text-white">
+                <Button onClick={handleApproveMatch} className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={students.some(s => s.projectId === selectedProjectId)}>
                     <CheckCircle className="mr-2 h-4 w-4" />
                     Approve Match & Assign
                 </Button>

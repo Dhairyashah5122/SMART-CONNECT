@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { companies } from "@/lib/data"
-import { Upload, FileText, BarChart, ExternalLink } from "lucide-react"
+import { Upload, FileText, BarChart, ExternalLink, PlusCircle } from "lucide-react"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 
@@ -71,6 +71,11 @@ export function CompanyList() {
                       </CardContent>
                     </Card>
                   ))}
+                  <div className="mt-4">
+                    <Button variant="outline">
+                      <PlusCircle className="mr-2" /> Add New Project
+                    </Button>
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>

@@ -33,7 +33,7 @@ const fileToText = (file: File): Promise<string> => {
 
 export function AddStudentForm() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [ndaFile, setNdaFile] = useState<File | null>(null);
+  const [ndaFiles, setNdaFiles] = useState<File[]>([]);
   const [resumeText, setResumeText] = useState("");
   const [extractedSkills, setExtractedSkills] =
     useState<ExtractSkillsFromResumeOutput | null>(null);
@@ -50,9 +50,13 @@ export function AddStudentForm() {
   };
 
   const handleNdaFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-        setNdaFile(file);
+    if (event.target.files) {
+        const files = Array.from(event.target.files);
+        if (files.length > 4) {
+            alert("You can upload a maximum of 4 files.");
+            return;
+        }
+        setNdaFiles(files);
     }
   };
 
@@ -81,6 +85,7 @@ export function AddStudentForm() {
     console.log({
       // Collect all form fields here
       skills: extractedSkills?.skills || [],
+      ndaFiles,
     });
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
     alert("Student added successfully!");
@@ -168,9 +173,9 @@ export function AddStudentForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="nda-upload">NDA Upload</Label>
-          <Input id="nda-upload" type="file" onChange={handleNdaFileChange} accept=".pdf,.doc,.docx" required />
-          <p className="text-xs text-muted-foreground">Please upload your signed Non-Disclosure Agreement.</p>
+          <Label htmlFor="nda-upload">NDA Upload (up to 4 files)</Label>
+          <Input id="nda-upload" type="file" onChange={handleNdaFileChange} accept=".pdf,.doc,.docx" multiple required />
+          <p className="text-xs text-muted-foreground">Please upload your signed Non-Disclosure Agreement(s).</p>
         </div>
 
         {extractedSkills && (

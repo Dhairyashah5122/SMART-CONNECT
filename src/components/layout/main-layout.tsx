@@ -71,8 +71,8 @@ function AppHeader() {
             <DropdownMenuItem asChild>
               <Link href="/profile"><User className="mr-2"/>Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2"/>Settings
+            <DropdownMenuItem asChild>
+              <Link href="/settings"><Settings className="mr-2"/>Settings</Link>
             </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
@@ -160,9 +160,11 @@ function MainSidebarContent() {
         <Separator className="my-2" />
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton tooltip="Settings">
-              <Settings />
-              <span>Settings</span>
+             <SidebarMenuButton asChild isActive={isActive('/settings')} tooltip="Settings">
+                <Link href="/settings">
+                    <Settings />
+                    <span>Settings</span>
+                </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

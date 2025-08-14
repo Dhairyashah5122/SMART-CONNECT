@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { students as initialStudents, projects, mentors } from '@/lib/data';
-import { rankStudentsForProject, type RankStudentsForProjectOutput } from '@/ai/flows/rank-students-for-project';
 import { Loader2, Wand2, CheckCircle, PlusCircle, XCircle, Users, ArrowRight } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
@@ -14,7 +13,14 @@ import { useToast } from '@/hooks/use-toast';
 import type { Student } from '@/lib/types';
 import { ScrollArea } from '../ui/scroll-area';
 
-type RankedStudent = (RankStudentsForProjectOutput['rankedStudents'][number]) & { student: Student };
+// The type for a ranked student would be defined by what the FastAPI backend returns.
+// We'll keep this structure for the frontend component.
+type RankedStudent = {
+  studentId: string;
+  matchScore: number;
+  justification: string;
+  student: Student;
+};
 
 const unassignedApprovedStudents = initialStudents.filter(s => !s.projectId && s.status === 'Approved');
 
@@ -75,22 +81,39 @@ export function TalentMatcher() {
             return;
         }
 
-        const result = await rankStudentsForProject({
-            projectDescription: project.description,
-            students: availableStudents,
+        // Fetch from the Python FastAPI backend
+        const response = await fetch('http://127.0.0.1:8000/api/v1/rank-students', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectDescription: project.description,
+                students: availableStudents,
+            }),
         });
 
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const result = await response.json(); // Assuming the API returns { rankedStudents: [...] }
+
         const studentMap = new Map(students.map(s => [s.id, s]));
-        const enrichedAndRanked = result.rankedStudents.map(rs => ({
+        const enrichedAndRanked = result.rankedStudents.map((rs: any) => ({
             ...rs,
             student: studentMap.get(rs.studentId)!,
-        })).filter(rs => rs.student);
+        })).filter((rs: any) => rs.student);
         
         setRankedStudents(enrichedAndRanked);
 
     } catch (error) {
-      console.error('Error in AI analysis:', error);
-      toast({ variant: "destructive", title: "Analysis Failed", description: "An error occurred during analysis. Please try again." });
+      console.error('Error fetching from backend:', error);
+      toast({ 
+          variant: "destructive", 
+          title: "Backend Error", 
+          description: "Could not connect to the analysis service. Please ensure the Python backend is running." 
+      });
     } finally {
       setIsLoading(false);
     }

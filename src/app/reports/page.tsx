@@ -64,6 +64,7 @@ const reportTypes = [
   {
     title: 'Alignment Gap Analysis Report',
     description: 'Generates a formal document based on the results of the comparative analysis.',
+    href: '/analysis',
     category: 'Project Analysis',
     isDateBased: false,
   },

@@ -3,6 +3,9 @@ import {googleAI} from '@genkit-ai/googleai';
 import {openai} from 'genkitx-openai';
 
 export const ai = genkit({
-  plugins: [googleAI(), openai()],
+  plugins: [
+    googleAI(),
+    process.env.OPENAI_API_KEY ? openai({apiKey: process.env.OPENAI_API_KEY}) : undefined,
+  ].filter(p => p),
   model: 'openai/gpt-4',
 });

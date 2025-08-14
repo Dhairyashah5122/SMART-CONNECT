@@ -54,9 +54,7 @@ const prompt = ai.definePrompt({
 
   Student Resume: {{{studentResume}}}
   Project Description: {{{projectDescription}}}
-
-  Match Score: {{matchScore}}
-  Justification: {{justification}}`,
+`,
 });
 
 const matchStudentsToProjectsFlow = ai.defineFlow(

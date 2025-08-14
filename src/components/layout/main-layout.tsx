@@ -26,6 +26,8 @@ import {
   Settings,
   UserCircle,
   Shield,
+  User,
+  GraduationCap
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -50,7 +52,7 @@ function AppHeader({ pageTitle }: { pageTitle: string }) {
 
 function MainSidebarContent() {
   const pathname = usePathname();
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => pathname === path || (pathname.startsWith(path) && path !== '/');
 
   const menuItems = [
     { href: "/", icon: BarChart2, label: "Dashboard", tooltip: "Dashboard" },
@@ -59,7 +61,12 @@ function MainSidebarContent() {
     { href: "/projects", icon: Briefcase, label: "Talent Matching", tooltip: "Talent Matching" },
     { href: "/analysis", icon: GitMerge, label: "Comparative Analysis", tooltip: "Analysis" },
     { href: "/reports", icon: PieChart, label: "Reporting", tooltip: "Reporting" },
+  ];
+
+  const secondaryMenuItems = [
     { href: "/admin/dashboard", icon: Shield, label: "Admin", tooltip: "Admin" },
+    { href: "/mentor/dashboard", icon: User, label: "Mentor", tooltip: "Mentor" },
+    { href: "/student/dashboard", icon: GraduationCap, label: "Student", tooltip: "Student" },
   ];
 
   return (
@@ -76,14 +83,28 @@ function MainSidebarContent() {
             <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.tooltip}>
                   <Link href={item.href}>
-                    <>
-                      <item.icon />
-                      <span>{item.label}</span>
-                    </>
+                    <item.icon />
+                    <span>{item.label}</span>
                   </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
+        </SidebarMenu>
+        <Separator className="my-2" />
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <p className="px-2 text-xs uppercase text-muted-foreground tracking-wider">Role Dashboards</p>
+            </SidebarMenuItem>
+            {secondaryMenuItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.tooltip}>
+                        <Link href={item.href}>
+                            <item.icon />
+                            <span>{item.label}</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            ))}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>

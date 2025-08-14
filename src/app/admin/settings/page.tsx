@@ -66,22 +66,9 @@ export default function SystemSettingsPage() {
                 <CardDescription>Configure the connection to your application's database.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="space-y-3">
-                    <Label>Database Type</Label>
-                    <RadioGroup defaultValue="firestore" className="flex gap-4">
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="firestore" id="db-firestore" />
-                            <Label htmlFor="db-firestore" className="font-normal">Firebase Firestore</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="local" id="db-local" />
-                            <Label htmlFor="db-local" className="font-normal">Local SQLite</Label>
-                        </div>
-                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="cloudsql" id="db-cloudsql" />
-                            <Label htmlFor="db-cloudsql" className="font-normal">Cloud SQL</Label>
-                        </div>
-                    </RadioGroup>
+                <div className="space-y-2">
+                    <Label htmlFor="db-type">Database Type</Label>
+                    <Input id="db-type" placeholder="e.g., Firestore, PostgreSQL, MongoDB" />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="db-connection-string">Connection String</Label>

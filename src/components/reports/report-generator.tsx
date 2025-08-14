@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -21,11 +22,19 @@ const fileToDataURI = (file: File): Promise<string> => {
     });
 };
 
+const MOCK_INITIAL_SUCCESS_STORY = `
+### Innovate Inc. & Student Team Revolutionize Data Visualization
+
+Innovate Inc. partnered with a dynamic student team to tackle a challenging goal: create an AI-powered platform to simplify complex data visualization. The students not only met but exceeded expectations, delivering a sophisticated tool that transforms raw data into insightful, interactive graphics.
+
+Despite initial ambiguities in the project scope, the team demonstrated remarkable adaptability, even integrating an advanced machine learning model that wasn't part of the original plan. "The students' technical skills were exceptional," said a representative from Innovate Inc. "Their ability to overcome challenges and deliver a product that went beyond our initial vision was truly impressive." This project stands as a testament to the power of collaboration between industry and academia, resulting in a powerful new tool and an invaluable learning experience for the next generation of tech leaders.
+`;
+
 export function ReportGenerator() {
   const [projectReport, setProjectReport] = useState<File | null>(null);
   const [reportType, setReportType] = useState<'success-story' | 'case-study'>('success-story');
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<string | null>(MOCK_INITIAL_SUCCESS_STORY);
   const { toast } = useToast();
 
   const handleGenerate = async () => {

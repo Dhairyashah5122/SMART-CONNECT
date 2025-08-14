@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react"
@@ -18,12 +19,32 @@ import { useToast } from "@/hooks/use-toast"
 import { generateProjectAnalysisReport } from "@/ai/flows/generate-project-analysis-report"
 import { projects as allProjects } from "@/lib/data"
 
+const MOCK_INITIAL_REPORT = `
+**Executive Summary:**
+Projects initiated between Q1 and Q2 2024 focused heavily on AI/ML and mobile development. Overall, projects were successfully completed, with teams demonstrating strong technical execution. A recurring challenge was initial scope alignment with company stakeholders, which improved by mid-project.
+
+**Key Outcomes & Successes:**
+- **High Technical Proficiency:** Student teams consistently delivered high-quality code and functional prototypes, particularly in projects involving React and Python.
+- **Successful Pivots:** The "AI-Powered Data Visualization Platform" project successfully pivoted to include a more advanced ML model, exceeding initial expectations.
+- **Strong UX/UI Design:** The "Mobile-First E-commerce App" received positive feedback for its intuitive and user-centric design.
+
+**Recurring Themes & Challenges:**
+- **Initial Scope Ambiguity:** A common theme across multiple projects was a lack of clarity in the initial project requirements, leading to mid-project adjustments.
+- **Stakeholder Communication Gaps:** Several final reports noted a desire for more frequent and structured feedback from company stakeholders during the development cycle.
+- **Resource Constraints:** The "Data Pipeline Automation" team noted challenges related to accessing necessary cloud resources in a timely manner.
+
+**Recommendations:**
+1.  Implement a more rigorous project kick-off process with detailed requirement-gathering sessions to reduce scope ambiguity.
+2.  Establish a mandatory bi-weekly check-in schedule between student teams and company stakeholders to improve communication.
+3.  Streamline the process for requesting and provisioning project-specific resources (e.g., cloud services, software licenses).
+`;
+
 
 export function OverallProjectReportForm() {
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<string | null>(MOCK_INITIAL_REPORT);
   const { toast } = useToast();
 
   const handleGenerate = async () => {

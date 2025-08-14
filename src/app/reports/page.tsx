@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send, Star, FilePenLine, BarChart4 } from "lucide-react";
+import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users } from "lucide-react";
 import Link from "next/link";
 
 const reportTypes = [
@@ -15,6 +15,9 @@ const reportTypes = [
   {
     title: 'Student Skills Matrix',
     description: 'A comprehensive report detailing the skills distribution across all registered students.',
+    href: '/reports/student-skills-matrix',
+    icon: Users,
+    actionText: 'Generate'
   },
   {
     title: 'Project Matching Success Rate',

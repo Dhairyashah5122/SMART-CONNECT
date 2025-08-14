@@ -19,6 +19,7 @@ export const students: Student[] = [
     consentLetter: true,
     postCapstoneSurveyStatus: 'Completed',
     currentGpa: 3.9,
+    registrationDate: '2024-01-10',
   },
   {
     id: '2',
@@ -37,6 +38,7 @@ export const students: Student[] = [
     consentLetter: true,
     postCapstoneSurveyStatus: 'Pending',
     currentGpa: 3.8,
+    registrationDate: '2024-01-12',
   },
   {
     id: '3',
@@ -55,6 +57,7 @@ export const students: Student[] = [
     consentLetter: true,
     postCapstoneSurveyStatus: 'Not Started',
     currentGpa: 3.7,
+    registrationDate: '2024-02-05',
   },
   {
     id: '4',
@@ -70,6 +73,7 @@ export const students: Student[] = [
     ndaStatus: 'Pending',
     consentLetter: true,
     currentGpa: 3.9,
+    registrationDate: '2024-02-15',
   },
    {
     id: '5',
@@ -86,6 +90,7 @@ export const students: Student[] = [
     ndaStatus: 'Signed',
     consentLetter: true,
     currentGpa: 3.6,
+    registrationDate: '2024-03-01',
   },
   {
     id: '6',
@@ -101,6 +106,7 @@ export const students: Student[] = [
     ndaStatus: 'Pending',
     consentLetter: false,
     currentGpa: 3.5,
+    registrationDate: '2024-03-20',
   },
 ];
 

@@ -35,6 +35,7 @@ export type Student = {
   lastName: string; // Can be derived from fullName
   email1: string; // Replaced by emailAddress
   rejectionReason?: string;
+  registrationDate: string;
 };
 
 export type Project = {

@@ -1,3 +1,4 @@
+
 import type { Student, Project, Survey, SurveyResponse, Mentor, Company } from './types';
 
 export const students: Student[] = [
@@ -181,6 +182,7 @@ export const mentors: Mentor[] = [
       'Image Recognition for Retail',
     ],
     mentees: menteesForDrReed,
+    status: 'Active',
   },
 ];
 

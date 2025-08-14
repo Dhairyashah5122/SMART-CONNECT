@@ -1,3 +1,4 @@
+
 export type Student = {
   id: string;
   timestamp?: string;
@@ -69,6 +70,7 @@ export type Mentor = {
   skills: string[];
   pastProjects: string[];
   mentees: Student[];
+  status: 'Active' | 'Inactive' | 'Available' | 'Not Available';
 };
 
 export type Company = {

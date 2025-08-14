@@ -185,20 +185,6 @@ export function AddStudentForm() {
           <Textarea id="project-interests" placeholder="AI/ML, Web Development, UI/UX Design..." />
         </div>
 
-         <div className="space-y-2">
-          <Label htmlFor="workshop">Mandatory Workshop Selection</Label>
-          <Select>
-            <SelectTrigger id="workshop">
-              <SelectValue placeholder="Select a workshop" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="workshop-a">Workshop A - Topic 1</SelectItem>
-              <SelectItem value="workshop-b">Workshop B - Topic 2</SelectItem>
-              <SelectItem value="workshop-c">Workshop C - Topic 3</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
         <div className="flex items-center space-x-2 pt-4">
             <Checkbox id="acknowledgement" required />
             <Label htmlFor="acknowledgement" className="text-sm font-normal">

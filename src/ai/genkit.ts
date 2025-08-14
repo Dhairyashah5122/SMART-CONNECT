@@ -7,5 +7,5 @@ export const ai = genkit({
     googleAI(),
     process.env.OPENAI_API_KEY ? openai({apiKey: process.env.OPENAI_API_KEY}) : undefined,
   ].filter(p => p),
-  model: 'openai/gpt-4',
+  model: 'googleai/gemini-1.5-flash-latest',
 });

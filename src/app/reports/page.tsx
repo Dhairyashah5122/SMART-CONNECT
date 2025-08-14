@@ -189,7 +189,7 @@ export default function ReportsPage() {
         {filteredReports.map((report) => {
           const Icon = report.icon || FileText;
           const isDateRangeRequired = report.isDateBased;
-          const canGenerate = !isDateRangeRequired || (isDateRangeRequired && startDate && endDate);
+          const canGenerate = !isDateRangeRequired || (isDateRangeRequired && !!startDate && !!endDate);
 
           const generateHref = () => {
             if (!report.href) return '';

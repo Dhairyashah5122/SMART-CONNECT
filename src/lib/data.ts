@@ -14,6 +14,7 @@ export const students: Student[] = [
     status: 'Approved',
     projectId: 'p1',
     mentorId: 'm1',
+    ndaStatus: 'Signed',
   },
   {
     id: '2',
@@ -28,6 +29,7 @@ export const students: Student[] = [
     status: 'Approved',
     projectId: 'p1',
     mentorId: 'm1',
+    ndaStatus: 'Pending',
   },
   {
     id: '3',
@@ -42,6 +44,7 @@ export const students: Student[] = [
     status: 'Approved',
     projectId: 'p2',
     mentorId: 'm1',
+    ndaStatus: 'Signed',
   },
   {
     id: '4',
@@ -54,6 +57,7 @@ export const students: Student[] = [
     skills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
     resume: 'David Lee is a software engineer specializing in building scalable microservices with Java and Spring Boot. He has experience deploying applications on AWS and is knowledgeable about cloud architecture best practices.',
     status: 'Pending',
+    ndaStatus: 'Pending',
   },
 ];
 

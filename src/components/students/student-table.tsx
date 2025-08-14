@@ -1,3 +1,5 @@
+ "use client"
+
 import {
   Table,
   TableBody,
@@ -7,11 +9,44 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { students, projects, mentors } from "@/lib/data"
+import { students as initialStudents, projects, mentors } from "@/lib/data"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
+import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { generateNdaReminder } from "@/ai/flows/generate-nda-reminder"
+import { Loader2, Send } from "lucide-react"
 
 export function StudentTable() {
+  const [students, setStudents] = useState(initialStudents);
+  const [sendingReminderId, setSendingReminderId] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const handleSendNdaReminder = async (studentId: string, studentName: string, projectName: string) => {
+    setSendingReminderId(studentId);
+    try {
+      const reminder = await generateNdaReminder({ studentName, projectName });
+      console.log("Generated NDA Reminder:", reminder);
+
+      toast({
+        title: "Reminder Sent!",
+        description: `NDA reminder has been sent to ${studentName}.`,
+      });
+
+    } catch (error) {
+       console.error("Failed to generate NDA reminder:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to send reminder. Please try again.",
+      });
+    } finally {
+      setSendingReminderId(null);
+    }
+  }
+
+
   return (
     <Card>
        <CardHeader>
@@ -24,11 +59,10 @@ export function StudentTable() {
             <TableRow>
               <TableHead className="w-[80px]">Avatar</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
               <TableHead>Matched Project</TableHead>
               <TableHead>Assigned Mentor</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Skills</TableHead>
+              <TableHead>NDA Status</TableHead>
+              <TableHead className="w-[150px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -36,6 +70,8 @@ export function StudentTable() {
               const project = projects.find(p => p.id === student.projectId);
               const mentor = mentors.find(m => m.id === student.mentorId);
               const studentName = student.fullName || `${student.firstName} ${student.lastName}`;
+              const isSending = sendingReminderId === student.id;
+
               return (
                 <TableRow key={student.id}>
                   <TableCell>
@@ -45,24 +81,35 @@ export function StudentTable() {
                     </Avatar>
                   </TableCell>
                   <TableCell className="font-medium">{studentName}</TableCell>
-                  <TableCell>{student.email1}</TableCell>
                   <TableCell>{project?.name || 'N/A'}</TableCell>
                   <TableCell>{mentor?.name || 'N/A'}</TableCell>
                   <TableCell>
-                    <Badge variant={student.status === 'Approved' ? 'default' : 'secondary'}
-                     className={student.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : ''}
+                    <Badge 
+                        variant={student.ndaStatus === 'Signed' ? 'default' : 'secondary'}
+                        className={
+                            student.ndaStatus === 'Signed' ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' 
+                            : 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300'
+                        }
                     >
-                      {student.status}
+                      {student.ndaStatus}
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {student.skills.slice(0, 4).map((skill) => (
-                        <Badge key={skill} variant="secondary">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
+                  <TableCell className="text-right">
+                    {student.ndaStatus === 'Pending' && project && (
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleSendNdaReminder(student.id, studentName, project.name)}
+                        disabled={isSending}
+                      >
+                         {isSending ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Send className="mr-2 h-4 w-4" />
+                        )}
+                        Remind
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               )

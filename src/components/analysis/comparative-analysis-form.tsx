@@ -19,10 +19,15 @@ const fileToDataURI = (file: File): Promise<string> => {
     });
 };
 
+const MOCK_OBJECTIVES = `1. Enhance student practical skills in AI/ML.
+2. Foster industry partnerships for future collaborations.
+3. Ensure 85% of projects meet or exceed client expectations.
+4. Improve the real-world problem-solving abilities of students.`;
+
 export function ComparativeAnalysisForm() {
   const [projectCharter, setProjectCharter] = useState<File | null>(null);
   const [finalReport, setFinalReport] = useState<File | null>(null);
-  const [organizationalObjectives, setOrganizationalObjectives] = useState('');
+  const [organizationalObjectives, setOrganizationalObjectives] = useState(MOCK_OBJECTIVES);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ComparativeAnalysisOutput | null>(null);
 
@@ -56,92 +61,99 @@ export function ComparativeAnalysisForm() {
   const canAnalyze = projectCharter && finalReport && organizationalObjectives;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Analysis Inputs</CardTitle>
-          <CardDescription>Provide the necessary documents and information for the analysis.</CardDescription>
+    <div className="space-y-6">
+        <CardHeader className="p-0">
+            <CardTitle>Document-Based Comparative Analysis</CardTitle>
+            <CardDescription>Upload a Project Charter and a Final Report, describe the organizational objectives, and the AI will identify gaps and alignments.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-2">
-            <Label htmlFor="project-charter">Project Charter</Label>
-             <Input 
-                id="project-charter" 
-                type="file" 
-                onChange={(e) => setProjectCharter(e.target.files?.[0] || null)} 
-                accept=".pdf,.doc,.docx,.txt"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="final-report">Final Report</Label>
-            <Input 
-                id="final-report" 
-                type="file" 
-                onChange={(e) => setFinalReport(e.target.files?.[0] || null)}
-                accept=".pdf,.doc,.docx,.txt"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="organizational-objectives">Organizational Objectives</Label>
-            <Textarea
-              id="organizational-objectives"
-              placeholder="Describe the strategic goals of the organization relevant to this project..."
-              value={organizationalObjectives}
-              onChange={(e) => setOrganizationalObjectives(e.target.value)}
-              rows={4}
-            />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button onClick={handleAnalyze} disabled={!canAnalyze || isLoading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-            {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Zap className="mr-2 h-4 w-4" />
-            )}
-            Analyze
-          </Button>
-        </CardFooter>
-      </Card>
-      
-      <div className="space-y-6">
-        {isLoading && (
-          <div className="flex items-center justify-center rounded-lg border h-full bg-card">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        )}
-        {!isLoading && !result && (
-          <div className="flex items-center justify-center rounded-lg border h-full bg-card text-center text-muted-foreground p-8">
-            <p>Analysis results will appear here.</p>
-          </div>
-        )}
-        {result && (
-            <div className='space-y-4'>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Overall Analysis</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-sm text-muted-foreground">{result.analysis}</p>
-                    </CardContent>
-                </Card>
-                <Alert className='border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/50'>
-                    <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                    <AlertTitle className='text-green-800 dark:text-green-300'>Identified Alignments</AlertTitle>
-                    <AlertDescription className='text-green-700 dark:text-green-400/80'>
-                        {result.alignments}
-                    </AlertDescription>
-                </Alert>
-                <Alert variant="destructive" className='border-amber-200 bg-amber-50 text-amber-900 [&>svg]:text-amber-600 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-200 dark:[&>svg]:text-amber-400'>
-                    <AlertTriangle className="h-4 w-4" />
-                    <AlertTitle>Identified Gaps</AlertTitle>
-                    <AlertDescription>
-                        {result.gaps}
-                    </AlertDescription>
-                </Alert>
+        <div className="grid gap-6 lg:grid-cols-2">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Analysis Inputs</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                <div className="grid gap-2">
+                    <Label htmlFor="project-charter">Project Charter</Label>
+                    <Input 
+                        id="project-charter" 
+                        type="file" 
+                        onChange={(e) => setProjectCharter(e.target.files?.[0] || null)} 
+                        accept=".pdf,.doc,.docx,.txt"
+                    />
+                     <p className="text-xs text-muted-foreground">Defines the project scope and initial goals.</p>
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="final-report">Final Report</Label>
+                    <Input 
+                        id="final-report" 
+                        type="file" 
+                        onChange={(e) => setFinalReport(e.target.files?.[0] || null)}
+                        accept=".pdf,.doc,.docx,.txt"
+                    />
+                     <p className="text-xs text-muted-foreground">Details the student outcomes and final deliverables.</p>
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="organizational-objectives">Organizational Objectives</Label>
+                    <Textarea
+                    id="organizational-objectives"
+                    placeholder="Describe the strategic goals of the organization relevant to this project..."
+                    value={organizationalObjectives}
+                    onChange={(e) => setOrganizationalObjectives(e.target.value)}
+                    rows={4}
+                    />
+                </div>
+                </CardContent>
+                <CardFooter>
+                <Button onClick={handleAnalyze} disabled={!canAnalyze || isLoading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                    <Zap className="mr-2 h-4 w-4" />
+                    )}
+                    Analyze Documents
+                </Button>
+                </CardFooter>
+            </Card>
+            
+            <div className="space-y-6">
+                {isLoading && (
+                <div className="flex items-center justify-center rounded-lg border h-full bg-card">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+                )}
+                {!isLoading && !result && (
+                <div className="flex items-center justify-center rounded-lg border h-full bg-card text-center text-muted-foreground p-8">
+                    <p>Document analysis results will appear here.</p>
+                </div>
+                )}
+                {result && (
+                    <div className='space-y-4'>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Overall Analysis</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">{result.analysis}</p>
+                            </CardContent>
+                        </Card>
+                        <Alert className='border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/50'>
+                            <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                            <AlertTitle className='text-green-800 dark:text-green-300'>Identified Alignments</AlertTitle>
+                            <AlertDescription className='text-green-700 dark:text-green-400/80'>
+                                {result.alignments}
+                            </AlertDescription>
+                        </Alert>
+                        <Alert variant="destructive" className='border-amber-200 bg-amber-50 text-amber-900 [&>svg]:text-amber-600 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-200 dark:[&>svg]:text-amber-400'>
+                            <AlertTriangle className="h-4 w-4" />
+                            <AlertTitle>Identified Gaps</AlertTitle>
+                            <AlertDescription>
+                                {result.gaps}
+                            </AlertDescription>
+                        </Alert>
+                    </div>
+                )}
             </div>
-        )}
-      </div>
+        </div>
     </div>
   );
 }

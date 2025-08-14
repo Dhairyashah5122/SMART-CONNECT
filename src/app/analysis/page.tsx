@@ -1,12 +1,10 @@
 import { ComparativeAnalysisForm } from "@/components/analysis/comparative-analysis-form";
 import { SurveyDataAnalysisForm } from "@/components/analysis/survey-data-analysis-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { Separator } from "@/components/ui/separator";
 
 export default function AnalysisPage() {
     return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
         <div>
             <h2 className="text-3xl font-bold tracking-tight">
                 AI-Powered Analysis
@@ -16,20 +14,11 @@ export default function AnalysisPage() {
             </p>
         </div>
 
-        <Tabs defaultValue="comparative-analysis">
-            <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="comparative-analysis">Document-Based Comparative Analysis</TabsTrigger>
-                <TabsTrigger value="survey-data">Survey Text Analysis</TabsTrigger>
-            </TabsList>
-            <TabsContent value="comparative-analysis">
-               <ComparativeAnalysisForm />
-            </TabsContent>
-            <TabsContent value="survey-data">
-                <SurveyDataAnalysisForm />
-            </TabsContent>
-        </Tabs>
-
-       
+        <div className="space-y-8">
+            <ComparativeAnalysisForm />
+            <Separator />
+            <SurveyDataAnalysisForm />
+        </div>
     </div>
     );
 }

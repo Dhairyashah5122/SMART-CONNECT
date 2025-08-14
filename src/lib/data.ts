@@ -1,4 +1,4 @@
-import type { Student, Project, Survey, SurveyResponse } from './types';
+import type { Student, Project, Survey, SurveyResponse, Mentor } from './types';
 
 export const students: Student[] = [
   {
@@ -90,4 +90,18 @@ export const surveyData: SurveyResponse[] = [
     { month: 'April', responses: 32 },
     { month: 'May', responses: 45 },
     { month: 'June', responses: 51 },
+];
+
+export const mentors: Mentor[] = [
+  {
+    id: 'm1',
+    name: 'Dr. Evelyn Reed',
+    skills: ['AI/ML', 'Data Science', 'Python', 'Natural Language Processing'],
+    pastProjects: [
+      'Sentiment Analysis for Customer Feedback',
+      'Predictive Maintenance for Industrial IoT',
+      'Image Recognition for Retail',
+    ],
+    mentees: [students[0], students[1]],
+  },
 ];

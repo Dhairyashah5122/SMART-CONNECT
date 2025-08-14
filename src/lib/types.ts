@@ -25,3 +25,11 @@ export type SurveyResponse = {
   month: string;
   responses: number;
 };
+
+export type Mentor = {
+  id: string;
+  name: string;
+  skills: string[];
+  pastProjects: string[];
+  mentees: Student[];
+};

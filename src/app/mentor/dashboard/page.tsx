@@ -1,15 +1,27 @@
 
 "use client";
 
+import { useState } from "react";
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Users, Briefcase, Calendar, FileText, MessageSquare, Award, History } from 'lucide-react';
+import { Users, Briefcase, Calendar, FileText, MessageSquare, Award, History, Upload, Save } from 'lucide-react';
 import { mentors, students } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function MentorDashboardPage() {
   const { toast } = useToast();
@@ -18,13 +30,34 @@ export default function MentorDashboardPage() {
     .filter(s => s.mentorId === mentor.id && s.projectId)
     .map(s => s.projectId)
     .filter((value, index, self) => self.indexOf(value) === index);
+    
+  const [schedulingLink, setSchedulingLink] = useState('https://calendly.com/your-meeting');
+  const [reportFile, setReportFile] = useState<File | null>(null);
 
-  const handleActionClick = (action: string) => {
+
+  const handleSaveLink = () => {
     toast({
-      title: 'Action Triggered',
-      description: `${action} functionality is not yet implemented.`,
+      title: 'Link Saved',
+      description: `The scheduling link has been updated.`,
     });
   };
+  
+  const handleSubmitReport = () => {
+    if (!reportFile) {
+      toast({
+        variant: 'destructive',
+        title: 'No File Selected',
+        description: `Please select a report file to submit.`,
+      });
+      return;
+    }
+     toast({
+      title: 'Report Submitted',
+      description: `Your report "${reportFile.name}" has been submitted for review.`,
+    });
+    setReportFile(null);
+  };
+
 
   return (
     <div className="flex flex-col gap-8">
@@ -84,14 +117,81 @@ export default function MentorDashboardPage() {
                 View All Students
                 </Button>
             </Link>
-            <Button variant="outline" className="justify-start" onClick={() => handleActionClick('Schedule a Meeting')}>
-              <Calendar className="mr-2" />
-              Schedule a Meeting
-            </Button>
-            <Button variant="outline" className="justify-start" onClick={() => handleActionClick('Submit a Report')}>
-              <FileText className="mr-2" />
-              Submit a Report
-            </Button>
+            
+            <Dialog>
+              <DialogTrigger asChild>
+                 <Button variant="outline" className="justify-start">
+                  <Calendar className="mr-2" />
+                  Schedule a Meeting
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Set Scheduling Link</DialogTitle>
+                  <DialogDescription>
+                    Provide a link to your calendar (e.g., Calendly) for mentees to book meetings.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="scheduling-link" className="text-right">
+                      Link URL
+                    </Label>
+                    <Input
+                      id="scheduling-link"
+                      value={schedulingLink}
+                      onChange={(e) => setSchedulingLink(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <DialogTrigger asChild>
+                    <Button onClick={handleSaveLink}>
+                      <Save className="mr-2" />
+                      Save Link
+                    </Button>
+                  </DialogTrigger>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="justify-start">
+                  <FileText className="mr-2" />
+                  Submit a Report
+                </Button>
+              </DialogTrigger>
+               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Submit Project Report</DialogTitle>
+                  <DialogDescription>
+                    Upload your completed project report for administrative review.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                   <div className="grid gap-2">
+                      <Label htmlFor="report-file">Report File</Label>
+                      <Input
+                        id="report-file"
+                        type="file"
+                        onChange={(e) => setReportFile(e.target.files ? e.target.files[0] : null)}
+                        accept=".pdf,.doc,.docx"
+                      />
+                    </div>
+                </div>
+                <DialogFooter>
+                   <DialogTrigger asChild>
+                    <Button onClick={handleSubmitReport} disabled={!reportFile}>
+                      <Upload className="mr-2" />
+                      Submit Report
+                    </Button>
+                  </DialogTrigger>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
           </CardContent>
         </Card>
       </div>

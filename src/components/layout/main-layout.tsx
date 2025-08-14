@@ -3,7 +3,7 @@
 "use client"
 
 import * as React from "react"
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   SidebarProvider,
@@ -39,9 +39,21 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { useToast } from "@/hooks/use-toast"
 
 function AppHeader() {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+    })
+    router.push('/login');
+  }
+
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       {isMobile && <SidebarTrigger />}
@@ -75,7 +87,7 @@ function AppHeader() {
               <Link href="/settings"><Settings className="mr-2"/>Settings</Link>
             </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2"/>Log out
           </DropdownMenuItem>
         </DropdownMenuContent>

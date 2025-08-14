@@ -62,6 +62,7 @@ export function StudentTable() {
               <TableHead>Matched Project</TableHead>
               <TableHead>Assigned Mentor</TableHead>
               <TableHead>NDA Status</TableHead>
+              <TableHead>Survey Completion</TableHead>
               <TableHead className="w-[150px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -93,6 +94,22 @@ export function StudentTable() {
                     >
                       {student.ndaStatus}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {student.postCapstoneSurveyStatus ? (
+                       <Badge 
+                        variant={student.postCapstoneSurveyStatus === 'Completed' ? 'default' : student.postCapstoneSurveyStatus === 'Pending' ? 'secondary' : 'outline'}
+                        className={
+                            student.postCapstoneSurveyStatus === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' 
+                            : student.postCapstoneSurveyStatus === 'Pending' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300'
+                            : ''
+                        }
+                    >
+                      {student.postCapstoneSurveyStatus}
+                    </Badge>
+                    ) : (
+                      'N/A'
+                    )}
                   </TableCell>
                   <TableCell className="text-right">
                     {student.ndaStatus === 'Pending' && project && (

@@ -27,6 +27,7 @@ export type Student = {
   projectId?: string;
   mentorId?: string;
   ndaStatus?: 'Signed' | 'Pending';
+  postCapstoneSurveyStatus?: 'Completed' | 'Pending' | 'Not Started';
   // Deprecating old fields for new ones
   firstName: string; // Can be derived from fullName
   lastName: string; // Can be derived from fullName

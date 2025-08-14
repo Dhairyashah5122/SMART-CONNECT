@@ -16,6 +16,7 @@ export const students: Student[] = [
     mentorId: 'm1',
     ndaStatus: 'Signed',
     consentLetter: true,
+    postCapstoneSurveyStatus: 'Completed',
   },
   {
     id: '2',
@@ -32,6 +33,7 @@ export const students: Student[] = [
     mentorId: 'm1',
     ndaStatus: 'Pending',
     consentLetter: true,
+    postCapstoneSurveyStatus: 'Pending',
   },
   {
     id: '3',
@@ -48,6 +50,7 @@ export const students: Student[] = [
     mentorId: 'm1',
     ndaStatus: 'Signed',
     consentLetter: true,
+    postCapstoneSurveyStatus: 'Not Started',
   },
   {
     id: '4',

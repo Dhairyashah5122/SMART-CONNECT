@@ -171,24 +171,28 @@ function MainSidebarContent() {
   );
 }
 
+function LayoutDecider({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
+
+    if (noLayoutRoutes.includes(pathname)) {
+        return <>{children}</>;
+    }
+
+    return (
+        <SidebarProvider>
+            <Sidebar variant="sidebar" collapsible="icon">
+                <MainSidebarContent />
+            </Sidebar>
+            <SidebarInset className="flex flex-col bg-muted/40">
+                <AppHeader />
+                <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>
+            </SidebarInset>
+        </SidebarProvider>
+    );
+}
+
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
-  const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
-  if (noLayoutRoutes.includes(pathname)) {
-    return <>{children}</>
-  }
-
-  return (
-    <SidebarProvider>
-      <Sidebar variant="sidebar" collapsible="icon">
-        <MainSidebarContent />
-      </Sidebar>
-      <SidebarInset className="flex flex-col bg-muted/40">
-        <AppHeader />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
-  )
+  return <LayoutDecider>{children}</LayoutDecider>
 }

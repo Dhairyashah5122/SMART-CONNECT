@@ -1,5 +1,44 @@
 
 
+export type UserRole = 'Admin' | 'Mentor' | 'Student';
+
+// Core User Information
+export type User = {
+    id: string; // Corresponds to Firebase Auth UID
+    email: string;
+    role: UserRole;
+    firstName: string;
+    lastName: string;
+    fullName: string; // Combined for display purposes
+    profilePhotoUrl?: string;
+    createdAt: string;
+    updatedAt: string;
+    // Role-specific profile data
+    studentProfile?: StudentProfile;
+    mentorProfile?: MentorProfile;
+};
+
+// Profile for Students, linked to a User
+export type StudentProfile = {
+    studentIdNumber: string;
+    gpa: number;
+    program: string;
+    resumeText: string;
+    skills: string[];
+    status: 'Pending' | 'Approved' | 'Rejected';
+    ndaStatus: 'Signed' | 'Pending';
+    registrationDate: string;
+    milestones: Milestone[];
+    rejectionReason?: string;
+};
+
+// Profile for Mentors, linked to a User
+export type MentorProfile = {
+    skills: string[];
+    pastProjects: string[];
+    status: 'Active' | 'Inactive' | 'Available';
+};
+
 export type Milestone = {
     id: string;
     text: string;
@@ -7,58 +46,31 @@ export type Milestone = {
     dueDate: string;
 };
 
-export type Student = {
-  id: string;
-  timestamp?: string;
-  emailAddress: string;
-  fullName: string;
-  studentId: string;
-  gender?: string;
-  primaryInstitution?: string;
-  secondaryEmailAddress?: string;
-  phoneNumber?: string;
-  studentAdvisor?: string;
-  languages?: string;
-  degreesAndCertificates?: string;
-  programEnrolledIn?: string;
-  currentGpa?: number;
-  desiredSession?: string;
-  projectInterests?: string[];
-  employmentStatus?: 'Employed' | 'Unemployed' | 'Part-time';
-  durationAtCompany?: string;
-  dailyDuties?: string;
-  skills: string[];
-  resume: string; // Keep as text content for now
-  ndaFile?: string; // data URI
-  consentLetter?: boolean;
-  acknowledgement?: boolean;
-  status: 'Approved' | 'Pending' | 'Rejected';
-  projectId?: string;
-  mentorId?: string;
-  ndaStatus?: 'Signed' | 'Pending';
-  postCapstoneSurveyStatus?: 'Completed' | 'Pending' | 'Not Started';
-  // Deprecating old fields for new ones
-  firstName: string; // Can be derived from fullName
-  lastName: string; // Can be derived from fullName
-  email1: string; // Replaced by emailAddress
-  rejectionReason?: string;
-  registrationDate: string;
-  milestones?: Milestone[];
+// Redefined Student to use the new User/Profile structure
+export type Student = User & {
+    studentProfile: StudentProfile;
+};
+
+// Redefined Mentor to use the new User/Profile structure
+export type Mentor = User & {
+    mentorProfile: MentorProfile;
 };
 
 export type Project = {
   id: string;
   name: string;
-  company: string;
+  companyId: string; // Link to Company table
   description: string;
   finalReportUrl?: string;
   projectCharterUrl?: string;
   status: 'Ongoing' | 'Completed' | 'Not Assigned';
-  studentIds: string[];
-  mentorIds: string[];
-  courseIds: string[];
+  studentIds: string[]; // Array of User IDs
+  mentorIds: string[]; // Array of User IDs
+  courseIds: string[]; // Array of Course IDs
   startDate: string;
   completionDate: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Survey = {
@@ -66,33 +78,29 @@ export type Survey = {
   title: string;
   type: 'Student Satisfaction' | 'Company Feedback' | 'Mentor Review' | 'Self-Assessment';
   status: 'Active' | 'Closed';
-  responses: number;
   totalParticipants: number;
   createdAt: string;
+  updatedAt: string;
   dueDate: string;
-  lastReminderSent?: string;
 };
 
 export type SurveyResponse = {
-  month: string;
-  responses: number;
-};
-
-export type Mentor = {
-  id: string;
-  name: string;
-  email: string;
-  skills: string[];
-  pastProjects: string[];
-  mentees: Student[];
-  status: 'Active' | 'Inactive' | 'Available' | 'Not Available';
+    id: string;
+    surveyId: string; // Foreign Key to Surveys.id
+    userId: string; // Foreign Key to Users.id (the respondent)
+    responseData: Record<string, any>; // JSON or similar flexible type
+    submittedAt: string;
 };
 
 export type Company = {
-  id: string;
+  id:string;
   name: string;
-  projects: Project[];
-  surveyCompleted: boolean;
+  industry: string;
+  websiteUrl?: string;
+  contactName: string;
+  contactEmail: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Course = {
@@ -102,6 +110,14 @@ export type Course = {
   schedule: string;
   delivery: "online" | "in-person";
   classroom?: string;
-  studentIds: string[];
-  mentorId?: string;
+  mentorId?: string; // User ID of the mentor
+  createdAt: string;
+  updatedAt: string;
 };
+
+// This join table would be implicit in a NoSQL DB like Firestore
+// but is good to define for clarity.
+export type CourseEnrollment = {
+    courseId: string;
+    studentId: string; // User ID of the student
+}

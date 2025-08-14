@@ -6,7 +6,6 @@ import Link from 'next/link'
 import {
   SidebarProvider,
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarFooter,
   SidebarMenu,
@@ -15,45 +14,61 @@ import {
   SidebarInset,
   SidebarTrigger,
   useSidebar,
+  SidebarHeader,
 } from "@/components/ui/sidebar"
 import {
   BarChart2,
   Briefcase,
   Users,
   Settings,
-  UserCircle,
+  Building,
+  GraduationCap,
+  FileText,
+  User,
+  Shield,
+  LayoutDashboard,
+  ChevronDown
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
-function AppHeader({ pageTitle }: { pageTitle: string }) {
+function AppHeader() {
   const { isMobile } = useSidebar();
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
+    <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       {isMobile && <SidebarTrigger />}
-      <div className="flex items-center gap-2">
-         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2">
-                <Logo className="size-6" />
-                <span className="font-semibold">AI-Powered Capstone Dashboard</span>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+       <div className="relative flex-1 md:grow-0">
+         <h1 className="text-lg font-semibold">SynergyScope</h1>
       </div>
-
+      <div className="flex-1" />
+       <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+               <AvatarImage src="https://i.pravatar.cc/150?u=admin" data-ai-hint="person" />
+              <AvatarFallback>AD</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">Admin</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                admin@synergyscope.com
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Log out</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </header>
   )
 }
@@ -62,22 +77,62 @@ function MainSidebarContent() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path || (pathname.startsWith(path) && path !== '/');
 
-  const menuItems = [
-    { href: "/", icon: BarChart2, label: "Dashboard", tooltip: "Dashboard" },
-    { href: "/projects", icon: Briefcase, label: "Projects", tooltip: "Projects" },
-    { href: "/students", icon: Users, label: "Students", tooltip: "Students" },
-    { href: "/users", icon: Users, label: "Users", tooltip: "Users" },
+  const mainMenuItems = [
+    { href: "/", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/analysis", icon: BarChart2, label: "Analysis" },
+    { href: "/projects", icon: Briefcase, label: "Projects" },
+    { href: "/students", icon: GraduationCap, label: "Students" },
+    { href: "/companies", icon: Building, label: "Companies" },
+    { href: "/surveys", icon: FileText, label: "Surveys" },
+    { href: "/talent-matching", icon: Users, label: "Talent Matching" },
+    { href: "/reports", icon: BarChart2, label: "Reports" },
   ];
+  
+  const secondaryMenuItems = [
+    { href: "/admin/dashboard", icon: Shield, label: "Admin" },
+    { href: "/mentor/dashboard", icon: User, label: "Mentor" },
+    { href: "/student/dashboard", icon: GraduationCap, label: "Student" },
+  ]
 
   return (
     <>
-      <SidebarHeader>
+      <SidebarHeader className="border-b">
+         <div className="flex h-14 items-center gap-2 px-4 lg:h-[60px] lg:px-6">
+            <Link href="/" className="flex items-center gap-2 font-semibold">
+              <Logo className="h-6 w-6" />
+              <span>SynergyScope</span>
+            </Link>
+          </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
-          {menuItems.map((item) => (
+            <SidebarMenuButton asChild variant="ghost" className="w-full justify-start text-left h-auto py-2">
+                <div>
+                    <p className="font-semibold">Smaty Capstone</p>
+                    <p className="text-xs text-muted-foreground">Innovate Inc.</p>
+                </div>
+            </SidebarMenuButton>
+        </SidebarMenu>
+        <Separator className="my-2" />
+        <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Navigation</p>
+        <SidebarMenu>
+          {mainMenuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.tooltip}>
+                <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.label}>
+                  <Link href={item.href}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+        <Separator className="my-2" />
+         <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Dashboards</p>
+         <SidebarMenu>
+          {secondaryMenuItems.map((item) => (
+            <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.label}>
                   <Link href={item.href}>
                     <item.icon />
                     <span>{item.label}</span>
@@ -87,7 +142,7 @@ function MainSidebarContent() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="p-2">
         <Separator className="my-2" />
         <SidebarMenu>
           <SidebarMenuItem>
@@ -102,25 +157,12 @@ function MainSidebarContent() {
   );
 }
 
-const pageTitles: { [key: string]: string } = {
-  '/': 'Dashboard',
-  '/surveys': 'Survey Administration',
-  '/students': 'Student Roster',
-  '/projects': 'Projects',
-  '/talent-matching': 'Talent Matching',
-  '/analysis': 'Comparative Analysis',
-  '/reports': 'Reporting',
-  '/admin/dashboard': 'Admin Dashboard',
-  '/mentor/dashboard': 'Mentor Dashboard',
-  '/student/dashboard': 'Student Dashboard',
-  '/companies': 'Company Management',
-};
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const pageTitle = pageTitles[pathname] || 'SynergyScope';
 
-  if (pathname === '/login') {
+  const noLayoutRoutes = ['/login', '/nda'];
+  if (noLayoutRoutes.includes(pathname)) {
     return <>{children}</>
   }
 
@@ -129,16 +171,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <Sidebar variant="sidebar" collapsible="icon">
         <MainSidebarContent />
       </Sidebar>
-      <SidebarInset className="flex flex-col bg-background">
-        <AppHeader pageTitle={pageTitle} />
+      <SidebarInset className="flex flex-col bg-muted/40">
+        <AppHeader />
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   )
-}
-
-function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m6 9 6 6 6-6"/></svg>
-    )
 }

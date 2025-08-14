@@ -1,34 +1,59 @@
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck } from 'lucide-react';
+import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+       <div>
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <p className="text-muted-foreground">Oversee platform activities and manage system settings.</p>
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatCard title="Total Users" value="150" icon={Users} />
-        <StatCard title="Projects Needing Mentors" value="5" icon={Briefcase} />
+        <StatCard title="Active Projects" value="5" icon={Briefcase} />
         <StatCard title="Pending Approvals" value="12" icon={Bell} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
             <CardDescription>Manage your platform efficiently.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <Button variant="outline" className="justify-start">
-              <UserCog className="mr-2" />
-              Manage Users
-            </Button>
-            <Button variant="outline" className="justify-start">
-              <FolderCheck className="mr-2" />
-              Review Projects
-            </Button>
+          <CardContent className="grid grid-cols-2 gap-4">
+            <Link href="/students" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                  <UserCog className="mr-2" />
+                  Manage Students
+                </Button>
+            </Link>
+             <Link href="/projects" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                  <FolderCheck className="mr-2" />
+                  Review Projects
+                </Button>
+            </Link>
+             <Link href="/surveys" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                    <Send className="mr-2" />
+                    Send Surveys
+                </Button>
+            </Link>
+             <Link href="/surveys" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                    <FilePlus2 className="mr-2" />
+                    Create Survey
+                </Button>
+            </Link>
+             <Link href="/reports" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                    <BarChart className="mr-2" />
+                    Generate Reports
+                </Button>
+            </Link>
             <Button variant="outline" className="justify-start">
               <Settings className="mr-2" />
               System Settings

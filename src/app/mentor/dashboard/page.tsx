@@ -1,19 +1,25 @@
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Users, Briefcase, Calendar, FileText, MessageSquare, Award, History } from 'lucide-react';
-import { mentors } from '@/lib/data';
+import { mentors, students } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 export default function MentorDashboardPage() {
   const mentor = mentors[0];
+  const assignedProjects = students
+    .filter(s => s.mentorId === mentor.id && s.projectId)
+    .map(s => s.projectId)
+    .filter((value, index, self) => self.indexOf(value) === index);
+
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex items-center gap-4">
         <Avatar className="h-20 w-20">
-          <AvatarImage src={`https://placehold.co/80x80.png?text=${mentor.name.charAt(0)}`} />
+          <AvatarImage src={`https://i.pravatar.cc/150?u=${mentor.id}`} data-ai-hint="person" />
           <AvatarFallback>{mentor.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div>
@@ -24,7 +30,7 @@ export default function MentorDashboardPage() {
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatCard title="My Mentees" value={mentor.mentees.length} icon={Users} />
-        <StatCard title="Active Projects" value="3" icon={Briefcase} />
+        <StatCard title="Active Projects" value={assignedProjects.length} icon={Briefcase} />
         <StatCard title="Upcoming Meetings" value="2" icon={Calendar} />
       </div>
 
@@ -32,24 +38,28 @@ export default function MentorDashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>My Mentees</CardTitle>
-            <CardDescription>Your assigned students.</CardDescription>
+            <CardDescription>Your assigned students and their projects.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {mentor.mentees.map(mentee => (
-              <div key={mentee.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Avatar>
-                    <AvatarImage src={`https://placehold.co/40x40.png?text=${mentee.name.charAt(0)}`} />
-                    <AvatarFallback>{mentee.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">{mentee.name}</p>
-                    <p className="text-sm text-muted-foreground">{projects.find(p => p.id === `p${mentee.id}`)?.name || 'Unassigned'}</p>
+            {mentor.mentees.map(mentee => {
+              const project = students.find(p => p.id === mentee.id)?.projectId;
+              const projectName = project ? `Project ${project.slice(1)}` : 'Unassigned';
+              return (
+                <div key={mentee.id} className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Avatar>
+                       <AvatarImage src={`https://i.pravatar.cc/150?u=${mentee.id}`} data-ai-hint="person" />
+                      <AvatarFallback>{mentee.firstName.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold">{mentee.firstName} {mentee.lastName}</p>
+                      <p className="text-sm text-muted-foreground">{projectName}</p>
+                    </div>
                   </div>
+                  <Button variant="ghost" size="icon"><MessageSquare className="h-4 w-4" /></Button>
                 </div>
-                <Button variant="ghost" size="icon"><MessageSquare className="h-4 w-4" /></Button>
-              </div>
-            ))}
+              )
+            })}
           </CardContent>
         </Card>
          <Card>
@@ -57,10 +67,12 @@ export default function MentorDashboardPage() {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
-            <Button variant="outline" className="justify-start">
-              <Users className="mr-2" />
-              View Mentees
-            </Button>
+            <Link href="/students">
+                <Button variant="outline" className="w-full justify-start">
+                <Users className="mr-2" />
+                View All Students
+                </Button>
+            </Link>
             <Button variant="outline" className="justify-start">
               <Calendar className="mr-2" />
               Schedule a Meeting
@@ -99,8 +111,3 @@ export default function MentorDashboardPage() {
     </div>
   );
 }
-
-const projects = [
-    {id: 'p1', name: 'AI-Powered Data Visualization'},
-    {id: 'p2', name: 'Mobile-First E-commerce App'},
-]

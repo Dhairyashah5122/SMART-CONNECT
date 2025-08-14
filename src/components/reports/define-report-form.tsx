@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -16,18 +17,20 @@ export interface NewReportDefinition {
     title: string;
     description: string;
     category: string;
+    prompt: string;
 }
 
 export function DefineReportForm() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [prompt, setPrompt] = useState('');
     const { toast } = useToast();
     const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!title || !description || !category) {
+        if (!title || !description || !category || !prompt) {
             toast({
                 variant: 'destructive',
                 title: 'Missing Fields',
@@ -36,7 +39,7 @@ export function DefineReportForm() {
             return;
         }
 
-        const newReport: NewReportDefinition = { title, description, category };
+        const newReport: NewReportDefinition = { title, description, category, prompt };
         
         // In a real app, this would be sent to a backend to be persisted.
         // For this demo, we'll store it in localStorage to simulate persistence
@@ -82,6 +85,17 @@ export function DefineReportForm() {
                         <Label htmlFor="report-category">Report Category</Label>
                         <Input id="report-category" placeholder="e.g., Performance Analytics" value={category} onChange={e => setCategory(e.target.value)} />
                         <p className="text-xs text-muted-foreground">If the category exists, the report will be added to it. Otherwise, a new category will be created.</p>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="report-prompt">AI Prompt</Label>
+                        <Textarea 
+                            id="report-prompt" 
+                            placeholder="Enter the prompt for the AI to generate this report. You can use placeholders like {{startDate}} and {{endDate}} if needed." 
+                            value={prompt} 
+                            onChange={e => setPrompt(e.target.value)}
+                            rows={6}
+                        />
+                        <p className="text-xs text-muted-foreground">This is the instruction the AI will follow to create the report.</p>
                     </div>
                     <div className="flex justify-end">
                          <Button type="submit">

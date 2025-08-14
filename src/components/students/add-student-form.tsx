@@ -20,24 +20,39 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 
+const fileToDataURI = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
+
+const fileToText = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target?.result as string);
+        reader.onerror = reject;
+        reader.readAsText(file);
+    });
+};
+
+
 export function AddStudentForm() {
-  const [resume, setResume] = useState<File | null>(null);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeText, setResumeText] = useState("");
   const [extractedSkills, setExtractedSkills] =
     useState<ExtractSkillsFromResumeOutput | null>(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setResume(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result as string;
-        setResumeText(text);
-      };
-      reader.readAsText(file);
+      setResumeFile(file);
+      const text = await fileToText(file);
+      setResumeText(text);
     }
   };
 
@@ -144,7 +159,7 @@ export function AddStudentForm() {
           <Label htmlFor="resume">Resume Upload</Label>
           <div className="flex items-center gap-4">
             <Input id="resume" type="file" onChange={handleFileChange} accept=".txt,.pdf,.doc,.docx" className="flex-grow"/>
-            <Button type="button" variant="outline" onClick={handleExtractSkills} disabled={!resume || isExtracting} size="icon">
+            <Button type="button" variant="outline" onClick={handleExtractSkills} disabled={!resumeFile || isExtracting} size="icon">
                 {isExtracting ? <Loader2 className="animate-spin" /> : <Sparkles />}
                 <span className="sr-only">Extract Skills</span>
             </Button>

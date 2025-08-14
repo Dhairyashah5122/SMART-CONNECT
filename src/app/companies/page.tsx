@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { companies } from "@/lib/data"
 import { Upload, FileText, BarChart, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { Input } from "@/components/ui/input"
 
 export default function CompaniesPage() {
   return (
@@ -41,15 +42,17 @@ export default function CompaniesPage() {
                     <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       <div className="space-y-2">
                         <Label>Final Report</Label>
-                        <Button variant="outline" className="w-full justify-start">
-                          <Upload className="mr-2" /> Upload
-                        </Button>
+                        <div className="flex gap-2">
+                          <Input type="file" className="w-full" />
+                          <Button variant="outline" size="icon"><Upload /></Button>
+                        </div>
                       </div>
                        <div className="space-y-2">
                         <Label>Project Charter</Label>
-                        <Button variant="outline" className="w-full justify-start">
-                          <Upload className="mr-2" /> Upload
-                        </Button>
+                        <div className="flex gap-2">
+                          <Input type="file" className="w-full" />
+                          <Button variant="outline" size="icon"><Upload /></Button>
+                        </div>
                       </div>
                       <div className="space-y-2">
                         <Label>Company Survey</Label>

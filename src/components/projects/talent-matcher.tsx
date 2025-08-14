@@ -16,11 +16,32 @@ import { ScrollArea } from '../ui/scroll-area';
 
 type RankedStudent = (RankStudentsForProjectOutput['rankedStudents'][number]) & { student: Student };
 
+const unassignedApprovedStudents = initialStudents.filter(s => !s.projectId && s.status === 'Approved');
+
+const MOCK_INITIAL_RANKING: RankedStudent[] = unassignedApprovedStudents.map(student => {
+    let score = 75;
+    let justification = "Strong foundational skills and a clear interest in the project domain.";
+    if (student.skills.includes('Cybersecurity')) {
+        score = 95;
+        justification = "Excellent alignment of skills with project needs, particularly in cybersecurity and Python.";
+    } else if (student.skills.includes('Java')) {
+        score = 82;
+        justification = "Solid software engineering background with relevant skills in Java and cloud platforms.";
+    }
+    return {
+        studentId: student.id,
+        matchScore: score,
+        justification: justification,
+        student: student,
+    }
+}).sort((a, b) => b.matchScore - a.matchScore);
+
+
 export function TalentMatcher() {
   const [students, setStudents] = useState<Student[]>(initialStudents);
-  const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+  const [selectedProjectId, setSelectedProjectId] = useState<string>(projects.find(p => p.status === 'Not Assigned')?.id || '');
   const [isLoading, setIsLoading] = useState(false);
-  const [rankedStudents, setRankedStudents] = useState<RankedStudent[]>([]);
+  const [rankedStudents, setRankedStudents] = useState<RankedStudent[]>(MOCK_INITIAL_RANKING);
   const [proposedTeam, setProposedTeam] = useState<RankedStudent[]>([]);
   const { toast } = useToast();
 

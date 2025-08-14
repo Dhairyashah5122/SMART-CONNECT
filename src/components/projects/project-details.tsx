@@ -1,4 +1,5 @@
 
+
 import {
   Card,
   CardContent,
@@ -43,7 +44,7 @@ export function ProjectDetails() {
                           <div>
                             <p className="font-semibold">{student.fullName}</p>
                             <div className="flex flex-wrap gap-1 mt-1">
-                              {student.skills.slice(0,4).map(skill => (
+                              {student.studentProfile.skills.slice(0,4).map(skill => (
                                 <Badge key={skill} variant="secondary">{skill}</Badge>
                               ))}
                             </div>

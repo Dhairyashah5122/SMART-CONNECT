@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { useState } from 'react';
@@ -16,42 +17,25 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useToast } from '@/hooks/use-toast';
+import type { User, UserRole } from '@/lib/types';
 
-type UserRole = 'Admin' | 'Mentor' | 'Student';
 
-type User = {
-    id: string;
-    name: string;
-    email: string;
-    role: UserRole;
-    avatar: string;
-}
-
-const adminUsers = [
+const adminUsers: User[] = [
     {
         id: 'admin1',
-        name: 'Admin User',
+        firstName: 'Admin',
+        lastName: 'User',
+        fullName: 'Admin User',
         email: 'admin@synergyscope.com',
-        role: 'Admin' as UserRole,
-        avatar: `https://i.pravatar.cc/150?u=admin1`
+        role: 'Admin',
+        createdAt: '2023-01-01',
+        updatedAt: '2023-01-01',
+        profilePhotoUrl: `https://i.pravatar.cc/150?u=admin1`
     }
 ];
 
-const studentUsers: User[] = students.map(s => ({
-    id: s.id,
-    name: s.fullName,
-    email: s.emailAddress,
-    role: 'Student' as UserRole,
-    avatar: `https://i.pravatar.cc/150?u=${s.id}`
-}));
-
-const mentorUsers: User[] = mentors.map(m => ({
-    id: m.id,
-    name: m.name,
-    email: m.email,
-    role: 'Mentor' as UserRole,
-    avatar: `https://i.pravatar.cc/150?u=${m.id}`
-}))
+const studentUsers: User[] = students.map(s => ({...s, profilePhotoUrl: `https://i.pravatar.cc/150?u=${s.id}`}));
+const mentorUsers: User[] = mentors.map(m => ({...m, profilePhotoUrl: `https://i.pravatar.cc/150?u=${m.id}`}));
 
 
 export function RoleManager() {
@@ -75,7 +59,7 @@ export function RoleManager() {
 
       toast({
           title: 'Role Updated',
-          description: `${userToUpdate?.name}'s role has been changed to ${newRole}.`
+          description: `${userToUpdate?.fullName}'s role has been changed to ${newRole}.`
       })
   }
   
@@ -115,10 +99,10 @@ export function RoleManager() {
                  <TableCell className="font-medium">
                    <div className="flex items-center gap-3">
                       <Avatar>
-                        <AvatarImage src={user.avatar} data-ai-hint="person" />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={user.profilePhotoUrl} data-ai-hint="person" />
+                        <AvatarFallback>{user.fullName.charAt(0)}</AvatarFallback>
                       </Avatar>
-                      {user.name}
+                      {user.fullName}
                    </div>
                 </TableCell>
                 <TableCell>{user.email}</TableCell>

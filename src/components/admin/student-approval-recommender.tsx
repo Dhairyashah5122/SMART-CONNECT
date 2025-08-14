@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -50,13 +51,13 @@ export function StudentApprovalRecommender() {
     setRankedStudents(null);
     try {
       const pendingStudents = students
-        .filter((s) => s.status === "Pending")
+        .filter((s) => s.studentProfile.status === "Pending")
         .map((s) => ({
           id: s.id,
           name: s.fullName,
-          resume: s.resume,
-          gpa: s.currentGpa || 0,
-          skills: s.skills,
+          resume: s.studentProfile.resumeText,
+          gpa: s.studentProfile.gpa || 0,
+          skills: s.studentProfile.skills,
         }));
 
       if (pendingStudents.length === 0) {
@@ -96,7 +97,7 @@ export function StudentApprovalRecommender() {
   const handleApproveStudent = (studentId: string) => {
     setStudents((prevStudents) =>
       prevStudents.map((student) =>
-        student.id === studentId ? { ...student, status: "Approved" } : student
+        student.id === studentId ? { ...student, studentProfile: {...student.studentProfile, status: "Approved"} } : student
       )
     );
      setRankedStudents(prevRanked => prevRanked?.filter(rs => rs.studentId !== studentId) || null);
@@ -123,7 +124,7 @@ export function StudentApprovalRecommender() {
     // Update main students list
     setStudents((prevStudents) =>
         prevStudents.map((s) =>
-            s.id === studentToReject.id ? { ...s, status: "Rejected", rejectionReason } : s
+            s.id === studentToReject.id ? { ...s, studentProfile: {...s.studentProfile, status: "Rejected", rejectionReason } } : s
         )
     );
 
@@ -141,7 +142,7 @@ export function StudentApprovalRecommender() {
     setRejectionReason(""); // Reset reason
   };
   
-  const pendingStudentCount = students.filter(s => s.status === 'Pending').length;
+  const pendingStudentCount = students.filter(s => s.studentProfile.status === 'Pending').length;
 
   return (
     <Card>
@@ -172,9 +173,9 @@ export function StudentApprovalRecommender() {
                                         <div>
                                             <p className="font-semibold text-lg">{rs.student.fullName}</p>
                                             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                <span>GPA: {rs.student.currentGpa}</span>
+                                                <span>GPA: {rs.student.studentProfile.gpa}</span>
                                                 <div className="flex flex-wrap gap-1">
-                                                    {rs.student.skills.slice(0,3).map(skill => <Badge variant="secondary" key={skill}>{skill}</Badge>)}
+                                                    {rs.student.studentProfile.skills.slice(0,3).map(skill => <Badge variant="secondary" key={skill}>{skill}</Badge>)}
                                                 </div>
                                             </div>
                                         </div>

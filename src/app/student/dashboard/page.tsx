@@ -1,4 +1,5 @@
 
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -9,7 +10,7 @@ import Link from 'next/link';
 
 export default function StudentDashboardPage() {
   const student = students[0];
-  const project = projects.find(p => p.id === student.projectId);
+  const project = projects.find(p => p.id === student.studentProfile.projectId);
 
   return (
     <div className="flex flex-col gap-8">

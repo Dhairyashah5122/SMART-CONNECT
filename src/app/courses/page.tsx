@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -38,17 +39,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { StudentSatisfactionChart } from "@/components/dashboard/student-satisfaction-chart";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import type { Course } from "@/lib/types";
 
-type Course = {
-  id: string;
-  title: string;
-  code: string;
-  schedule: string;
-  delivery: "online" | "in-person";
-  classroom?: string;
-  studentIds: string[];
-  mentorId?: string;
-};
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -119,10 +111,10 @@ export default function CoursesPage() {
     const rosterData = {
         courseTitle: course.title,
         courseCode: course.code,
-        mentor: mentor ? mentor.name : "N/A",
+        mentor: mentor ? mentor.fullName : "N/A",
         students: students.map(s => ({
             name: s.fullName,
-            email: s.emailAddress,
+            email: s.email,
         }))
     };
     
@@ -218,7 +210,7 @@ export default function CoursesPage() {
                     <SelectContent>
                         {allMentors.map(mentor => (
                             <SelectItem key={mentor.id} value={mentor.id}>
-                                {mentor.name}
+                                {mentor.fullName}
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -282,7 +274,7 @@ export default function CoursesPage() {
                                 <p className="text-xs text-muted-foreground">{course.code}</p>
                             </TableCell>
                             <TableCell className="w-1/4">{course.schedule}</TableCell>
-                            <TableCell className="w-1/4">{mentor?.name || 'N/A'}</TableCell>
+                            <TableCell className="w-1/4">{mentor?.fullName || 'N/A'}</TableCell>
                             <TableCell className="w-1/4">
                                <Popover>
                                     <PopoverTrigger asChild>

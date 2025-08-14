@@ -1,3 +1,4 @@
+
  "use client"
 
 import { useState } from 'react';
@@ -23,15 +24,15 @@ type RankedStudent = {
   student: Student;
 };
 
-const unassignedApprovedStudents = initialStudents.filter(s => !s.projectId && s.status === 'Approved');
+const unassignedApprovedStudents = initialStudents.filter(s => !s.studentProfile.projectId && s.studentProfile.status === 'Approved');
 
 const MOCK_INITIAL_RANKING: RankedStudent[] = unassignedApprovedStudents.map(student => {
     let score = 75;
     let justification = "Strong foundational skills and a clear interest in the project domain.";
-    if (student.skills.includes('Cybersecurity')) {
+    if (student.studentProfile.skills.includes('Cybersecurity')) {
         score = 95;
         justification = "Excellent alignment of skills with project needs, particularly in cybersecurity and Python.";
-    } else if (student.skills.includes('Java')) {
+    } else if (student.studentProfile.skills.includes('Java')) {
         score = 82;
         justification = "Solid software engineering background with relevant skills in Java and cloud platforms.";
     }
@@ -65,11 +66,11 @@ export function TalentMatcher() {
 
     try {
         const availableStudents = students
-            .filter(s => !s.projectId && s.status === 'Approved')
+            .filter(s => !s.studentProfile.projectId && s.studentProfile.status === 'Approved')
             .map(s => ({
                 id: s.id,
                 name: s.fullName,
-                resume: s.resume,
+                resume: s.studentProfile.resumeText,
             }));
         
         if (availableStudents.length === 0) {
@@ -142,7 +143,7 @@ export function TalentMatcher() {
     setStudents(prevStudents => 
       prevStudents.map(s => {
         if (proposedTeam.some(p => p.studentId === s.id)) {
-          return { ...s, projectId: selectedProjectId, mentorId: mentor.id, status: "Approved" };
+          return { ...s, studentProfile: { ...s.studentProfile, projectId: selectedProjectId, mentorId: mentor.id, status: "Approved" } };
         }
         return s;
       })

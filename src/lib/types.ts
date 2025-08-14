@@ -13,7 +13,6 @@ export type User = {
     profilePhotoUrl?: string;
     createdAt: string;
     updatedAt: string;
-    // Role-specific profile data
     studentProfile?: StudentProfile;
     mentorProfile?: MentorProfile;
 };
@@ -29,6 +28,8 @@ export type StudentProfile = {
     ndaStatus: 'Signed' | 'Pending';
     registrationDate: string;
     milestones: Milestone[];
+    projectId?: string;
+    mentorId?: string;
     rejectionReason?: string;
 };
 
@@ -36,7 +37,8 @@ export type StudentProfile = {
 export type MentorProfile = {
     skills: string[];
     pastProjects: string[];
-    status: 'Active' | 'Inactive' | 'Available';
+    status: 'Active' | 'Inactive' | 'Available' | 'Not Available';
+    menteeIds: string[];
 };
 
 export type Milestone = {
@@ -48,18 +50,21 @@ export type Milestone = {
 
 // Redefined Student to use the new User/Profile structure
 export type Student = User & {
+    role: 'Student';
     studentProfile: StudentProfile;
 };
 
 // Redefined Mentor to use the new User/Profile structure
 export type Mentor = User & {
+    role: 'Mentor';
     mentorProfile: MentorProfile;
 };
+
 
 export type Project = {
   id: string;
   name: string;
-  companyId: string; // Link to Company table
+  company: string;
   description: string;
   finalReportUrl?: string;
   projectCharterUrl?: string;
@@ -69,8 +74,6 @@ export type Project = {
   courseIds: string[]; // Array of Course IDs
   startDate: string;
   completionDate: string;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type Survey = {
@@ -78,10 +81,11 @@ export type Survey = {
   title: string;
   type: 'Student Satisfaction' | 'Company Feedback' | 'Mentor Review' | 'Self-Assessment';
   status: 'Active' | 'Closed';
+  responses: number;
   totalParticipants: number;
   createdAt: string;
-  updatedAt: string;
   dueDate: string;
+  lastReminderSent?: string;
 };
 
 export type SurveyResponse = {
@@ -95,12 +99,8 @@ export type SurveyResponse = {
 export type Company = {
   id:string;
   name: string;
-  industry: string;
-  websiteUrl?: string;
-  contactName: string;
-  contactEmail: string;
-  createdAt: string;
-  updatedAt: string;
+  projects: Project[];
+  surveyCompleted: boolean;
 };
 
 export type Course = {
@@ -110,9 +110,8 @@ export type Course = {
   schedule: string;
   delivery: "online" | "in-person";
   classroom?: string;
+  studentIds: string[];
   mentorId?: string; // User ID of the mentor
-  createdAt: string;
-  updatedAt: string;
 };
 
 // This join table would be implicit in a NoSQL DB like Firestore

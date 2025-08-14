@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { useState } from "react";
@@ -12,25 +13,32 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { projects, students } from "@/lib/data";
+import type { Milestone } from "@/lib/types";
 
-type MilestoneStatus = "pending" | "completed";
-
-const initialMilestones = [
-  { id: "nda", text: "Submit Signed NDAs", status: "pending" as MilestoneStatus, type: "submission" as const },
-  { id: "action-plan", text: "Submit Project Action Plan", status: "pending" as MilestoneStatus, type: "submission" as const },
-  { id: "mid-review", text: "Complete Mid-Point Review", status: "pending" as MilestoneStatus, type: "review" as const },
-  { id: "testimonial", text: "Submit Written Testimonial", status: "pending" as MilestoneStatus, type: "submission" as const },
-  { id: "video", text: "Upload 'Lesson Learned' Video", status: "pending" as MilestoneStatus, type: "submission" as const },
-  { id: "survey", text: "Complete Post-Capstone Survey", status: "pending" as MilestoneStatus, type: "link" as const },
+const initialMilestones: Milestone[] = [
+  { id: "nda", text: "Submit Signed NDAs", status: "pending" as Milestone['status'], dueDate: '2024-01-20' },
+  { id: "action-plan", text: "Submit Project Action Plan", status: "pending" as Milestone['status'], dueDate: '2024-02-01' },
+  { id: "mid-review", text: "Complete Mid-Point Review", status: "pending" as Milestone['status'], dueDate: '2024-03-15' },
+  { id: "testimonial", text: "Submit Written Testimonial", status: "pending" as Milestone['status'], dueDate: '2024-05-01' },
+  { id: "video", text: "Upload 'Lesson Learned' Video", status: "pending" as Milestone['status'], dueDate: '2024-05-01' },
+  { id: "survey", text: "Complete Post-Capstone Survey", status: "pending" as Milestone['status'], dueDate: '2024-05-10' },
 ];
 
+const milestoneTypes = {
+  nda: "submission",
+  'action-plan': "submission",
+  'mid-review': "review",
+  testimonial: "submission",
+  video: "submission",
+  survey: "link",
+}
 
 export function StudentProjectActions() {
     const [ndaFiles, setNdaFiles] = useState<File[]>([]);
-    const [milestones, setMilestones] = useState(initialMilestones);
     const { toast } = useToast();
     const student = students[0];
-    const project = projects.find(p => p.id === student.projectId);
+    const [milestones, setMilestones] = useState(student.studentProfile.milestones);
+    const project = projects.find(p => p.id === student.studentProfile.projectId);
 
     const handleNdaFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -76,7 +84,9 @@ export function StudentProjectActions() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-4">
-                        {milestones.map(milestone => (
+                        {milestones.map(milestone => {
+                             const type = milestoneTypes[milestone.id as keyof typeof milestoneTypes] || 'review';
+                             return (
                              <li key={milestone.id} className="flex items-start gap-4">
                                 <div>
                                     {milestone.status === 'completed' ? (
@@ -122,7 +132,7 @@ export function StudentProjectActions() {
                                         </Button>
                                     )}
 
-                                    {milestone.type !== 'link' && milestone.status === 'pending' && (
+                                    {type !== 'link' && milestone.status === 'pending' && (
                                         <div className="flex justify-end">
                                             <Button size="sm" onClick={() => handleMarkAsComplete(milestone.id)}>
                                                 <CheckCircle className="mr-2" /> Mark as Complete
@@ -131,7 +141,7 @@ export function StudentProjectActions() {
                                     )}
                                 </div>
                             </li>
-                        ))}
+                        )})}
                     </ul>
                 </CardContent>
             </Card>

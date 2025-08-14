@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { useState } from "react";
@@ -22,7 +23,7 @@ export function EditProjectForm() {
     const { toast } = useToast();
 
     const assignedStudents = allStudents.filter(s => project.studentIds.includes(s.id));
-    const unassignedStudents = allStudents.filter(s => !s.projectId || s.projectId === project.id);
+    const unassignedStudents = allStudents.filter(s => !s.studentProfile.projectId || s.studentProfile.projectId === project.id);
     
     const assignedMentors = allMentors.filter(m => project.mentorIds.includes(m.id));
     
@@ -115,7 +116,7 @@ export function EditProjectForm() {
                         <div className="space-y-2">
                             <Label htmlFor="assigned-mentors">Assigned Mentors</Label>
                              <MultiSelect
-                                options={allMentors.map(m => ({ value: m.id, label: m.name }))}
+                                options={allMentors.map(m => ({ value: m.id, label: m.fullName }))}
                                 selected={project.mentorIds}
                                 onChange={handleMentorChange}
                                 placeholder="Select mentors to assign..."

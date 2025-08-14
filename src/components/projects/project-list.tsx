@@ -1,3 +1,4 @@
+
 import {
   Accordion,
   AccordionContent,
@@ -31,7 +32,7 @@ export function ProjectList() {
                 <CardContent>
                   <div className="space-y-4">
                     {students
-                      .filter(s => s.projectId === project.id)
+                      .filter(s => s.studentProfile.projectId === project.id)
                       .map(student => (
                         <div key={student.id} className="flex items-center gap-4">
                            <Avatar>
@@ -41,14 +42,14 @@ export function ProjectList() {
                           <div>
                             <p className="font-semibold">{student.firstName} {student.lastName}</p>
                             <div className="flex flex-wrap gap-1 mt-1">
-                              {student.skills.slice(0,3).map(skill => (
+                              {student.studentProfile.skills.slice(0,3).map(skill => (
                                 <Badge key={skill} variant="secondary">{skill}</Badge>
                               ))}
                             </div>
                           </div>
                         </div>
                       ))}
-                      {students.filter(s => s.projectId === project.id).length === 0 && (
+                      {students.filter(s => s.studentProfile.projectId === project.id).length === 0 && (
                         <p className="text-sm text-muted-foreground">No students assigned to this project yet.</p>
                       )}
                   </div>

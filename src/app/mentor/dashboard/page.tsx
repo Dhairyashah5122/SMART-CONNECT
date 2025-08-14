@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -27,9 +28,9 @@ export default function MentorDashboardPage() {
   const { toast } = useToast();
   const mentor = mentors[0];
   const assignedProjects = students
-    .filter(s => s.mentorId === mentor.id && s.projectId)
-    .map(s => s.projectId)
-    .filter((value, index, self) => self.indexOf(value) === index);
+    .filter(s => s.studentProfile.mentorId === mentor.id && s.studentProfile.projectId)
+    .map(s => s.studentProfile.projectId)
+    .filter((value, index, self) => self.indexOf(value) === value);
     
   const [schedulingLink, setSchedulingLink] = useState('https://calendly.com/your-meeting');
   const [reportFile, setReportFile] = useState<File | null>(null);
@@ -64,16 +65,16 @@ export default function MentorDashboardPage() {
       <div className="flex items-center gap-4">
         <Avatar className="h-20 w-20">
           <AvatarImage src={`https://i.pravatar.cc/150?u=${mentor.id}`} data-ai-hint="person" />
-          <AvatarFallback>{mentor.name.charAt(0)}</AvatarFallback>
+          <AvatarFallback>{mentor.fullName.charAt(0)}</AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="text-3xl font-bold">{mentor.name}</h1>
+          <h1 className="text-3xl font-bold">{mentor.fullName}</h1>
           <p className="text-muted-foreground">Welcome to your Mentor Dashboard.</p>
         </div>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <StatCard title="My Mentees" value={mentor.mentees.length} icon={Users} />
+        <StatCard title="My Mentees" value={mentor.mentorProfile.menteeIds.length} icon={Users} />
         <StatCard title="Active Projects" value={assignedProjects.length} icon={Briefcase} />
         <StatCard title="Upcoming Meetings" value="2" icon={Calendar} />
       </div>
@@ -85,9 +86,9 @@ export default function MentorDashboardPage() {
             <CardDescription>Your assigned students and their projects.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {mentor.mentees.map(mentee => {
-              const project = students.find(p => p.id === mentee.id)?.projectId;
-              const projectName = project ? `Project ${project.slice(1)}` : 'Unassigned';
+            {students.filter(s => mentor.mentorProfile.menteeIds.includes(s.id)).map(mentee => {
+              const project = projects.find(p => p.id === mentee.studentProfile.projectId);
+              const projectName = project ? project.name : 'Unassigned';
               return (
                 <div key={mentee.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -201,7 +202,7 @@ export default function MentorDashboardPage() {
             <CardTitle className="flex items-center gap-2"><Award /> Skills</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
-            {mentor.skills.map(skill => (
+            {mentor.mentorProfile.skills.map(skill => (
               <Badge key={skill} variant="secondary">{skill}</Badge>
             ))}
           </CardContent>
@@ -212,7 +213,7 @@ export default function MentorDashboardPage() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-              {mentor.pastProjects.map(project => (
+              {mentor.mentorProfile.pastProjects.map(project => (
                 <li key={project}>{project}</li>
               ))}
             </ul>

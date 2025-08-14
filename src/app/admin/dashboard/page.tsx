@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
                     Send Surveys
                 </Button>
             </Link>
-             <Link href="/surveys" passHref>
+             <Link href="/surveys/create" passHref>
                 <Button variant="outline" className="w-full justify-start">
                     <FilePlus2 className="mr-2" />
                     Create Survey

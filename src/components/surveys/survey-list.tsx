@@ -172,6 +172,22 @@ export function SurveyList() {
                         )}
                         Report
                       </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleDownloadReport(survey.title, "This is a mock report summary.")}
+                      >
+                        <Download className="mr-2 h-4 w-4" />
+                        Download
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleShareReport(survey.title, "This is a mock report summary.")}
+                      >
+                        <Share2 className="mr-2 h-4 w-4" />
+                        Email
+                      </Button>
                       {survey.status === 'Active' && (
                         <Button 
                           variant="outline" 
@@ -206,14 +222,7 @@ export function SurveyList() {
           {activeReport?.summary}
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleShareReport(activeReport!.title, activeReport!.summary)}>
-            <Share2 className="mr-2" />
-            Email
-          </Button>
-          <Button onClick={() => handleDownloadReport(activeReport!.title, activeReport!.summary)}>
-            <Download className="mr-2" />
-            Download
-          </Button>
+          <Button onClick={() => setActiveReport(null)}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

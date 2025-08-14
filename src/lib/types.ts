@@ -25,7 +25,9 @@ export type Survey = {
   title: string;
   status: 'Active' | 'Closed';
   responses: number;
+  totalParticipants: number;
   createdAt: string;
+  lastReminderSent?: string;
 };
 
 export type SurveyResponse = {

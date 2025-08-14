@@ -72,13 +72,16 @@ export const surveys: Survey[] = [
     title: 'Post-Internship Feedback 2024',
     status: 'Active',
     responses: 84,
+    totalParticipants: 150,
     createdAt: '2024-05-10',
+    lastReminderSent: '2024-06-20',
   },
   {
     id: 's2',
     title: 'Student Skills Self-Assessment',
     status: 'Active',
     responses: 112,
+    totalParticipants: 150,
     createdAt: '2024-05-15',
   },
   {
@@ -86,6 +89,7 @@ export const surveys: Survey[] = [
     title: 'Project Interest Survey',
     status: 'Closed',
     responses: 95,
+    totalParticipants: 100,
     createdAt: '2024-04-20',
   },
   {
@@ -93,6 +97,7 @@ export const surveys: Survey[] = [
     title: 'Safirnaction Objectives Alignment',
     status: 'Closed',
     responses: 76,
+    totalParticipants: 80,
     createdAt: '2024-04-01',
   },
     {
@@ -100,7 +105,9 @@ export const surveys: Survey[] = [
     title: 'Innovate Inc. Satisfaction Survey',
     status: 'Active',
     responses: 15,
+    totalParticipants: 25,
     createdAt: '2024-06-01',
+    lastReminderSent: '2024-06-15',
   },
 ];
 

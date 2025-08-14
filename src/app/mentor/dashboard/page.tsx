@@ -1,3 +1,6 @@
+
+"use client";
+
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,14 +9,22 @@ import { Users, Briefcase, Calendar, FileText, MessageSquare, Award, History } f
 import { mentors, students } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 export default function MentorDashboardPage() {
+  const { toast } = useToast();
   const mentor = mentors[0];
   const assignedProjects = students
     .filter(s => s.mentorId === mentor.id && s.projectId)
     .map(s => s.projectId)
     .filter((value, index, self) => self.indexOf(value) === index);
 
+  const handleActionClick = (action: string) => {
+    toast({
+      title: 'Action Triggered',
+      description: `${action} functionality is not yet implemented.`,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -73,11 +84,11 @@ export default function MentorDashboardPage() {
                 View All Students
                 </Button>
             </Link>
-            <Button variant="outline" className="justify-start">
+            <Button variant="outline" className="justify-start" onClick={() => handleActionClick('Schedule a Meeting')}>
               <Calendar className="mr-2" />
               Schedule a Meeting
             </Button>
-            <Button variant="outline" className="justify-start">
+            <Button variant="outline" className="justify-start" onClick={() => handleActionClick('Submit a Report')}>
               <FileText className="mr-2" />
               Submit a Report
             </Button>

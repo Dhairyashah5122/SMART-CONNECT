@@ -12,9 +12,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { mentors as initialMentors, students } from "@/lib/data";
 import type { Mentor } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
-import { UserPlus, Trash2 } from 'lucide-react';
+import { UserPlus, Trash2, Edit, X, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 type MentorStatus = 'Active' | 'Inactive' | 'Available' | 'Not Available';
 
@@ -40,7 +41,7 @@ function AddMentorForm({ onAddMentor }: { onAddMentor: (mentor: Mentor) => void 
             id: `m${Date.now()}`,
             name,
             email,
-            skills: skills.split(',').map(s => s.trim()),
+            skills: skills.split(',').map(s => s.trim()).filter(Boolean),
             status,
             pastProjects: [],
             mentees: [],
@@ -103,7 +104,75 @@ function AddMentorForm({ onAddMentor }: { onAddMentor: (mentor: Mentor) => void 
     )
 }
 
-function MentorList({ mentors, onRemoveMentor }: { mentors: Mentor[], onRemoveMentor: (id: string) => void }) {
+function EditSkillsDialog({ mentor, onSkillsUpdate }: { mentor: Mentor, onSkillsUpdate: (mentorId: string, skills: string[]) => void }) {
+    const [currentSkills, setCurrentSkills] = useState(mentor.skills);
+    const [newSkill, setNewSkill] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleAddSkill = () => {
+        if(newSkill && !currentSkills.includes(newSkill)) {
+            setCurrentSkills([...currentSkills, newSkill]);
+            setNewSkill('');
+        }
+    }
+    
+    const handleRemoveSkill = (skillToRemove: string) => {
+        setCurrentSkills(currentSkills.filter(skill => skill !== skillToRemove));
+    }
+
+    const handleSave = () => {
+        onSkillsUpdate(mentor.id, currentSkills);
+        setIsOpen(false);
+    }
+
+    return (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+                 <Button variant="ghost" size="icon">
+                    <Edit className="h-4 w-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Edit Skills for {mentor.name}</DialogTitle>
+                    <DialogDescription>Add or remove skills below.</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <div className="flex gap-2">
+                        <Input 
+                            placeholder="Add new skill" 
+                            value={newSkill} 
+                            onChange={(e) => setNewSkill(e.target.value)} 
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSkill();}}}
+                        />
+                        <Button onClick={handleAddSkill}>Add</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2 p-2 border rounded-md min-h-[40px] bg-secondary/50">
+                        {currentSkills.length > 0 ? (
+                             currentSkills.map(skill => (
+                                <Badge key={skill} variant="default">
+                                    {skill}
+                                    <button onClick={() => handleRemoveSkill(skill)} className="ml-2 rounded-full hover:bg-white/20 p-0.5">
+                                        <X className="h-3 w-3"/>
+                                    </button>
+                                </Badge>
+                             ))
+                        ) : (
+                            <p className="text-sm text-muted-foreground p-2">No skills assigned.</p>
+                        )}
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+                    <Button onClick={handleSave}><Check className="mr-2"/>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+
+function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills }: { mentors: Mentor[], onRemoveMentor: (id: string) => void, onUpdateMentorSkills: (id: string, skills: string[]) => void }) {
     
     const getStatusVariant = (status: MentorStatus) => {
         switch (status) {
@@ -158,10 +227,11 @@ function MentorList({ mentors, onRemoveMentor }: { mentors: Mentor[], onRemoveMe
                                 <TableCell className="font-medium">{mentor.name}</TableCell>
                                 <TableCell>{mentor.email}</TableCell>
                                 <TableCell>
-                                    <div className="flex flex-wrap gap-1">
+                                    <div className="flex flex-wrap gap-1 max-w-xs">
                                         {mentor.skills.slice(0, 4).map(skill => (
                                             <Badge key={skill} variant="secondary">{skill}</Badge>
                                         ))}
+                                         {mentor.skills.length > 4 && <Badge variant="outline">+{mentor.skills.length - 4}</Badge>}
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -171,9 +241,12 @@ function MentorList({ mentors, onRemoveMentor }: { mentors: Mentor[], onRemoveMe
                                 </TableCell>
                                 <TableCell>{students.filter(s => s.mentorId === mentor.id).length}</TableCell>
                                 <TableCell className="text-right">
-                                    <Button variant="ghost" size="icon" onClick={() => onRemoveMentor(mentor.id)}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
+                                    <div className='flex justify-end items-center'>
+                                        <EditSkillsDialog mentor={mentor} onSkillsUpdate={onUpdateMentorSkills}/>
+                                        <Button variant="ghost" size="icon" onClick={() => onRemoveMentor(mentor.id)}>
+                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                        </Button>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -190,6 +263,14 @@ export default function MentorsPage() {
 
     const addMentor = (mentor: Mentor) => {
         setMentors(prev => [...prev, mentor]);
+    }
+    
+    const updateMentorSkills = (mentorId: string, skills: string[]) => {
+        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, skills} : m));
+        toast({
+            title: 'Skills Updated',
+            description: `Skills for mentor have been successfully updated.`,
+        });
     }
 
     const removeMentor = (id: string) => {
@@ -217,7 +298,7 @@ export default function MentorsPage() {
                 <p className="text-muted-foreground">Add, view, or remove mentors from the program.</p>
             </div>
             <AddMentorForm onAddMentor={addMentor} />
-            <MentorList mentors={mentors} onRemoveMentor={removeMentor} />
+            <MentorList mentors={mentors} onRemoveMentor={removeMentor} onUpdateMentorSkills={updateMentorSkills} />
         </div>
     )
 }

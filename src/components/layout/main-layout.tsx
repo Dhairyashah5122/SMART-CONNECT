@@ -171,7 +171,7 @@ function MainSidebarContent() {
   );
 }
 
-function LayoutDecider({ children }: { children: React.ReactNode }) {
+function LayoutRenderer({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
 
@@ -192,7 +192,6 @@ function LayoutDecider({ children }: { children: React.ReactNode }) {
     );
 }
 
-
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  return <LayoutDecider>{children}</LayoutDecider>
+  return <LayoutRenderer>{children}</LayoutRenderer>;
 }

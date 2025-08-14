@@ -63,19 +63,33 @@ export const projects: Project[] = [
     name: 'AI-Powered Data Visualization Platform',
     company: 'Innovate Inc.',
     description: 'Develop an interactive platform that uses AI to automatically generate insightful visualizations from raw data sets. Requires skills in data analysis, machine learning, and front-end development (React).',
+    status: 'Ongoing',
+    studentIds: ['1', '2'],
   },
   {
     id: 'p2',
     name: 'Mobile-First E-commerce App',
     company: 'ShopSphere',
     description: 'Create a new mobile e-commerce application with a heavy focus on user experience and intuitive design. Looking for a student with strong UX/UI design skills and experience in user research.',
+    status: 'Ongoing',
+    studentIds: ['3'],
   },
   {
     id: 'p3',
     name: 'Cloud-Native Backend System',
     company: 'DataCore',
     description: 'Build a robust and scalable backend system for a high-traffic application using microservices architecture. Ideal candidates have experience with Java, Spring Boot, and cloud platforms like AWS.',
+    status: 'Completed',
+    studentIds: [],
   },
+  {
+    id: 'p4',
+    name: 'Data Pipeline Automation',
+    company: 'Innovate Inc.',
+    description: 'Design and implement a fully automated data pipeline for real-time analytics.',
+    status: 'Not Assigned',
+    studentIds: [],
+  }
 ];
 
 export const surveys: Survey[] = [

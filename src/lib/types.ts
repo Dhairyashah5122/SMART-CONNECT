@@ -38,6 +38,8 @@ export type Project = {
   description: string;
   finalReportUrl?: string;
   projectCharterUrl?: string;
+  status: 'Ongoing' | 'Completed' | 'Not Assigned';
+  studentIds: string[];
 };
 
 export type Survey = {

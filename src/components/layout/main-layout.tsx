@@ -74,12 +74,14 @@ function MainSidebarContent() {
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} passHref>
                 <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.tooltip}>
-                  <item.icon />
-                  <span>{item.label}</span>
+                  <Link href={item.href}>
+                    <>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </>
+                  </Link>
                 </SidebarMenuButton>
-              </Link>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

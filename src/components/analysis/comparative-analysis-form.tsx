@@ -6,19 +6,29 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { comparativeAnalysis, type ComparativeAnalysisOutput } from '@/ai/flows/comparative-analysis';
-import { Loader2, Zap, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Loader2, Zap, CheckCircle, AlertTriangle, Upload } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Input } from '../ui/input';
+
+const fileToDataURI = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
 
 export function ComparativeAnalysisForm() {
-  const [projectScope, setProjectScope] = useState('');
-  const [studentOutcomes, setStudentOutcomes] = useState('');
+  const [projectCharter, setProjectCharter] = useState<File | null>(null);
+  const [finalReport, setFinalReport] = useState<File | null>(null);
   const [safirnactionObjectives, setSafirnactionObjectives] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ComparativeAnalysisOutput | null>(null);
 
   const handleAnalyze = async () => {
-    if (!projectScope || !studentOutcomes || !safirnactionObjectives) {
-      alert('Please fill in all fields.');
+    if (!projectCharter || !finalReport || !safirnactionObjectives) {
+      alert('Please provide both files and the objectives.');
       return;
     }
 
@@ -26,9 +36,12 @@ export function ComparativeAnalysisForm() {
     setResult(null);
 
     try {
+      const charterDataUri = await fileToDataURI(projectCharter);
+      const reportDataUri = await fileToDataURI(finalReport);
+      
       const analysisResult = await comparativeAnalysis({
-        projectScope,
-        studentOutcomes,
+        projectCharter: charterDataUri,
+        finalReport: reportDataUri,
         safirnactionObjectives,
       });
       setResult(analysisResult);
@@ -40,34 +53,32 @@ export function ComparativeAnalysisForm() {
     }
   };
   
-  const canAnalyze = projectScope && studentOutcomes && safirnactionObjectives;
+  const canAnalyze = projectCharter && finalReport && safirnactionObjectives;
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <Card>
         <CardHeader>
           <CardTitle>Analysis Inputs</CardTitle>
-          <CardDescription>Provide the necessary information for the analysis.</CardDescription>
+          <CardDescription>Provide the necessary documents and information for the analysis.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-2">
-            <Label htmlFor="project-scope">Project Scope</Label>
-            <Textarea
-              id="project-scope"
-              placeholder="Describe the project's goals, deliverables, and constraints..."
-              value={projectScope}
-              onChange={(e) => setProjectScope(e.target.value)}
-              rows={4}
+            <Label htmlFor="project-charter">Project Charter</Label>
+             <Input 
+                id="project-charter" 
+                type="file" 
+                onChange={(e) => setProjectCharter(e.target.files?.[0] || null)} 
+                accept=".pdf,.doc,.docx,.txt"
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="student-outcomes">Student Outcomes</Label>
-            <Textarea
-              id="student-outcomes"
-              placeholder="Describe the expected skills, knowledge, and experience students will gain..."
-              value={studentOutcomes}
-              onChange={(e) => setStudentOutcomes(e.target.value)}
-              rows={4}
+            <Label htmlFor="final-report">Final Report</Label>
+            <Input 
+                id="final-report" 
+                type="file" 
+                onChange={(e) => setFinalReport(e.target.files?.[0] || null)}
+                accept=".pdf,.doc,.docx,.txt"
             />
           </div>
           <div className="grid gap-2">

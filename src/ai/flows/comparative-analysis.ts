@@ -12,12 +12,16 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ComparativeAnalysisInputSchema = z.object({
-  projectScope: z
+  projectCharter: z
     .string()
-    .describe('Description of the project scope.'),
-  studentOutcomes: z
+    .describe(
+      "The project charter document, as a data URI that must include a MIME type and use Base64 encoding."
+    ),
+  finalReport: z
     .string()
-    .describe('Description of the student outcomes.'),
+    .describe(
+      "The final report document, as a data URI that must include a MIME type and use Base64 encoding."
+    ),
   safirnactionObjectives: z
     .string()
     .describe('Description of Safirnaction objectives.'),
@@ -49,10 +53,11 @@ const prompt = ai.definePrompt({
 
   Analyze the following information to identify gaps and alignments:
 
-  Project Scope: {{{projectScope}}}
-  Student Outcomes: {{{studentOutcomes}}}
+  Project Charter: {{media url=projectCharter}}
+  Final Report: {{media url=finalReport}}
   Safirnaction Objectives: {{{safirnactionObjectives}}}
 
+  The Project Charter defines the project scope. The Final Report details the student outcomes.
   Provide a detailed analysis, highlighting the gaps and alignments between these three aspects.
   Ensure the analysis is clear, concise, and actionable.
   

@@ -135,7 +135,11 @@ export function SurveyDataAnalysisForm() {
                                 <CardTitle className="flex items-center gap-2"><BarChart /> Key Trends & Insights</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-muted-foreground">{result.keyTrends}</p>
+                                <Textarea
+                                    value={result.keyTrends}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, keyTrends: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-secondary/30 min-h-[100px]"
+                                />
                             </CardContent>
                         </Card>
                         <Card>
@@ -143,7 +147,11 @@ export function SurveyDataAnalysisForm() {
                                 <CardTitle className="flex items-center gap-2"><BrainCircuit /> Thematic Analysis</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-muted-foreground">{result.thematicAnalysis}</p>
+                                <Textarea
+                                    value={result.thematicAnalysis}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, thematicAnalysis: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-secondary/30 min-h-[100px]"
+                                />
                             </CardContent>
                         </Card>
                         <Card>
@@ -151,16 +159,25 @@ export function SurveyDataAnalysisForm() {
                                 <CardTitle className="flex items-center gap-2"><Smile /> Sentiment Analysis</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-muted-foreground">{result.sentimentAnalysis}</p>
+                                 <Textarea
+                                    value={result.sentimentAnalysis}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, sentimentAnalysis: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-secondary/30 min-h-[100px]"
+                                />
                             </CardContent>
                         </Card>
-                        <Alert>
-                            <Info className="h-4 w-4" />
-                            <AlertTitle>Project Alignment Analysis</AlertTitle>
-                            <AlertDescription>
-                                {result.projectAlignment}
-                            </AlertDescription>
-                        </Alert>
+                        <Card>
+                             <CardHeader>
+                                <CardTitle className="flex items-center gap-2"><Info /> Project Alignment Analysis</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Textarea
+                                    value={result.projectAlignment}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, projectAlignment: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-secondary/30 min-h-[100px]"
+                                />
+                            </CardContent>
+                        </Card>
                     </div>
                 )}
             </div>

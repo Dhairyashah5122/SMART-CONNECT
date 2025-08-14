@@ -18,6 +18,7 @@ import { ScrollArea } from "../ui/scroll-area"
 import { useToast } from "@/hooks/use-toast"
 import { generateSkillsMatrixReport } from "@/ai/flows/generate-skills-matrix-report"
 import { students as allStudents } from "@/lib/data"
+import { Textarea } from "../ui/textarea"
 
 const MOCK_INITIAL_REPORT = `
 **Executive Summary:**
@@ -172,11 +173,12 @@ export function StudentSkillsMatrixForm() {
             </div>
             )}
             {result && (
-                <ScrollArea className='h-[400px]'>
-                    <div className="prose prose-sm dark:prose-invert max-w-none p-4 border rounded-lg bg-secondary/30 whitespace-pre-wrap">
-                        {result}
-                    </div>
-                </ScrollArea>
+                <Textarea
+                    value={result}
+                    onChange={(e) => setResult(e.target.value)}
+                    className="w-full h-full flex-1 p-4 border rounded-lg bg-secondary/30 min-h-[400px]"
+                    placeholder="Generated report..."
+                />
             )}
           </CardContent>
       </Card>

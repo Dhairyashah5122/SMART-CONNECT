@@ -12,6 +12,7 @@ import { generateSuccessStory } from '@/ai/flows/generate-success-story';
 import { generateCaseStudy } from '@/ai/flows/generate-case-study';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '../ui/scroll-area';
+import { Textarea } from '../ui/textarea';
 
 const fileToDataURI = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -142,11 +143,12 @@ export function ReportGenerator() {
             </div>
             )}
             {result && (
-                <ScrollArea className='h-full'>
-                    <div className="prose prose-sm dark:prose-invert max-w-none p-4 border rounded-lg bg-secondary/30 whitespace-pre-wrap">
-                        {result}
-                    </div>
-                </ScrollArea>
+                 <Textarea
+                    value={result}
+                    onChange={(e) => setResult(e.target.value)}
+                    className="w-full h-full flex-1 p-4 border rounded-lg bg-secondary/30 min-h-[400px]"
+                    placeholder="Generated content..."
+                 />
             )}
           </CardContent>
       </Card>

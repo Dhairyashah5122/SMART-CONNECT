@@ -140,23 +140,37 @@ export function ComparativeAnalysisForm() {
                                 <CardTitle>Overall Analysis</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-muted-foreground">{result.analysis}</p>
+                                <Textarea
+                                    value={result.analysis}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, analysis: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-secondary/30 min-h-[120px]"
+                                />
                             </CardContent>
                         </Card>
-                        <Alert className='border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/50'>
-                            <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                            <AlertTitle className='text-green-800 dark:text-green-300'>Identified Alignments</AlertTitle>
-                            <AlertDescription className='text-green-700 dark:text-green-400/80'>
-                                {result.alignments}
-                            </AlertDescription>
-                        </Alert>
-                        <Alert variant="destructive" className='border-amber-200 bg-amber-50 text-amber-900 [&>svg]:text-amber-600 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-200 dark:[&>svg]:text-amber-400'>
-                            <AlertTriangle className="h-4 w-4" />
-                            <AlertTitle>Identified Gaps</AlertTitle>
-                            <AlertDescription>
-                                {result.gaps}
-                            </AlertDescription>
-                        </Alert>
+                         <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-green-800 dark:text-green-300"><CheckCircle /> Identified Alignments</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                 <Textarea
+                                    value={result.alignments}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, alignments: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-green-50 dark:bg-green-950/50 min-h-[120px]"
+                                />
+                            </CardContent>
+                        </Card>
+                         <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-amber-900 dark:text-amber-200"><AlertTriangle /> Identified Gaps</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                 <Textarea
+                                    value={result.gaps}
+                                    onChange={(e) => setResult(prev => prev ? {...prev, gaps: e.target.value} : null)}
+                                    className="w-full h-full flex-1 p-2 border rounded-lg bg-amber-50 dark:bg-amber-950/50 min-h-[120px]"
+                                />
+                            </CardContent>
+                        </Card>
                     </div>
                 )}
             </div>

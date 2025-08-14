@@ -18,6 +18,7 @@ import { ScrollArea } from "../ui/scroll-area"
 import { useToast } from "@/hooks/use-toast"
 import { generateProjectAnalysisReport } from "@/ai/flows/generate-project-analysis-report"
 import { projects as allProjects } from "@/lib/data"
+import { Textarea } from "../ui/textarea"
 
 const MOCK_INITIAL_REPORT = `
 **Executive Summary:**
@@ -167,11 +168,12 @@ export function OverallProjectReportForm() {
             </div>
             )}
             {result && (
-                <ScrollArea className='h-[400px]'>
-                    <div className="prose prose-sm dark:prose-invert max-w-none p-4 border rounded-lg bg-secondary/30 whitespace-pre-wrap">
-                        {result}
-                    </div>
-                </ScrollArea>
+                <Textarea
+                    value={result}
+                    onChange={(e) => setResult(e.target.value)}
+                    className="w-full h-full flex-1 p-4 border rounded-lg bg-secondary/30 min-h-[400px]"
+                    placeholder="Generated report..."
+                />
             )}
           </CardContent>
       </Card>

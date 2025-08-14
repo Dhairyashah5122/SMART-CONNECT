@@ -55,6 +55,8 @@ export type Project = {
   projectCharterUrl?: string;
   status: 'Ongoing' | 'Completed' | 'Not Assigned';
   studentIds: string[];
+  mentorIds: string[];
+  courseIds: string[];
   startDate: string;
   completionDate: string;
 };
@@ -91,4 +93,15 @@ export type Company = {
   name: string;
   projects: Project[];
   surveyCompleted: boolean;
+};
+
+export type Course = {
+  id: string;
+  title: string;
+  code: string;
+  schedule: string;
+  delivery: "online" | "in-person";
+  classroom?: string;
+  studentIds: string[];
+  mentorId?: string;
 };

@@ -1,6 +1,6 @@
 
 
-import type { Student, Project, Survey, SurveyResponse, Mentor, Company, Milestone } from './types';
+import type { Student, Project, Survey, SurveyResponse, Mentor, Company, Milestone, Course } from './types';
 
 const studentMilestones: Milestone[] = [
     { id: 'nda', text: 'Submit Signed NDAs', status: 'completed', dueDate: '2024-01-20' },
@@ -132,6 +132,8 @@ export const projects: Project[] = [
     description: 'Develop an interactive platform that uses AI to automatically generate insightful visualizations from raw data sets. Requires skills in data analysis, machine learning, and front-end development (React).',
     status: 'Ongoing',
     studentIds: ['1', '2'],
+    mentorIds: ['m1'],
+    courseIds: ['c1'],
     startDate: '2024-01-15',
     completionDate: '2024-05-15',
   },
@@ -142,6 +144,8 @@ export const projects: Project[] = [
     description: 'Create a new mobile e-commerce application with a heavy focus on user experience and intuitive design. Looking for a student with strong UX/UI design skills and experience in user research.',
     status: 'Ongoing',
     studentIds: ['3'],
+    mentorIds: ['m1'],
+    courseIds: ['c2'],
     startDate: '2024-02-01',
     completionDate: '2024-06-01',
   },
@@ -152,6 +156,8 @@ export const projects: Project[] = [
     description: 'Build a robust and scalable backend system for a high-traffic application using microservices architecture. Ideal candidates have experience with Java, Spring Boot, and cloud platforms like AWS.',
     status: 'Completed',
     studentIds: [],
+    mentorIds: [],
+    courseIds: [],
     startDate: '2023-09-01',
     completionDate: '2024-01-01',
   },
@@ -162,6 +168,8 @@ export const projects: Project[] = [
     description: 'Design and implement a fully automated data pipeline for real-time analytics. This project involves working with large datasets, ETL processes, and scheduling tools like Airflow. Strong Python and SQL skills are essential.',
     status: 'Ongoing',
     studentIds: ['5'],
+    mentorIds: [],
+    courseIds: ['c1'],
     startDate: '2024-08-01',
     completionDate: '2024-12-01',
   },
@@ -172,6 +180,8 @@ export const projects: Project[] = [
     description: 'Develop a machine learning model to detect and classify cybersecurity threats in real-time network traffic. Requires a deep understanding of network protocols, machine learning algorithms, and cybersecurity principles.',
     status: 'Not Assigned',
     studentIds: [],
+    mentorIds: [],
+    courseIds: [],
     startDate: '2024-09-01',
     completionDate: '2025-01-01',
   }
@@ -257,6 +267,18 @@ export const mentors: Mentor[] = [
     mentees: menteesForDrReed,
     status: 'Active',
   },
+  {
+    id: 'm2',
+    name: 'Prof. Samuel Chen',
+    email: 's.chen@university.edu',
+    skills: ['Web Development', 'React', 'Node.js', 'Cybersecurity'],
+    pastProjects: [
+      'E-commerce Platform Overhaul',
+      'Secure API Gateway Implementation',
+    ],
+    mentees: [],
+    status: 'Available',
+  }
 ];
 
 
@@ -278,5 +300,27 @@ export const companies: Company[] = [
         name: 'DataCore',
         projects: [projects[2]],
         surveyCompleted: false,
+    }
+];
+
+export const courses: Course[] = [
+    {
+      id: 'c1',
+      title: 'Advanced AI Capstone',
+      code: 'CS599',
+      schedule: 'TTh 2:00 - 3:30',
+      delivery: 'online',
+      studentIds: ['1', '2', '5'],
+      mentorId: 'm1',
+    },
+    {
+      id: 'c2',
+      title: 'UX/UI Design Workshop',
+      code: 'DES450',
+      schedule: 'MWF 10:00 - 11:30',
+      delivery: 'in-person',
+      classroom: 'Building C, Room 201',
+      studentIds: ['3'],
+      mentorId: 'm1',
     }
 ]

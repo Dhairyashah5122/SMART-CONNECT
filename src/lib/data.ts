@@ -170,6 +170,7 @@ export const mentors: Mentor[] = [
   {
     id: 'm1',
     name: 'Dr. Evelyn Reed',
+    email: 'e.reed@university.edu',
     skills: ['AI/ML', 'Data Science', 'Python', 'Natural Language Processing'],
     pastProjects: [
       'Sentiment Analysis for Customer Feedback',

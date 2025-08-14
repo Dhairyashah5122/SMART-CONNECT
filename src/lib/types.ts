@@ -64,6 +64,7 @@ export type SurveyResponse = {
 export type Mentor = {
   id: string;
   name: string;
+  email: string;
   skills: string[];
   pastProjects: string[];
   mentees: Student[];

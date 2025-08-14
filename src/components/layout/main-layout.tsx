@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import * as React from "react"
@@ -90,6 +91,7 @@ function MainSidebarContent() {
     { href: "/analysis", icon: BarChart2, label: "Analysis" },
     { href: "/projects", icon: Briefcase, label: "Projects" },
     { href: "/students", icon: GraduationCap, label: "Students" },
+    { href: "/mentors", icon: User, label: "Mentors" },
     { href: "/companies", icon: Building, label: "Companies" },
     { href: "/surveys", icon: FileText, label: "Surveys" },
     { href: "/talent-matching", icon: Users, label: "Talent Matching" },

@@ -37,6 +37,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { StudentSatisfactionChart } from "@/components/dashboard/student-satisfaction-chart";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 type Course = {
   id: string;
@@ -260,101 +261,93 @@ export default function CoursesPage() {
       
       <Card>
         <CardHeader>
-          <CardTitle>Course List</CardTitle>
+          <CardTitle>Course List & Analysis</CardTitle>
           <CardDescription>
-            A list of all available courses and their assigned participants.
+            A list of all available courses, their assigned participants, and student satisfaction analysis.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title & Code</TableHead>
-                <TableHead>Schedule</TableHead>
-                <TableHead>Details</TableHead>
-                <TableHead>Mentor</TableHead>
-                <TableHead>Students</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {courses.length > 0 ? (
-                courses.map((course) => {
-                    const mentor = allMentors.find(m => m.id === course.mentorId);
-                    const students = allStudents.filter(s => course.studentIds.includes(s.id));
-                    return (
-                      <TableRow key={course.id}>
-                        <TableCell>
-                            <p className="font-medium">{course.title}</p>
-                            <p className="text-xs text-muted-foreground">{course.code}</p>
-                        </TableCell>
-                        <TableCell>{course.schedule}</TableCell>
-                        <TableCell>
-                            <Badge variant="secondary" className="capitalize">{course.delivery}</Badge>
-                            {course.delivery === 'in-person' && <p className="text-xs text-muted-foreground mt-1">{course.classroom || 'N/A'}</p>}
-                        </TableCell>
-                        <TableCell>{mentor?.name || 'N/A'}</TableCell>
-                        <TableCell>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button variant="link" className="p-0 h-auto" disabled={students.length === 0}>
-                                        {students.length} assigned
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent>
-                                    <div className="space-y-2">
-                                        <p className="font-semibold text-sm">Student Roster</p>
-                                        {students.map(s => <p key={s.id} className="text-xs">{s.fullName}</p>)}
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
-                        </TableCell>
-                        <TableCell className="text-right">
-                           <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDownloadRoster(course)}
-                            className="mr-2"
-                          >
-                            <Download className="mr-2 h-3 w-3" /> Roster
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleRemoveCourse(course.id)}
-                          >
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    )
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className="h-24 text-center text-muted-foreground"
-                  >
-                    No courses added yet.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Student Satisfaction Analysis</CardTitle>
-          <CardDescription>
-            An overview of student satisfaction based on survey data.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px]">
-            <StudentSatisfactionChart />
-          </div>
+          {courses.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {courses.map((course) => {
+                const mentor = allMentors.find(m => m.id === course.mentorId);
+                const students = allStudents.filter(s => course.studentIds.includes(s.id));
+                return (
+                  <AccordionItem value={course.id} key={course.id}>
+                    <AccordionTrigger>
+                      <Table className="w-full">
+                          <TableRow className="border-none hover:bg-transparent">
+                            <TableCell className="font-medium w-1/4">
+                                <p className="font-bold">{course.title}</p>
+                                <p className="text-xs text-muted-foreground">{course.code}</p>
+                            </TableCell>
+                            <TableCell className="w-1/4">{course.schedule}</TableCell>
+                            <TableCell className="w-1/4">{mentor?.name || 'N/A'}</TableCell>
+                            <TableCell className="w-1/4">
+                               <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="link" className="p-0 h-auto" disabled={students.length === 0}>
+                                            {students.length} student(s) assigned
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <div className="space-y-2">
+                                            <p className="font-semibold text-sm">Student Roster</p>
+                                            {students.map(s => <p key={s.id} className="text-xs">{s.fullName}</p>)}
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            </TableCell>
+                            <TableCell className="text-right">
+                               <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDownloadRoster(course);
+                                }}
+                                className="mr-2"
+                              >
+                                <Download className="mr-2 h-3 w-3" /> Roster
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveCourse(course.id);
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                      </Table>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <Card className="m-4">
+                        <CardHeader>
+                          <CardTitle>Student Satisfaction Analysis</CardTitle>
+                          <CardDescription>
+                            An overview of student satisfaction for {course.title}.
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="h-[250px]">
+                            <StudentSatisfactionChart />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </AccordionContent>
+                  </AccordionItem>
+                )
+              })}
+            </Accordion>
+          ) : (
+            <div className="h-24 text-center flex items-center justify-center text-muted-foreground">
+                No courses added yet.
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

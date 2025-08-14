@@ -5,20 +5,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { students, projects } from '@/lib/data';
+import { students as initialStudents, projects, mentors } from '@/lib/data';
 import { matchStudentsToProjects, type MatchStudentsToProjectsOutput } from '@/ai/flows/match-students-to-projects';
-import { Loader2, Sparkles, Wand2 } from 'lucide-react';
+import { Loader2, Sparkles, Wand2, CheckCircle } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { ScrollArea } from '../ui/scroll-area';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { useToast } from '@/hooks/use-toast';
+import type { Student } from '@/lib/types';
+
 
 export function TalentMatcher() {
+  const [students, setStudents] = useState<Student[]>(initialStudents);
   const [selectedStudentId, setSelectedStudentId] = useState<string>('');
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<MatchStudentsToProjectsOutput | null>(null);
+  const { toast } = useToast();
 
   const handleMatch = async () => {
     const student = students.find(s => s.id === selectedStudentId);
@@ -44,6 +49,33 @@ export function TalentMatcher() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleApproveMatch = () => {
+    const project = projects.find(p => p.id === selectedProjectId);
+    if (!selectedStudentId || !project) {
+        alert("Something went wrong. Please try again.");
+        return;
+    }
+
+    const projectMentor = mentors[0]; // Assuming one mentor for now as in data
+
+    setStudents(prevStudents => 
+        prevStudents.map(s => 
+            s.id === selectedStudentId 
+                ? { ...s, projectId: selectedProjectId, mentorId: projectMentor.id, status: 'Approved' } 
+                : s
+        )
+    );
+
+    const student = students.find(s => s.id === selectedStudentId);
+    toast({
+        title: "Match Approved!",
+        description: `${student?.fullName} has been assigned to "${project.name}" with ${projectMentor.name} as mentor.`,
+    });
+    setResult(null);
+    setSelectedStudentId('');
+    setSelectedProjectId('');
   };
   
   const canMatch = selectedStudentId && selectedProjectId;
@@ -101,15 +133,15 @@ export function TalentMatcher() {
                 </SelectContent>
                 </Select>
             </div>
-            <Card>
+            <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Sparkles className="text-accent" /> Match Analysis
                     </CardTitle>
                     <CardDescription>AI-powered analysis of the student-project fit.</CardDescription>
                 </CardHeader>
-                 <CardContent className="flex-grow flex items-center justify-center">
-                    {isLoading && <Loader2 className="h-8 w-8 animate-spin text-primary" />}
+                 <CardContent className="flex-grow flex flex-col justify-center">
+                    {isLoading && <div className="flex justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}
                     {!isLoading && !result && (
                         <div className="text-center text-muted-foreground p-4">
                         <p>Results will be displayed here.</p>
@@ -117,20 +149,24 @@ export function TalentMatcher() {
                     )}
                     {result && (
                         <div className="w-full space-y-4">
-                        <div>
-                            <div className="flex justify-between items-center mb-1">
-                            <h3 className="font-semibold">Match Score</h3>
-                            <span className="font-bold text-primary text-lg">{result.matchScore}%</span>
+                            <div>
+                                <div className="flex justify-between items-center mb-1">
+                                <h3 className="font-semibold">Match Score</h3>
+                                <span className="font-bold text-primary text-lg">{result.matchScore}%</span>
+                                </div>
+                                <Progress value={result.matchScore} className="h-2" />
                             </div>
-                            <Progress value={result.matchScore} className="h-2" />
-                        </div>
-                        <div>
-                            <h3 className="font-semibold mb-2">Justification</h3>
-                            <p className="text-sm text-muted-foreground bg-secondary/50 p-3 rounded-md border h-32 overflow-y-auto">{result.justification}</p>
-                        </div>
+                            <div>
+                                <h3 className="font-semibold mb-2">Justification</h3>
+                                <p className="text-sm text-muted-foreground bg-secondary/50 p-3 rounded-md border h-32 overflow-y-auto">{result.justification}</p>
+                            </div>
+                             <Button onClick={handleApproveMatch} className="w-full bg-green-600 hover:bg-green-700 text-white">
+                                <CheckCircle className="mr-2 h-4 w-4" />
+                                Approve Match & Assign
+                            </Button>
                         </div>
                     )}
-                    </CardContent>
+                </CardContent>
             </Card>
            </div>
         </CardContent>
@@ -188,4 +224,5 @@ export function TalentMatcher() {
   );
 }
 
+    
     

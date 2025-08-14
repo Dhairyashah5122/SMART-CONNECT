@@ -53,7 +53,7 @@ export function CompanyList() {
                         <div className="space-y-2">
                           <Label>Company Survey</Label>
                            <Button asChild variant="secondary" className="w-full justify-start">
-                             <Link href="/surveys" >
+                             <Link href="/surveys/company-satisfaction" >
                               <FileText className="mr-2" /> View Survey
                               <ExternalLink className="ml-auto h-4 w-4 text-muted-foreground"/>
                             </Link>

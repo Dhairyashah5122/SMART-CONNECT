@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, Loader2, Sparkles, User, BadgeIndianRupee, Star } from "lucide-react";
+import { CheckCircle, Loader2, Sparkles, User, XCircle, Trash2 } from "lucide-react";
 import { students as initialStudents } from "@/lib/data";
 import type { Student } from "@/lib/types";
 import {
@@ -23,15 +23,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { Progress } from "../ui/progress";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
+import { Separator } from "../ui/separator";
 
 type RankedStudent = RankStudentsForProgramOutput["rankedStudents"][number] & {
   student: Student;
 };
 
+type RejectedStudent = {
+    student: Student;
+    reason: string;
+}
+
 export function StudentApprovalRecommender() {
   const [students, setStudents] = useState<Student[]>(initialStudents);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [rankedStudents, setRankedStudents] = useState<RankedStudent[] | null>(null);
+  const [rejectedStudents, setRejectedStudents] = useState<RejectedStudent[]>([]);
+  const [rejectionReason, setRejectionReason] = useState("");
   const { toast } = useToast();
 
   const handleAnalyze = async () => {
@@ -98,6 +109,37 @@ export function StudentApprovalRecommender() {
       });
     }
   };
+
+  const handleRejectStudent = (studentToReject: Student) => {
+    if (!rejectionReason) {
+        toast({
+            variant: "destructive",
+            title: "Reason Required",
+            description: "Please provide a reason for rejection.",
+        });
+        return;
+    }
+    
+    // Update main students list
+    setStudents((prevStudents) =>
+        prevStudents.map((s) =>
+            s.id === studentToReject.id ? { ...s, status: "Rejected", rejectionReason } : s
+        )
+    );
+
+    // Add to rejected list for UI
+    setRejectedStudents(prev => [...prev, { student: studentToReject, reason: rejectionReason }]);
+    
+    // Remove from ranked list
+    setRankedStudents(prevRanked => prevRanked?.filter(rs => rs.studentId !== studentToReject.id) || null);
+
+    toast({
+        title: "Student Rejected",
+        description: `${studentToReject.fullName} has been rejected.`,
+    });
+
+    setRejectionReason(""); // Reset reason
+  };
   
   const pendingStudentCount = students.filter(s => s.status === 'Pending').length;
 
@@ -116,7 +158,7 @@ export function StudentApprovalRecommender() {
                      <p className="mt-4 font-semibold">Analyzing student profiles...</p>
                      <p className="text-sm">This may take a moment.</p>
                 </div>
-            ) : rankedStudents ? (
+            ) : rankedStudents && rankedStudents.length > 0 ? (
                 <ScrollArea className="h-96">
                     <div className="space-y-4 pr-4">
                         {rankedStudents.map(rs => (
@@ -146,10 +188,36 @@ export function StudentApprovalRecommender() {
                                         <span className="font-semibold">AI Justification:</span> "{rs.justification}"
                                     </p>
                                 </div>
-                                <Button size="sm" onClick={() => handleApproveStudent(rs.student.id)} className="w-full sm:w-auto mt-2 sm:mt-0">
-                                    <CheckCircle className="mr-2" />
-                                    Approve
-                                </Button>
+                                <div className="flex sm:flex-col gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                                    <Button size="sm" onClick={() => handleApproveStudent(rs.student.id)} className="w-full">
+                                        <CheckCircle className="mr-2" />
+                                        Approve
+                                    </Button>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button size="sm" variant="destructive" className="w-full">
+                                                <XCircle className="mr-2" />
+                                                Reject
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Reason for Rejection</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Please provide a reason for rejecting {rs.student.fullName}. This will be recorded for administrative purposes.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="rejection-reason" className="sr-only">Rejection Reason</Label>
+                                                <Textarea id="rejection-reason" value={rejectionReason} onChange={(e) => setRejectionReason(e.target.value)} placeholder="e.g., Does not meet minimum GPA requirement, experience not aligned with program goals..." />
+                                            </div>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel onClick={() => setRejectionReason('')}>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleRejectStudent(rs.student)}>Confirm Rejection</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </div>
                             </Card>
                         ))}
                     </div>
@@ -172,6 +240,34 @@ export function StudentApprovalRecommender() {
           Generate Recommendations ({pendingStudentCount} pending)
         </Button>
       </CardFooter>
+      
+      {rejectedStudents.length > 0 && (
+          <>
+            <Separator className="my-6" />
+            <CardHeader>
+                <CardTitle>Rejected Applicants</CardTitle>
+                <CardDescription>A list of students who were not approved for the program.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                    {rejectedStudents.map(({ student, reason }) => (
+                        <div key={student.id} className="flex items-start gap-4 p-3 border rounded-md bg-muted/50">
+                             <Avatar className="h-10 w-10 border">
+                                <AvatarImage src={`https://i.pravatar.cc/150?u=${student.id}`} data-ai-hint="person" />
+                                <AvatarFallback>{student.firstName.charAt(0)}{student.lastName.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                                <p className="font-semibold">{student.fullName}</p>
+                                <p className="text-sm text-destructive-foreground bg-destructive/80 p-2 rounded-md mt-1">
+                                    <span className="font-bold">Rejection Reason:</span> {reason}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+          </>
+      )}
     </Card>
   );
 }

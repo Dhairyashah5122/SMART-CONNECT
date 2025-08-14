@@ -24,7 +24,7 @@ export type Student = {
   ndaFile?: string; // data URI
   consentLetter?: boolean;
   acknowledgement?: boolean;
-  status: 'Approved' | 'Pending';
+  status: 'Approved' | 'Pending' | 'Rejected';
   projectId?: string;
   mentorId?: string;
   ndaStatus?: 'Signed' | 'Pending';
@@ -33,6 +33,7 @@ export type Student = {
   firstName: string; // Can be derived from fullName
   lastName: string; // Can be derived from fullName
   email1: string; // Replaced by emailAddress
+  rejectionReason?: string;
 };
 
 export type Project = {

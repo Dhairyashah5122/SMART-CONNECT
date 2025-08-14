@@ -1,10 +1,11 @@
 
+
 "use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
+import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -29,6 +30,14 @@ const reportTypes = [
     icon: Users,
     actionText: 'Generate',
     category: 'Student Reports',
+    isDateBased: true,
+  },
+    {
+    title: 'Mentor Activity Report',
+    description: 'Analyzes mentor engagement, such as mentee interactions and report submissions, over a selected period.',
+    icon: UserCheck,
+    actionText: 'Generate',
+    category: 'Project Analysis',
     isDateBased: true,
   },
   {

@@ -1,31 +1,35 @@
-import type { Student, Project, Survey, SurveyResponse, Mentor } from './types';
+import type { Student, Project, Survey, SurveyResponse, Mentor, Company } from './types';
 
 export const students: Student[] = [
   {
     id: '1',
-    name: 'Aisha Khan',
-    email: 'aisha.khan@example.com',
+    firstName: 'Aisha',
+    lastName: 'Khan',
+    email1: 'aisha.khan@example.com',
     skills: ['JavaScript', 'React', 'Node.js', 'Data Analysis'],
     resume: 'Aisha Khan has a strong background in web development and data analysis. She has worked on several projects involving front-end development with React and back-end with Node.js. She is also proficient in using data analysis tools to derive insights.',
   },
   {
     id: '2',
-    name: 'Ben Carter',
-    email: 'ben.carter@example.com',
+    firstName: 'Ben',
+    lastName: 'Carter',
+    email1: 'ben.carter@example.com',
     skills: ['Python', 'Machine Learning', 'TensorFlow', 'Project Management'],
     resume: 'Ben Carter is a machine learning enthusiast with experience in developing predictive models using Python and TensorFlow. He has a proven track record of managing projects from conception to completion and is an excellent communicator.',
   },
   {
     id: '3',
-    name: 'Carla Rodriguez',
-    email: 'carla.rodriguez@example.com',
+    firstName: 'Carla',
+    lastName: 'Rodriguez',
+    email1: 'carla.rodriguez@example.com',
     skills: ['UX/UI Design', 'Figma', 'Adobe XD', 'User Research'],
     resume: 'Carla Rodriguez is a creative UX/UI designer with a passion for creating intuitive and user-friendly interfaces. She is skilled in using Figma and Adobe XD for prototyping and has conducted extensive user research to inform her design decisions.',
   },
   {
     id: '4',
-    name: 'David Lee',
-    email: 'david.lee@example.com',
+    firstName: 'David',
+    lastName: 'Lee',
+    email1: 'david.lee@example.com',
     skills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
     resume: 'David Lee is a software engineer specializing in building scalable microservices with Java and Spring Boot. He has experience deploying applications on AWS and is knowledgeable about cloud architecture best practices.',
   },
@@ -81,6 +85,13 @@ export const surveys: Survey[] = [
     responses: 76,
     createdAt: '2024-04-01',
   },
+    {
+    id: 's5',
+    title: 'Innovate Inc. Satisfaction Survey',
+    status: 'Active',
+    responses: 15,
+    createdAt: '2024-06-01',
+  },
 ];
 
 export const surveyData: SurveyResponse[] = [
@@ -92,6 +103,8 @@ export const surveyData: SurveyResponse[] = [
     { month: 'June', responses: 51 },
 ];
 
+const menteesForDrReed = students.slice(0, 2);
+
 export const mentors: Mentor[] = [
   {
     id: 'm1',
@@ -102,6 +115,25 @@ export const mentors: Mentor[] = [
       'Predictive Maintenance for Industrial IoT',
       'Image Recognition for Retail',
     ],
-    mentees: [students[0], students[1]],
+    mentees: menteesForDrReed,
   },
 ];
+
+
+export const companies: Company[] = [
+    {
+        id: 'c1',
+        name: 'Innovate Inc.',
+        projects: [projects[0]],
+    },
+    {
+        id: 'c2',
+        name: 'ShopSphere',
+        projects: [projects[1]],
+    },
+    {
+        id: 'c3',
+        name: 'DataCore',
+        projects: [projects[2]],
+    }
+]

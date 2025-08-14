@@ -27,7 +27,8 @@ import {
   UserCircle,
   Shield,
   User,
-  GraduationCap
+  GraduationCap,
+  Building
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -58,6 +59,7 @@ function MainSidebarContent() {
     { href: "/", icon: BarChart2, label: "Dashboard", tooltip: "Dashboard" },
     { href: "/surveys", icon: ClipboardList, label: "Surveys", tooltip: "Surveys" },
     { href: "/students", icon: Users, label: "Students", tooltip: "Students" },
+    { href: "/companies", icon: Building, label: "Companies", tooltip: "Companies" },
     { href: "/projects", icon: Briefcase, label: "Talent Matching", tooltip: "Talent Matching" },
     { href: "/analysis", icon: GitMerge, label: "Comparative Analysis", tooltip: "Analysis" },
     { href: "/reports", icon: PieChart, label: "Reporting", tooltip: "Reporting" },
@@ -144,6 +146,7 @@ const pageTitles: { [key: string]: string } = {
   '/admin/dashboard': 'Admin Dashboard',
   '/mentor/dashboard': 'Mentor Dashboard',
   '/student/dashboard': 'Student Dashboard',
+  '/companies': 'Company Management',
 };
 
 export function MainLayout({ children }: { children: React.ReactNode }) {

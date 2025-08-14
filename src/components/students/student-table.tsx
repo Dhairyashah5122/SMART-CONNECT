@@ -33,12 +33,12 @@ export function StudentTable() {
               <TableRow key={student.id}>
                 <TableCell>
                   <Avatar>
-                    <AvatarImage src={`https://placehold.co/40x40.png?text=${student.name.charAt(0)}`} />
-                    <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={`https://placehold.co/40x40.png?text=${student.firstName.charAt(0)}`} />
+                    <AvatarFallback>{student.firstName.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </TableCell>
-                <TableCell className="font-medium">{student.name}</TableCell>
-                <TableCell>{student.email}</TableCell>
+                <TableCell className="font-medium">{student.firstName} {student.lastName}</TableCell>
+                <TableCell>{student.email1}</TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
                     {student.skills.map((skill) => (

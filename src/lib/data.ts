@@ -1,5 +1,15 @@
 
-import type { Student, Project, Survey, SurveyResponse, Mentor, Company } from './types';
+
+import type { Student, Project, Survey, SurveyResponse, Mentor, Company, Milestone } from './types';
+
+const studentMilestones: Milestone[] = [
+    { id: 'nda', text: 'Submit Signed NDAs', status: 'completed', dueDate: '2024-01-20' },
+    { id: 'action-plan', text: 'Submit Project Action Plan', status: 'completed', dueDate: '2024-02-01' },
+    { id: 'mid-review', text: 'Complete Mid-Point Review', status: 'pending', dueDate: '2024-03-15' },
+    { id: 'testimonial', text: 'Submit Written Testimonial', status: 'pending', dueDate: '2024-05-01' },
+    { id: 'video', text: "Upload 'Lesson Learned' Video", status: 'pending', dueDate: '2024-05-01' },
+    { id: 'survey', text: 'Complete Post-Capstone Survey', status: 'pending', dueDate: '2024-05-10' },
+];
 
 export const students: Student[] = [
   {
@@ -20,6 +30,7 @@ export const students: Student[] = [
     postCapstoneSurveyStatus: 'Completed',
     currentGpa: 3.9,
     registrationDate: '2024-01-10',
+    milestones: studentMilestones.map(m => m.id === 'survey' ? {...m, status: 'completed'} : m),
   },
   {
     id: '2',
@@ -39,6 +50,7 @@ export const students: Student[] = [
     postCapstoneSurveyStatus: 'Pending',
     currentGpa: 3.8,
     registrationDate: '2024-01-12',
+    milestones: studentMilestones.map(m => m.id === 'nda' ? {...m, status: 'pending', dueDate: '2024-01-20'} : m),
   },
   {
     id: '3',
@@ -58,6 +70,7 @@ export const students: Student[] = [
     postCapstoneSurveyStatus: 'Not Started',
     currentGpa: 3.7,
     registrationDate: '2024-02-05',
+    milestones: studentMilestones.map(m => ({...m, status: 'pending'})),
   },
   {
     id: '4',
@@ -91,6 +104,7 @@ export const students: Student[] = [
     consentLetter: true,
     currentGpa: 3.6,
     registrationDate: '2024-03-01',
+    milestones: studentMilestones
   },
   {
     id: '6',

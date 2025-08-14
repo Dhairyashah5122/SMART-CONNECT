@@ -1,5 +1,12 @@
 
 
+export type Milestone = {
+    id: string;
+    text: string;
+    status: 'pending' | 'completed';
+    dueDate: string;
+};
+
 export type Student = {
   id: string;
   timestamp?: string;
@@ -36,6 +43,7 @@ export type Student = {
   email1: string; // Replaced by emailAddress
   rejectionReason?: string;
   registrationDate: string;
+  milestones?: Milestone[];
 };
 
 export type Project = {

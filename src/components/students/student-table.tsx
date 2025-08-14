@@ -24,6 +24,7 @@ export function StudentTable() {
             <TableRow>
               <TableHead className="w-[80px]">Avatar</TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>Matched Project</TableHead>
               <TableHead>Assigned Mentor</TableHead>
               <TableHead>Status</TableHead>
@@ -34,15 +35,17 @@ export function StudentTable() {
             {students.map((student) => {
               const project = projects.find(p => p.id === student.projectId);
               const mentor = mentors.find(m => m.id === student.mentorId);
+              const studentName = student.fullName || `${student.firstName} ${student.lastName}`;
               return (
                 <TableRow key={student.id}>
                   <TableCell>
                     <Avatar>
-                      <AvatarImage src={`https://placehold.co/40x40.png?text=${student.firstName.charAt(0)}`} />
-                      <AvatarFallback>{student.firstName.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={`https://placehold.co/40x40.png?text=${studentName.charAt(0)}`} data-ai-hint="person" />
+                      <AvatarFallback>{studentName.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </TableCell>
-                  <TableCell className="font-medium">{student.firstName} {student.lastName}</TableCell>
+                  <TableCell className="font-medium">{studentName}</TableCell>
+                  <TableCell>{student.email1}</TableCell>
                   <TableCell>{project?.name || 'N/A'}</TableCell>
                   <TableCell>{mentor?.name || 'N/A'}</TableCell>
                   <TableCell>
@@ -54,7 +57,7 @@ export function StudentTable() {
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {student.skills.map((skill) => (
+                      {student.skills.slice(0, 4).map((skill) => (
                         <Badge key={skill} variant="secondary">
                           {skill}
                         </Badge>

@@ -1,19 +1,39 @@
 export type Student = {
   id: string;
-  firstName: string;
-  lastName: string;
-  email1: string;
-  email2?: string;
+  timestamp?: string;
+  emailAddress: string;
+  fullName: string;
+  studentId: string;
+  gender?: string;
+  primaryInstitution?: string;
+  secondaryEmailAddress?: string;
+  phoneNumber?: string;
+  studentAdvisor?: string;
+  languages?: string;
+  degreesAndCertificates?: string;
+  programEnrolledIn?: string;
+  currentGpa?: number;
+  desiredSession?: string;
+  projectInterests?: string[];
+  employmentStatus?: 'Employed' | 'Unemployed' | 'Part-time';
+  durationAtCompany?: string;
+  dailyDuties?: string;
   skills: string[];
-  resume: string;
+  resume: string; // Keep as text content for now
+  workshopSelection?: string;
+  acknowledgement?: boolean;
   status: 'Approved' | 'Pending';
   projectId?: string;
   mentorId?: string;
+  // Deprecating old fields for new ones
+  firstName: string; // Can be derived from fullName
+  lastName: string; // Can be derived from fullName
+  email1: string; // Replaced by emailAddress
 };
 
 export type Project = {
   id: string;
-  name:string;
+  name: string;
   company: string;
   description: string;
   finalReportUrl?: string;
@@ -44,7 +64,7 @@ export type Mentor = {
 };
 
 export type Company = {
-    id: string;
-    name: string;
-    projects: Project[];
-}
+  id: string;
+  name: string;
+  projects: Project[];
+};

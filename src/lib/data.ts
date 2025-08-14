@@ -5,7 +5,10 @@ export const students: Student[] = [
     id: '1',
     firstName: 'Aisha',
     lastName: 'Khan',
+    fullName: 'Aisha Khan',
     email1: 'aisha.khan@example.com',
+    emailAddress: 'aisha.khan@example.com',
+    studentId: 'S001',
     skills: ['JavaScript', 'React', 'Node.js', 'Data Analysis'],
     resume: 'Aisha Khan has a strong background in web development and data analysis. She has worked on several projects involving front-end development with React and back-end with Node.js. She is also proficient in using data analysis tools to derive insights.',
     status: 'Approved',
@@ -16,7 +19,10 @@ export const students: Student[] = [
     id: '2',
     firstName: 'Ben',
     lastName: 'Carter',
+    fullName: 'Ben Carter',
     email1: 'ben.carter@example.com',
+    emailAddress: 'ben.carter@example.com',
+    studentId: 'S002',
     skills: ['Python', 'Machine Learning', 'TensorFlow', 'Project Management'],
     resume: 'Ben Carter is a machine learning enthusiast with experience in developing predictive models using Python and TensorFlow. He has a proven track record of managing projects from conception to completion and is an excellent communicator.',
     status: 'Approved',
@@ -27,7 +33,10 @@ export const students: Student[] = [
     id: '3',
     firstName: 'Carla',
     lastName: 'Rodriguez',
+    fullName: 'Carla Rodriguez',
     email1: 'carla.rodriguez@example.com',
+    emailAddress: 'carla.rodriguez@example.com',
+    studentId: 'S003',
     skills: ['UX/UI Design', 'Figma', 'Adobe XD', 'User Research'],
     resume: 'Carla Rodriguez is a creative UX/UI designer with a passion for creating intuitive and user-friendly interfaces. She is skilled in using Figma and Adobe XD for prototyping and has conducted extensive user research to inform her design decisions.',
     status: 'Approved',
@@ -38,7 +47,10 @@ export const students: Student[] = [
     id: '4',
     firstName: 'David',
     lastName: 'Lee',
+    fullName: 'David Lee',
     email1: 'david.lee@example.com',
+    emailAddress: 'david.lee@example.com',
+    studentId: 'S004',
     skills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
     resume: 'David Lee is a software engineer specializing in building scalable microservices with Java and Spring Boot. He has experience deploying applications on AWS and is knowledgeable about cloud architecture best practices.',
     status: 'Pending',
@@ -120,7 +132,7 @@ export const surveyData: SurveyResponse[] = [
     { month: 'June', responses: 51 },
 ];
 
-const menteesForDrReed = students.slice(0, 2);
+const menteesForDrReed = students.slice(0, 3);
 
 export const mentors: Mentor[] = [
   {

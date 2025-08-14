@@ -57,7 +57,7 @@ export function TalentMatcher() {
         } else {
             // Project-based recommendation
             const availableStudents = students
-                .filter(s => !s.projectId)
+                .filter(s => !s.projectId && s.status === 'Approved')
                 .map(s => ({
                     id: s.id,
                     name: s.fullName,
@@ -68,7 +68,7 @@ export function TalentMatcher() {
                 toast({
                     variant: 'destructive',
                     title: 'No Available Students',
-                    description: 'All students are currently assigned to projects.',
+                    description: 'All approved students are currently assigned to projects.',
                 });
                 setIsLoading(false);
                 return;
@@ -157,14 +157,14 @@ export function TalentMatcher() {
                 </SelectTrigger>
                 <SelectContent>
                      <SelectItem value="recommend">None (Recommend for me)</SelectItem>
-                    {students.filter(s => !s.projectId).map(student => (
+                    {students.filter(s => !s.projectId && s.status === 'Approved').map(student => (
                         <SelectItem key={student.id} value={student.id}>
                             {student.fullName}
                         </SelectItem>
                     ))}
                 </SelectContent>
                 </Select>
-                 <p className="text-xs text-muted-foreground">Only unassigned students are shown.</p>
+                 <p className="text-xs text-muted-foreground">Only unassigned, approved students are shown.</p>
             </div>
             
              <Button onClick={handleAnalyze} disabled={!canAnalyze || isLoading} className="w-full">

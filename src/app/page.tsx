@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScopeOutcomeChart } from '@/components/dashboard/scope-outcome-chart';
 import { StudentSatisfactionChart } from '@/components/dashboard/student-satisfaction-chart';
+import { CompanySatisfactionChart } from '@/components/dashboard/company-satisfaction-chart';
 import Link from 'next/link';
 import { ArrowRight, BarChart, FileText, Users } from 'lucide-react';
 
@@ -16,9 +17,9 @@ export default function DashboardPage() {
        <Card>
         <CardHeader>
           <CardTitle>Gap Analysis Overview</CardTitle>
-          <CardDescription>A high-level view of project scope vs. outcomes and student satisfaction.</CardDescription>
+          <CardDescription>A high-level view of project scope vs. outcomes and stakeholder satisfaction.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
+        <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Card>
               <CardHeader>
                 <CardTitle className="text-base font-medium">Scope vs. Outcome</CardTitle>
@@ -33,6 +34,14 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <StudentSatisfactionChart />
+              </CardContent>
+            </Card>
+             <Card>
+              <CardHeader>
+                <CardTitle className="text-base font-medium">Company Satisfaction</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CompanySatisfactionChart />
               </CardContent>
             </Card>
         </CardContent>

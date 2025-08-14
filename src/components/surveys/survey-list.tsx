@@ -83,6 +83,12 @@ export function SurveyList() {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    // Using UTC date parts to avoid timezone-related hydration issues.
+    const date = new Date(dateString);
+    return `${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
+  }
+
 
   return (
     <Card>
@@ -126,8 +132,8 @@ export function SurveyList() {
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">{survey.responses} / {survey.totalParticipants} responses</p>
                 </TableCell>
-                <TableCell>{new Date(survey.dueDate).toLocaleDateString()}</TableCell>
-                <TableCell>{survey.lastReminderSent ? new Date(survey.lastReminderSent).toLocaleDateString() : 'N/A'}</TableCell>
+                <TableCell>{formatDate(survey.dueDate)}</TableCell>
+                <TableCell>{survey.lastReminderSent ? formatDate(survey.lastReminderSent) : 'N/A'}</TableCell>
                 <TableCell className="text-right space-x-2">
                     <Button 
                       variant="secondary" 

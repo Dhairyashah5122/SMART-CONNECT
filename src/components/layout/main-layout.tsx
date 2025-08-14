@@ -173,14 +173,7 @@ function MainSidebarContent() {
   );
 }
 
-function LayoutRenderer({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname();
-    const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
-
-    if (noLayoutRoutes.includes(pathname)) {
-        return <>{children}</>;
-    }
-
+function LayoutWithSidebar({ children }: { children: React.ReactNode }) {
     return (
         <SidebarProvider>
             <Sidebar variant="sidebar" collapsible="icon">
@@ -195,5 +188,12 @@ function LayoutRenderer({ children }: { children: React.ReactNode }) {
 }
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
-  return <LayoutRenderer>{children}</LayoutRenderer>;
+  const pathname = usePathname();
+  const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];
+
+  if (noLayoutRoutes.includes(pathname)) {
+      return <>{children}</>;
+  }
+
+  return <LayoutWithSidebar>{children}</LayoutWithSidebar>;
 }

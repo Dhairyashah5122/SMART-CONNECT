@@ -22,19 +22,19 @@ const ComparativeAnalysisInputSchema = z.object({
     .describe(
       "The final report document, as a data URI that must include a MIME type and use Base64 encoding."
     ),
-  safirnactionObjectives: z
+  organizationalObjectives: z
     .string()
-    .describe('Description of Safirnaction objectives.'),
+    .describe('Description of Organizational objectives.'),
 });
 
 export type ComparativeAnalysisInput = z.infer<typeof ComparativeAnalysisInputSchema>;
 
 const ComparativeAnalysisOutputSchema = z.object({
   analysis: z.string().describe('The comparative analysis result.'),
-  gaps: z.string().describe('Identified gaps between project scope, student outcomes, and Safirnaction objectives.'),
+  gaps: z.string().describe('Identified gaps between project scope, student outcomes, and organizational objectives.'),
   alignments: z
     .string()
-    .describe('Identified alignments between project scope, student outcomes, and Safirnaction objectives.'),
+    .describe('Identified alignments between project scope, student outcomes, and organizational objectives.'),
 });
 
 export type ComparativeAnalysisOutput = z.infer<typeof ComparativeAnalysisOutputSchema>;
@@ -55,7 +55,7 @@ const prompt = ai.definePrompt({
 
   Project Charter: {{media url=projectCharter}}
   Final Report: {{media url=finalReport}}
-  Safirnaction Objectives: {{{safirnactionObjectives}}}
+  Organizational Objectives: {{{organizationalObjectives}}}
 
   The Project Charter defines the project scope. The Final Report details the student outcomes.
   Provide a detailed analysis, highlighting the gaps and alignments between these three aspects.

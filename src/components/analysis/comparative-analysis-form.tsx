@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { comparativeAnalysis, type ComparativeAnalysisOutput } from '@/ai/flows/comparative-analysis';
-import { Loader2, Zap, CheckCircle, AlertTriangle, Upload } from 'lucide-react';
+import { Loader2, Zap, CheckCircle, AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '../ui/input';
 
@@ -22,12 +22,12 @@ const fileToDataURI = (file: File): Promise<string> => {
 export function ComparativeAnalysisForm() {
   const [projectCharter, setProjectCharter] = useState<File | null>(null);
   const [finalReport, setFinalReport] = useState<File | null>(null);
-  const [safirnactionObjectives, setSafirnactionObjectives] = useState('');
+  const [organizationalObjectives, setOrganizationalObjectives] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ComparativeAnalysisOutput | null>(null);
 
   const handleAnalyze = async () => {
-    if (!projectCharter || !finalReport || !safirnactionObjectives) {
+    if (!projectCharter || !finalReport || !organizationalObjectives) {
       alert('Please provide both files and the objectives.');
       return;
     }
@@ -42,7 +42,7 @@ export function ComparativeAnalysisForm() {
       const analysisResult = await comparativeAnalysis({
         projectCharter: charterDataUri,
         finalReport: reportDataUri,
-        safirnactionObjectives,
+        organizationalObjectives,
       });
       setResult(analysisResult);
     } catch (error) {
@@ -53,7 +53,7 @@ export function ComparativeAnalysisForm() {
     }
   };
   
-  const canAnalyze = projectCharter && finalReport && safirnactionObjectives;
+  const canAnalyze = projectCharter && finalReport && organizationalObjectives;
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -82,12 +82,12 @@ export function ComparativeAnalysisForm() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="safirnaction-objectives">Safirnaction Objectives</Label>
+            <Label htmlFor="organizational-objectives">Organizational Objectives</Label>
             <Textarea
-              id="safirnaction-objectives"
-              placeholder="Describe the strategic goals of Safirnaction relevant to this project..."
-              value={safirnactionObjectives}
-              onChange={(e) => setSafirnactionObjectives(e.target.value)}
+              id="organizational-objectives"
+              placeholder="Describe the strategic goals of the organization relevant to this project..."
+              value={organizationalObjectives}
+              onChange={(e) => setOrganizationalObjectives(e.target.value)}
               rows={4}
             />
           </div>

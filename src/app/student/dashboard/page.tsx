@@ -68,7 +68,7 @@ export default function StudentDashboardPage() {
             <CardTitle>Actions</CardTitle>
             <CardDescription>Manage your profile and project documents.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col sm:flex-row gap-4">
+          <CardContent className="flex flex-wrap gap-4">
             <Button>
               <User className="mr-2" /> View Profile
             </Button>
@@ -79,7 +79,13 @@ export default function StudentDashboardPage() {
             </Link>
             <Link href="/surveys" legacyBehavior>
                 <Button variant="outline">
-                    <FileText className="mr-2" /> Complete Surveys
+                    <FileText className="mr-2" /> Complete General Surveys
+                    <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground"/>
+                </Button>
+            </Link>
+             <Link href="/surveys/student-capstone-feedback" legacyBehavior>
+                <Button variant="outline">
+                    <FileText className="mr-2" /> Complete Post-Capstone Survey
                     <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground"/>
                 </Button>
             </Link>

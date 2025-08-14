@@ -67,10 +67,12 @@ export default function AdminDashboardPage() {
                     Manage User Roles
                 </Button>
             </Link>
-            <Button variant="outline" className="justify-start">
-              <Settings className="mr-2" />
-              System Settings
-            </Button>
+            <Link href="/admin/settings" passHref>
+              <Button variant="outline" className="w-full justify-start">
+                <Settings className="mr-2" />
+                System Settings
+              </Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>

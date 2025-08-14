@@ -6,256 +6,234 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { students as initialStudents, projects, mentors } from '@/lib/data';
-import { recommendStudentForProject, type RecommendStudentOutput } from '@/ai/flows/recommend-student-for-project';
-import { matchStudentsToProjects, type MatchStudentsToProjectsOutput } from '@/ai/flows/match-students-to-projects';
-import { Loader2, Sparkles, Wand2, CheckCircle, User, Users } from 'lucide-react';
+import { rankStudentsForProject, type RankStudentsForProjectOutput } from '@/ai/flows/rank-students-for-project';
+import { Loader2, Wand2, CheckCircle, PlusCircle, XCircle, Users, ArrowRight } from 'lucide-react';
 import { Progress } from '../ui/progress';
-import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import type { Student } from '@/lib/types';
-import { Separator } from '../ui/separator';
+import { ScrollArea } from '../ui/scroll-area';
 
-
-type MatcherResult = (RecommendStudentOutput | MatchStudentsToProjectsOutput) & {
-    student?: Student;
-}
+type RankedStudent = (RankStudentsForProjectOutput['rankedStudents'][number]) & { student: Student };
 
 export function TalentMatcher() {
   const [students, setStudents] = useState<Student[]>(initialStudents);
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
-  const [selectedStudentId, setSelectedStudentId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<MatcherResult | null>(null);
+  const [rankedStudents, setRankedStudents] = useState<RankedStudent[]>([]);
+  const [proposedTeam, setProposedTeam] = useState<RankedStudent[]>([]);
   const { toast } = useToast();
 
   const handleAnalyze = async () => {
     const project = projects.find(p => p.id === selectedProjectId);
     if (!project) {
-      alert('Please select a project.');
+      toast({ variant: "destructive", title: "Please select a project." });
       return;
     }
 
     setIsLoading(true);
-    setResult(null);
+    setRankedStudents([]);
+    setProposedTeam([]);
 
     try {
-        if (selectedStudentId && selectedStudentId !== 'recommend') {
-            // Specific student-project analysis
-            const student = students.find(s => s.id === selectedStudentId);
-            if (!student) {
-                alert('Selected student not found.');
-                setIsLoading(false);
-                return;
-            }
-             const matchResult = await matchStudentsToProjects({
-                projectDescription: project.description,
-                studentResume: student.resume,
+        const availableStudents = students
+            .filter(s => !s.projectId && s.status === 'Approved')
+            .map(s => ({
+                id: s.id,
+                name: s.fullName,
+                resume: s.resume,
+            }));
+        
+        if (availableStudents.length === 0) {
+            toast({
+                variant: 'destructive',
+                title: 'No Available Students',
+                description: 'All approved students are currently assigned to projects.',
             });
-            setResult({ ...matchResult, student: student });
-
-        } else {
-            // Project-based recommendation
-            const availableStudents = students
-                .filter(s => !s.projectId && s.status === 'Approved')
-                .map(s => ({
-                    id: s.id,
-                    name: s.fullName,
-                    resume: s.resume,
-                }));
-            
-            if (availableStudents.length === 0) {
-                toast({
-                    variant: 'destructive',
-                    title: 'No Available Students',
-                    description: 'All approved students are currently assigned to projects.',
-                });
-                setIsLoading(false);
-                return;
-            }
-
-            const recommendation = await recommendStudentForProject({
-                projectDescription: project.description,
-                students: availableStudents,
-            });
-
-            const recommendedStudent = students.find(s => s.id === recommendation.studentId);
-            setResult({ ...recommendation, student: recommendedStudent });
+            setIsLoading(false);
+            return;
         }
+
+        const result = await rankStudentsForProject({
+            projectDescription: project.description,
+            students: availableStudents,
+        });
+
+        const studentMap = new Map(students.map(s => [s.id, s]));
+        const enrichedAndRanked = result.rankedStudents.map(rs => ({
+            ...rs,
+            student: studentMap.get(rs.studentId)!,
+        })).filter(rs => rs.student);
+        
+        setRankedStudents(enrichedAndRanked);
 
     } catch (error) {
       console.error('Error in AI analysis:', error);
-      alert('An error occurred during analysis. Please try again.');
+      toast({ variant: "destructive", title: "Analysis Failed", description: "An error occurred during analysis. Please try again." });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleApproveMatch = () => {
-    if (!result?.student || !selectedProjectId) {
-        alert("Something went wrong. Please try again.");
-        return;
+  const handleAddToTeam = (student: RankedStudent) => {
+    if (!proposedTeam.some(s => s.studentId === student.studentId)) {
+        setProposedTeam(prev => [...prev, student]);
+    }
+  };
+
+  const handleRemoveFromTeam = (studentId: string) => {
+    setProposedTeam(prev => prev.filter(s => s.studentId !== studentId));
+  };
+  
+  const handleFinalizeTeam = () => {
+    if (proposedTeam.length === 0 || !selectedProjectId) {
+      toast({ variant: "destructive", title: "Cannot Finalize", description: "Please add students to the proposed team." });
+      return;
     }
     
     const project = projects.find(p => p.id === selectedProjectId);
-    if (!project) return;
-    
-    const projectMentor = mentors[0]; // Assuming one mentor for now as in data
+    const mentor = mentors[0]; // Simple assignment for now
 
     setStudents(prevStudents => 
-        prevStudents.map(s => 
-            s.id === result.student!.id 
-                ? { ...s, projectId: selectedProjectId, mentorId: projectMentor.id, status: 'Approved' } 
-                : s
-        )
+      prevStudents.map(s => {
+        if (proposedTeam.some(p => p.studentId === s.id)) {
+          return { ...s, projectId: selectedProjectId, mentorId: mentor.id, status: "Approved" };
+        }
+        return s;
+      })
     );
-
+    
     toast({
-        title: "Match Approved!",
-        description: `${result.student.fullName} has been assigned to "${project.name}" with ${projectMentor.name} as mentor.`,
+      title: "Team Finalized!",
+      description: `${proposedTeam.length} students have been assigned to "${project?.name}".`,
     });
 
-    setResult(null);
-    setSelectedProjectId('');
-    setSelectedStudentId('');
+    setRankedStudents([]);
+    setProposedTeam([]);
+    setSelectedProjectId("");
   };
-  
-  const canAnalyze = selectedProjectId;
-  const analysisMode = (selectedStudentId && selectedStudentId !== 'recommend') ? "Analyze Match" : "Find Best Match";
+
   const selectedProject = projects.find(p => p.id === selectedProjectId);
+  const availableRankedStudents = rankedStudents.filter(rs => !proposedTeam.some(p => p.studentId === rs.studentId));
+
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      <Card className="lg:col-span-2">
+      <Card className="lg:col-span-3">
         <CardHeader>
-          <CardTitle>Talent Matching AI</CardTitle>
-          <CardDescription>Select a project to get an AI recommendation, or select both a project and a student to analyze a specific match.</CardDescription>
+          <CardTitle>AI-Powered Team Builder</CardTitle>
+          <CardDescription>Select a project to rank available students and build the perfect team.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
-           <div className="space-y-4">
-             <div className="grid gap-2">
-                <Label htmlFor="project">1. Select a Project</Label>
-                <Select onValueChange={setSelectedProjectId} value={selectedProjectId}>
-                <SelectTrigger id="project">
-                    <SelectValue placeholder="Select a project" />
-                </SelectTrigger>
-                <SelectContent>
-                    {projects.filter(p => p.status !== 'Completed').map(project => (
-                        <SelectItem key={project.id} value={project.id} disabled={students.some(s => s.projectId === project.id)}>
-                            {project.name} {students.some(s => s.projectId === project.id) ? '(Assigned)' : ''}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-                </Select>
-                 <p className="text-xs text-muted-foreground">Only projects that are not completed or assigned are shown.</p>
+        <CardContent className="space-y-4">
+             <div className="flex flex-col sm:flex-row sm:items-end sm:gap-4 space-y-4 sm:space-y-0">
+                <div className="grid gap-2 flex-1">
+                    <Label htmlFor="project">1. Select a Project</Label>
+                    <Select onValueChange={setSelectedProjectId} value={selectedProjectId}>
+                        <SelectTrigger id="project">
+                            <SelectValue placeholder="Select a project" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {projects.filter(p => p.status === 'Not Assigned').map(project => (
+                                <SelectItem key={project.id} value={project.id}>
+                                    {project.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                     <p className="text-xs text-muted-foreground">Only unassigned projects are shown.</p>
+                </div>
+                 <Button onClick={handleAnalyze} disabled={!selectedProjectId || isLoading} className="w-full sm:w-auto">
+                    {isLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        <Wand2 className="mr-2 h-4 w-4" />
+                    )}
+                    Rank Students
+                </Button>
             </div>
-             <div className="grid gap-2">
-                <Label htmlFor="student">2. Select a Student (Optional)</Label>
-                <Select onValueChange={setSelectedStudentId} value={selectedStudentId} disabled={!selectedProjectId}>
-                <SelectTrigger id="student">
-                    <SelectValue placeholder="Select a student" />
-                </SelectTrigger>
-                <SelectContent>
-                     <SelectItem value="recommend">None (Recommend for me)</SelectItem>
-                    {students.filter(s => !s.projectId && s.status === 'Approved').map(student => (
-                        <SelectItem key={student.id} value={student.id}>
-                            {student.fullName}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-                </Select>
-                 <p className="text-xs text-muted-foreground">Only unassigned, approved students are shown.</p>
-            </div>
-            
-             <Button onClick={handleAnalyze} disabled={!canAnalyze || isLoading} className="w-full">
-                {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                    analysisMode === 'Analyze Match' ? <Users className="mr-2 h-4 w-4" /> : <Wand2 className="mr-2 h-4 w-4" />
-                )}
-                {analysisMode}
-            </Button>
-
-            {selectedProject && (
+             {selectedProject && (
                 <div className='space-y-2 mt-4'>
                     <Label>Project Description</Label>
-                    <p className='text-sm text-muted-foreground p-3 bg-secondary/30 border rounded-lg h-40 overflow-y-auto'>
+                    <p className='text-sm text-muted-foreground p-3 bg-secondary/30 border rounded-lg h-24 overflow-y-auto'>
                         {selectedProject.description}
                     </p>
                 </div>
             )}
-           </div>
-            <Card className="flex flex-col bg-muted/20">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <User className="text-primary" /> AI Result
-                    </CardTitle>
-                    <CardDescription>The match analysis or recommendation will appear here.</CardDescription>
-                </CardHeader>
-                 <CardContent className="flex-grow flex flex-col justify-center">
-                    {isLoading && <div className="flex justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}
-                    {!isLoading && !result && (
-                        <div className="text-center text-muted-foreground p-4">
-                            <p>Select a project and click "{analysisMode}".</p>
-                        </div>
-                    )}
-                    {result && result.student && (
-                         <div className="space-y-4">
-                            <div className="flex items-center gap-4">
-                                <Avatar className="h-16 w-16">
-                                <AvatarImage src={`https://i.pravatar.cc/150?u=${result.student.id}`} data-ai-hint="person" />
-                                <AvatarFallback>{result.student.firstName.charAt(0)}{result.student.lastName.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                <h3 className="text-xl font-semibold">{result.student.fullName}</h3>
-                                <p className="text-sm text-muted-foreground">{result.student.emailAddress}</p>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between items-center mb-1">
-                                    <h3 className="font-semibold">Match Score</h3>
-                                    <span className="font-bold text-primary text-lg">{result.matchScore}%</span>
-                                </div>
-                                <Progress value={result.matchScore} className="h-2" />
-                            </div>
-                             <div>
-                                <h4 className="font-semibold mb-2">Skills</h4>
-                                <div className="flex flex-wrap gap-2">
-                                {result.student.skills.map(skill => (
-                                    <Badge key={skill}>{skill}</Badge>
-                                ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
         </CardContent>
       </Card>
       
-      <Card className="flex flex-col">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Sparkles className="text-accent"/> AI Justification</CardTitle>
-          <CardDescription>An explanation of why the AI recommended this student.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-grow flex flex-col">
-          {isLoading && <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}
-           {!isLoading && !result && (
-            <div className="flex items-center justify-center h-full text-center text-muted-foreground p-4">
-                <p>Analysis results will be displayed here.</p>
+        {isLoading ? (
+            <div className="lg:col-span-3 flex items-center justify-center rounded-lg border h-64 bg-card">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
-          )}
-          {result && (
-             <div className="space-y-4 h-full flex flex-col">
-                <p className="text-sm text-muted-foreground bg-secondary/30 p-3 rounded-md border flex-grow">{result.justification}</p>
-                <Button onClick={handleApproveMatch} className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={students.some(s => s.projectId === selectedProjectId)}>
-                    <CheckCircle className="mr-2 h-4 w-4" />
-                    Approve Match & Assign
-                </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+        ) : rankedStudents.length > 0 && (
+            <>
+                <Card className="lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Available Students</CardTitle>
+                        <CardDescription>AI-ranked list of approved, unassigned students. Click to add them to the team.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ScrollArea className="h-96">
+                            <div className="space-y-4 pr-4">
+                                {availableRankedStudents.map(rs => (
+                                    <Card key={rs.studentId} className="flex items-center p-3 gap-3 hover:bg-muted/50 transition-colors">
+                                        <Avatar className="h-12 w-12">
+                                            <AvatarImage src={`https://i.pravatar.cc/150?u=${rs.student.id}`} data-ai-hint="person" />
+                                            <AvatarFallback>{rs.student.firstName.charAt(0)}{rs.student.lastName.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1 space-y-1">
+                                            <p className="font-semibold">{rs.student.fullName}</p>
+                                            <div className='flex justify-between items-center'>
+                                                <Label>Match Score</Label>
+                                                <span className="font-bold text-primary">{rs.matchScore}%</span>
+                                            </div>
+                                            <Progress value={rs.matchScore} className="h-1.5"/>
+                                            <p className="text-xs text-muted-foreground pt-1 italic">"{rs.justification}"</p>
+                                        </div>
+                                         <Button size="icon" variant="ghost" onClick={() => handleAddToTeam(rs)}>
+                                            <PlusCircle className="text-green-600" />
+                                        </Button>
+                                    </Card>
+                                ))}
+                                {availableRankedStudents.length === 0 && <p className="text-sm text-muted-foreground text-center pt-8">All ranked students have been added to the team.</p>}
+                            </div>
+                        </ScrollArea>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className='flex items-center gap-2'><Users /> Proposed Team</CardTitle>
+                        <CardDescription>Students to be assigned to "{selectedProject?.name}".</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ScrollArea className="h-96">
+                            <div className="space-y-2 pr-2">
+                                {proposedTeam.map(rs => (
+                                    <div key={rs.studentId} className="flex items-center gap-2 p-2 rounded-md border bg-background">
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage src={`https://i.pravatar.cc/150?u=${rs.student.id}`} data-ai-hint="person" />
+                                            <AvatarFallback>{rs.student.firstName.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        <span className="flex-1 text-sm font-medium truncate">{rs.student.fullName}</span>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleRemoveFromTeam(rs.studentId)}>
+                                            <XCircle className="text-destructive"/>
+                                        </Button>
+                                    </div>
+                                ))}
+                                {proposedTeam.length === 0 && <p className="text-sm text-muted-foreground text-center pt-8">Add students from the list on the left.</p>}
+                            </div>
+                        </ScrollArea>
+                    </CardContent>
+                    <CardFooter>
+                         <Button onClick={handleFinalizeTeam} className="w-full" disabled={proposedTeam.length === 0}>
+                            <CheckCircle className="mr-2 h-4 w-4" />
+                            Finalize & Assign Team
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </>
+        )}
     </div>
   );
 }

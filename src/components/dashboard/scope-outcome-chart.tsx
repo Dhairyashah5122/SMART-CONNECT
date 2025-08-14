@@ -8,33 +8,38 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { surveyData } from "@/lib/data"
+
+const chartData = [
+  { scope: "Initial", outcome: 186 },
+  { scope: "Mid-Point", outcome: 305 },
+  { scope: "Final", outcome: 237 },
+  { scope: "Post-Project", outcome: 273 },
+]
 
 const chartConfig = {
-  responses: {
-    label: "Responses",
-    color: "hsl(var(--primary))",
+  outcome: {
+    label: "Outcome",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
-export function SurveyResponseChart() {
+export function ScopeOutcomeChart() {
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <BarChart accessibilityLayer data={surveyData}>
+      <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="scope"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
         <YAxis />
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent indicator="dot" />}
         />
-        <Bar dataKey="responses" fill="var(--color-responses)" radius={4} />
+        <Bar dataKey="outcome" fill="var(--color-outcome)" radius={4} />
       </BarChart>
     </ChartContainer>
   )

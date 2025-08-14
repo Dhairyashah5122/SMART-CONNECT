@@ -19,35 +19,41 @@ import {
 import {
   BarChart2,
   Briefcase,
-  ClipboardList,
-  GitMerge,
-  PieChart,
   Users,
   Settings,
   UserCircle,
-  Shield,
-  User,
-  GraduationCap,
-  Building,
-  Wand2
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 
 function AppHeader({ pageTitle }: { pageTitle: string }) {
   const { isMobile } = useSidebar();
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
       {isMobile && <SidebarTrigger />}
-      <h1 className="text-lg font-semibold md:text-xl">{pageTitle}</h1>
-      <div className="ml-auto flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <UserCircle className="h-5 w-5" />
-          <span className="sr-only">Toggle user menu</span>
-        </Button>
+      <div className="flex items-center gap-2">
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="flex items-center gap-2">
+                <Logo className="size-6" />
+                <span className="font-semibold">AI-Powered Capstone Dashboard</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>Subscription</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
       </div>
+
     </header>
   )
 }
@@ -58,28 +64,14 @@ function MainSidebarContent() {
 
   const menuItems = [
     { href: "/", icon: BarChart2, label: "Dashboard", tooltip: "Dashboard" },
-    { href: "/surveys", icon: ClipboardList, label: "Surveys", tooltip: "Surveys" },
-    { href: "/students", icon: Users, label: "Students", tooltip: "Students" },
-    { href: "/companies", icon: Building, label: "Companies", tooltip: "Companies" },
     { href: "/projects", icon: Briefcase, label: "Projects", tooltip: "Projects" },
-    { href: "/talent-matching", icon: Wand2, label: "Talent Matching", tooltip: "Talent Matching" },
-    { href: "/analysis", icon: GitMerge, label: "Comparative Analysis", tooltip: "Analysis" },
-    { href: "/reports", icon: PieChart, label: "Reporting", tooltip: "Reporting" },
-  ];
-
-  const secondaryMenuItems = [
-    { href: "/admin/dashboard", icon: Shield, label: "Admin", tooltip: "Admin" },
-    { href: "/mentor/dashboard", icon: User, label: "Mentor", tooltip: "Mentor" },
-    { href: "/student/dashboard", icon: GraduationCap, label: "Student", tooltip: "Student" },
+    { href: "/students", icon: Users, label: "Students", tooltip: "Students" },
+    { href: "/users", icon: Users, label: "Users", tooltip: "Users" },
   ];
 
   return (
     <>
       <SidebarHeader>
-        <div className="flex items-center gap-2">
-          <Logo className="size-8 text-primary" />
-          <span className="text-lg font-semibold">SynergyScope</span>
-        </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
@@ -94,22 +86,6 @@ function MainSidebarContent() {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
-        <Separator className="my-2" />
-        <SidebarMenu>
-            <SidebarMenuItem>
-                <p className="px-2 text-xs uppercase text-muted-foreground tracking-wider">Role Dashboards</p>
-            </SidebarMenuItem>
-            {secondaryMenuItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.tooltip}>
-                        <Link href={item.href}>
-                            <item.icon />
-                            <span>{item.label}</span>
-                        </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            ))}
-        </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
         <Separator className="my-2" />
@@ -119,18 +95,6 @@ function MainSidebarContent() {
               <Settings />
               <span>Settings</span>
             </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <div className="flex items-center gap-3 p-2">
-               <Avatar className="h-9 w-9">
-                <AvatarImage src="https://placehold.co/40x40" alt="@shadcn" />
-                <AvatarFallback>SS</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-0.5 text-xs">
-                <div className="font-medium">SynergyScope</div>
-                <div className="text-muted-foreground">admin@synergy.com</div>
-              </div>
-            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
@@ -156,6 +120,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const pageTitle = pageTitles[pathname] || 'SynergyScope';
 
+  if (pathname === '/login') {
+    return <>{children}</>
+  }
+
   return (
     <SidebarProvider>
       <Sidebar variant="sidebar" collapsible="icon">
@@ -167,4 +135,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       </SidebarInset>
     </SidebarProvider>
   )
+}
+
+function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m6 9 6 6 6-6"/></svg>
+    )
 }

@@ -1,7 +1,8 @@
+
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2, UserCheck } from 'lucide-react';
+import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2, UserCheck, KeyRound } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
@@ -58,6 +59,12 @@ export default function AdminDashboardPage() {
                 <Button variant="outline" className="w-full justify-start">
                     <BarChart className="mr-2" />
                     Generate Reports
+                </Button>
+            </Link>
+             <Link href="/admin/roles" passHref>
+                <Button variant="outline" className="w-full justify-start">
+                    <KeyRound className="mr-2" />
+                    Manage User Roles
                 </Button>
             </Link>
             <Button variant="outline" className="justify-start">

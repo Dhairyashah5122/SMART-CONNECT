@@ -36,6 +36,7 @@ import { students as allStudents, mentors as allMentors } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { StudentSatisfactionChart } from "@/components/dashboard/student-satisfaction-chart";
 
 type Course = {
   id: string;
@@ -340,6 +341,20 @@ export default function CoursesPage() {
               )}
             </TableBody>
           </Table>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Student Satisfaction Analysis</CardTitle>
+          <CardDescription>
+            An overview of student satisfaction based on survey data.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px]">
+            <StudentSatisfactionChart />
+          </div>
         </CardContent>
       </Card>
     </div>

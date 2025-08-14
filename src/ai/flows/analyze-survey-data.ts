@@ -28,6 +28,12 @@ const AnalyzeSurveyDataOutputSchema = z.object({
   keyTrends: z
     .string()
     .describe('Key trends and insights identified from the survey data.'),
+  thematicAnalysis: z
+    .string()
+    .describe('A thematic analysis of the survey responses, identifying recurring themes.'),
+  sentimentAnalysis: z
+    .string()
+    .describe('An analysis of the overall sentiment (positive, negative, neutral) of the survey responses.'),
   projectAlignment: z
     .string()
     .describe(
@@ -46,14 +52,14 @@ const analyzeSurveyDataPrompt = ai.definePrompt({
   output: {schema: AnalyzeSurveyDataOutputSchema},
   prompt: `You are an AI assistant specialized in analyzing survey data and providing insights.
 
-  Analyze the following survey data to identify key trends and insights:
+  Analyze the following survey data to identify key trends, perform a thematic analysis, and determine the overall sentiment.
   Survey Data: {{{surveyData}}}
 
   Perform a comparative analysis between the project scope, student outcomes (derived from survey data), and Safirnaction objectives to highlight the gaps and alignments.
   Project Scope: {{{projectScope}}}
   Safirnaction Objectives: {{{safirnactionObjectives}}}
 
-  Provide the key trends and insights from the survey data and the comparative analysis in a structured format.
+  Provide the key trends, thematic analysis, sentiment analysis, and the comparative analysis in a structured format.
   Follow the output schema.
   `,
 });

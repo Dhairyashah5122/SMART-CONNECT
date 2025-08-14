@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { students as initialStudents, projects, mentors } from '@/lib/data';
-import { Loader2, Wand2, CheckCircle, PlusCircle, XCircle, Users, ArrowRight } from 'lucide-react';
+import { Loader2, Wand2, CheckCircle, PlusCircle, XCircle, Users, ArrowRight, Code } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import type { Student } from '@/lib/types';
 import { ScrollArea } from '../ui/scroll-area';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { Code } from 'lucide-react';
 
 // The type for a ranked student would be defined by what the FastAPI backend returns.
 // We'll keep this structure for the frontend component.
@@ -90,7 +89,7 @@ export function TalentMatcher() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                projectDescription: project.description,
+                project_description: project.description,
                 students: availableStudents,
             }),
         });
@@ -209,7 +208,7 @@ export function TalentMatcher() {
                 <Code className="h-4 w-4" />
                 <AlertTitle>Developer Note</AlertTitle>
                 <AlertDescription>
-                    This component is configured to call a Python backend at <code>http://127.0.0.1:8000/api/v1/rank-students</code>. This is for demonstration purposes. Ensure your FastAPI server with the corresponding Genkit flow is running.
+                    This component is configured to call a Python backend at <code>http://127.0.0.1:8000/api/v1/rank-students</code>. Ensure your FastAPI server with the corresponding Genkit flow is running. See the README in <code>src/ai/python_example</code> for instructions.
                 </AlertDescription>
             </Alert>
         </CardContent>

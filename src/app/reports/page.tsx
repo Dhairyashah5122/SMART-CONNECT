@@ -39,7 +39,7 @@ const initialReportTypes = [
     actionText: 'Generate',
     category: 'Project Analysis',
     isDateBased: true,
-    href: undefined, // Not yet implemented
+    href: '/reports', 
   },
   {
     title: 'Student Engagement Report',
@@ -48,7 +48,7 @@ const initialReportTypes = [
     actionText: 'Generate',
     category: 'Student Analytics',
     isDateBased: true,
-    href: undefined, // Not yet implemented
+    href: '/reports', 
   },
   {
     title: 'Project Matching Success Rate',
@@ -56,14 +56,14 @@ const initialReportTypes = [
     category: 'Matching Analytics',
     icon: GitCompareArrows,
     isDateBased: true,
-    href: undefined, // Not yet implemented
+    href: '/reports', 
   },
   {
     title: 'Survey Response Summary',
     description: 'Aggregates data from a specific survey to highlight key trends and insights.',
     category: 'Survey Reports',
     isDateBased: false,
-    href: undefined, // Not yet implemented
+    href: '/reports', 
   },
   {
     title: 'Alignment Gap Analysis Report',
@@ -242,27 +242,20 @@ export default function ReportsPage() {
               </div>
             </CardHeader>
             <CardContent className="mt-auto flex gap-2">
-              {report.href ? (
-                 <Button asChild className="w-full" disabled={!canGenerate}>
-                    <Link href={generateHref()}>
-                        <Icon className="mr-2 h-4 w-4" />
-                        {report.actionText || 'View'}
-                    </Link>
-                </Button>
-              ) : (
-                <Button className="w-full" disabled>
-                    <Icon className="mr-2 h-4 w-4" />
-                    Generate
-                </Button>
-              )}
-                <Button variant="outline" className="w-full" disabled>
-                    <Download className="mr-2 h-4 w-4" />
-                    Download
-                </Button>
-                <Button variant="outline" className="w-full" disabled>
-                    <Send className="mr-2 h-4 w-4" />
-                    Email
-                </Button>
+               <Button asChild className="w-full">
+                  <Link href={generateHref()}>
+                      <Icon className="mr-2 h-4 w-4" />
+                      {report.actionText || 'View'}
+                  </Link>
+              </Button>
+              <Button variant="outline" className="w-full">
+                  <Download className="mr-2 h-4 w-4" />
+                  Download
+              </Button>
+              <Button variant="outline" className="w-full">
+                  <Send className="mr-2 h-4 w-4" />
+                  Email
+              </Button>
             </CardContent>
           </Card>
         )})}

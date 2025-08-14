@@ -75,4 +75,5 @@ export type Company = {
   id: string;
   name: string;
   projects: Project[];
+  surveyCompleted: boolean;
 };

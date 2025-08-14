@@ -7,9 +7,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { companies } from "@/lib/data"
-import { Upload, FileText, BarChart, ExternalLink, PlusCircle } from "lucide-react"
+import { Upload, FileText, BarChart, ExternalLink, PlusCircle, CheckCircle, Clock } from "lucide-react"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
+import { Badge } from "../ui/badge"
 
 export function CompanyList() {
   return (
@@ -25,7 +26,16 @@ export function CompanyList() {
           {companies.map((company) => (
             <AccordionItem value={company.id} key={company.id}>
               <AccordionTrigger className="text-xl font-semibold hover:no-underline">
-                {company.name}
+                <div className="flex items-center gap-4">
+                  <span>{company.name}</span>
+                   <Badge 
+                      variant={company.surveyCompleted ? 'default' : 'secondary'}
+                      className={company.surveyCompleted ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}
+                    >
+                      {company.surveyCompleted ? <CheckCircle className="mr-2" /> : <Clock className="mr-2" />}
+                      Survey {company.surveyCompleted ? 'Completed' : 'Pending'}
+                    </Badge>
+                </div>
               </AccordionTrigger>
               <AccordionContent className="pl-4">
                 <div className="flex flex-col gap-4">

@@ -190,15 +190,18 @@ export const companies: Company[] = [
         id: 'c1',
         name: 'Innovate Inc.',
         projects: [projects[0]],
+        surveyCompleted: true,
     },
     {
         id: 'c2',
         name: 'ShopSphere',
         projects: [projects[1]],
+        surveyCompleted: false,
     },
     {
         id: 'c3',
         name: 'DataCore',
         projects: [projects[2]],
+        surveyCompleted: false,
     }
 ]

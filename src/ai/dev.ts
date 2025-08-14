@@ -11,3 +11,4 @@ import '@/ai/flows/generate-nda-reminder.ts';
 import '@/ai/flows/generate-survey-report.ts';
 import '@/ai/flows/generate-success-story.ts';
 import '@/ai/flows/generate-case-study.ts';
+import '@/ai/flows/recommend-student-for-project.ts';

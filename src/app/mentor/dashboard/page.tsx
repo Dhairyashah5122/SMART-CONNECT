@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Users, Briefcase, Calendar, FileText, MessageSquare, Award, History, Upload, Save } from 'lucide-react';
-import { mentors, students } from '@/lib/data';
+import { mentors, students, projects } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';

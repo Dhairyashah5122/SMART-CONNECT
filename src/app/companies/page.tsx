@@ -15,7 +15,7 @@ export default function CompaniesPage() {
     <div className="flex flex-col gap-6">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">
-          Company Management
+          Company Hub
         </h2>
         <p className="text-muted-foreground max-w-3xl">
           Onboard new companies or manage existing partnerships and projects.

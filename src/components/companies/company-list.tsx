@@ -52,21 +52,21 @@ export function CompanyList() {
                         </div>
                         <div className="space-y-2">
                           <Label>Company Survey</Label>
-                          <Link href="/surveys" passHref>
-                            <Button variant="secondary" className="w-full justify-start">
+                           <Button asChild variant="secondary" className="w-full justify-start">
+                             <Link href="/surveys" >
                               <FileText className="mr-2" /> View Survey
                               <ExternalLink className="ml-auto h-4 w-4 text-muted-foreground"/>
-                            </Button>
-                          </Link>
+                            </Link>
+                          </Button>
                         </div>
                         <div className="space-y-2">
                           <Label>Gap Analysis</Label>
-                          <Link href="/analysis" passHref>
-                            <Button variant="secondary" className="w-full justify-start">
+                           <Button asChild variant="secondary" className="w-full justify-start">
+                            <Link href="/analysis" >
                                 <BarChart className="mr-2" /> View Analysis
                                 <ExternalLink className="ml-auto h-4 w-4 text-muted-foreground"/>
-                            </Button>
-                          </Link>
+                            </Link>
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>

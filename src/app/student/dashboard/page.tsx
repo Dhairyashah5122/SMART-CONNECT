@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -77,13 +78,13 @@ export default function StudentDashboardPage() {
                 <Briefcase className="mr-2" /> View Project Details
                 </Button>
             </Link>
-            <Link href="/surveys" legacyBehavior>
+            <Link href="/surveys">
                 <Button variant="outline">
                     <FileText className="mr-2" /> Complete General Surveys
                     <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground"/>
                 </Button>
             </Link>
-             <Link href="/surveys/student-capstone-feedback" legacyBehavior>
+             <Link href="/surveys/student-capstone-feedback">
                 <Button variant="outline">
                     <FileText className="mr-2" /> Complete Post-Capstone Survey
                     <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground"/>

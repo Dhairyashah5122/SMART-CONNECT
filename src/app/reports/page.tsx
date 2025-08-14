@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon, UserCheck, Activity } from "lucide-react";
+import { Download, FileText, Send, Star, FilePenLine, BarChart4, Users, ChevronDown, Calendar as CalendarIcon, UserCheck, Activity, GitCompareArrows } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -51,7 +51,8 @@ const reportTypes = [
   {
     title: 'Project Matching Success Rate',
     description: 'Analyzes the effectiveness of student-project matches over a selected period.',
-    category: 'Project Analysis',
+    category: 'Matching Analytics',
+    icon: GitCompareArrows,
     isDateBased: true,
   },
   {

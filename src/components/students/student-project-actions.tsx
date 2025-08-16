@@ -2,13 +2,13 @@
 
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, FileVideo, FileText, Send, CheckCircle, Circle, ArrowRight, Video } from "lucide-react";
+import { Upload, FileVideo, FileText, Send, CheckCircle, Circle, ArrowRight, Video, Download } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -35,12 +35,21 @@ const milestoneTypes: Record<string, string> = {
   'final-video': 'submission',
 }
 
+interface VideoFileState {
+  file: File;
+  url: string;
+}
+
+
 export function StudentProjectActions() {
     const [ndaFiles, setNdaFiles] = useState<File[]>([]);
     const { toast } = useToast();
     const student = students[0];
     const [milestones, setMilestones] = useState(student.studentProfile.milestones);
     const project = projects.find(p => p.id === student.studentProfile.projectId);
+    
+    const [lessonLearnedVideo, setLessonLearnedVideo] = useState<VideoFileState | null>(null);
+    const [finalVideo, setFinalVideo] = useState<VideoFileState | null>(null);
 
     const handleNdaFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -56,6 +65,18 @@ export function StudentProjectActions() {
             setNdaFiles(files);
         }
     };
+    
+    const handleVideoFileChange = (
+      event: React.ChangeEvent<HTMLInputElement>,
+      setter: React.Dispatch<React.SetStateAction<VideoFileState | null>>
+    ) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setter({ file, url });
+        }
+    };
+
 
     const handleMarkAsComplete = (id: string) => {
         if (id === 'nda' && ndaFiles.length === 0) {
@@ -121,16 +142,40 @@ export function StudentProjectActions() {
                                         </div>
                                     )}
                                     {milestone.id === 'video' && milestone.status === 'pending' && (
-                                         <div className="p-4 rounded-md bg-secondary border space-y-2">
-                                            <Label htmlFor="video-upload" className="flex items-center gap-2"><FileVideo /> "Lesson Learned" Video</Label>
-                                            <Input id="video-upload" type="file" accept="video/*" />
+                                        <div className="p-4 rounded-md bg-secondary border space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="video-upload" className="flex items-center gap-2"><FileVideo /> "Lesson Learned" Video</Label>
+                                                <Input id="video-upload" type="file" accept="video/*" onChange={e => handleVideoFileChange(e, setLessonLearnedVideo)} />
+                                            </div>
+                                            {lessonLearnedVideo && (
+                                                <div>
+                                                    <video src={lessonLearnedVideo.url} controls className="w-full rounded-md max-h-60" />
+                                                    <a href={lessonLearnedVideo.url} download={lessonLearnedVideo.file.name}>
+                                                         <Button variant="outline" className="mt-2 w-full">
+                                                            <Download className="mr-2"/> Download Uploaded Video
+                                                        </Button>
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {milestone.id === 'final-video' && milestone.status === 'pending' && (
-                                        <div className="p-4 rounded-md bg-secondary border space-y-2">
-                                            <Label htmlFor="final-video-upload" className="flex items-center gap-2"><Video /> Final Combined Video</Label>
-                                            <Input id="final-video-upload" type="file" accept="video/*" />
-                                            <p className="text-xs text-muted-foreground">Upload the final video combining student and company perspectives.</p>
+                                        <div className="p-4 rounded-md bg-secondary border space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="final-video-upload" className="flex items-center gap-2"><Video /> Final Combined Video</Label>
+                                                <Input id="final-video-upload" type="file" accept="video/*"  onChange={e => handleVideoFileChange(e, setFinalVideo)} />
+                                                <p className="text-xs text-muted-foreground">Upload the final video combining student and company perspectives.</p>
+                                            </div>
+                                             {finalVideo && (
+                                                <div>
+                                                    <video src={finalVideo.url} controls className="w-full rounded-md max-h-60" />
+                                                    <a href={finalVideo.url} download={finalVideo.file.name}>
+                                                         <Button variant="outline" className="mt-2 w-full">
+                                                            <Download className="mr-2"/> Download Uploaded Video
+                                                        </Button>
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {milestone.id === 'company-feedback-review' && milestone.status === 'pending' && (

@@ -9,6 +9,8 @@ const studentMilestones: Milestone[] = [
     { id: 'testimonial', text: 'Submit Written Testimonial', status: 'pending', dueDate: '2024-05-01' },
     { id: 'company-feedback-review', text: 'Review Company Feedback', status: 'pending', dueDate: '2024-05-05' },
     { id: 'video', text: "Upload 'Lesson Learned' Video (Student)", status: 'pending', dueDate: '2024-05-01' },
+    { id: 'final-report', text: 'Submit Final Report', status: 'pending', dueDate: '2024-05-12' },
+    { id: 'case-study', text: 'Submit Case Study', status: 'pending', dueDate: '2024-05-14' },
     { id: 'survey', text: 'Complete Post-Capstone Survey', status: 'pending', dueDate: '2024-05-10' },
     { id: 'final-video', text: 'Submit Final Combined Video (Student & Company)', status: 'pending', dueDate: '2024-05-15' },
 ];

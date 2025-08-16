@@ -33,6 +33,8 @@ const milestoneTypes: Record<string, string> = {
   survey: "link",
   'company-feedback-review': 'submission',
   'final-video': 'submission',
+  'final-report': 'submission',
+  'case-study': 'submission',
 }
 
 interface VideoFileState {
@@ -161,6 +163,18 @@ export function StudentProjectActions() {
                                             )}
                                         </div>
                                     )}
+                                    {milestone.id === 'final-report' && milestone.status === 'pending' && (
+                                         <div className="p-4 rounded-md bg-secondary border space-y-2">
+                                            <Label htmlFor="final-report-upload">Final Report Document</Label>
+                                            <Input id="final-report-upload" type="file" accept=".pdf,.doc,.docx" />
+                                        </div>
+                                    )}
+                                     {milestone.id === 'case-study' && milestone.status === 'pending' && (
+                                         <div className="p-4 rounded-md bg-secondary border space-y-2">
+                                            <Label htmlFor="case-study-upload">Case Study Document</Label>
+                                            <Input id="case-study-upload" type="file" accept=".pdf,.doc,.docx" />
+                                        </div>
+                                    )}
                                     {milestone.id === 'final-video' && milestone.status === 'pending' && (
                                         <div className="p-4 rounded-md bg-secondary border space-y-4">
                                             <div className="space-y-2">
@@ -242,8 +256,10 @@ export function StudentProjectActions() {
                     </div>
                 </CardContent>
                  <CardFooter>
-                    <Button variant="outline" className="w-full">
-                        <FileText className="mr-2" /> View Full Project Brief
+                    <Button asChild variant="outline" className="w-full">
+                       <Link href="/projects/view-details">
+                            <FileText className="mr-2" /> View Full Project Brief
+                        </Link>
                     </Button>
                  </CardFooter>
             </Card>
@@ -251,4 +267,3 @@ export function StudentProjectActions() {
     </div>
   );
 }
-

@@ -35,13 +35,13 @@ const AnalysisResultSchema = z.object({
 });
 
 
-export const AnalyzeStudentProjectFitInputSchema = z.object({
+const AnalyzeStudentProjectFitInputSchema = z.object({
   projectDescription: z.string().describe('The description of the project scope.'),
   students: z.array(StudentAnalysisSchema).describe('A list of students to analyze for the project.'),
 });
 export type AnalyzeStudentProjectFitInput = z.infer<typeof AnalyzeStudentProjectFitInputSchema>;
 
-export const AnalyzeStudentProjectFitOutputSchema = z.object({
+const AnalyzeStudentProjectFitOutputSchema = z.object({
   analysis: z.array(AnalysisResultSchema).describe('A list containing the detailed analysis for each student.')
 });
 export type AnalyzeStudentProjectFitOutput = z.infer<

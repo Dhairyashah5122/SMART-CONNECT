@@ -26,7 +26,7 @@ class RankedStudent(BaseModel):
 class RankStudentsOutput(BaseModel):
     rankedStudents: List[RankedStudent]
 
-# 2. Define the AI Prompt
+# 2. Define the AI Prompt using Jinja2 templating for loops
 rank_students_prompt = ai.define_prompt(
     name="rankStudentsPrompt",
     input_schema=RankStudentsInput,
@@ -38,7 +38,7 @@ rank_students_prompt = ai.define_prompt(
         Rank the students from highest score to lowest score in the final output array.
 
         Project Description:
-        {{project_description}}}
+        {{project_description}}
 
         Available Students:
         {% for student in students %}

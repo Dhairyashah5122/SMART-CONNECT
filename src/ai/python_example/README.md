@@ -133,7 +133,7 @@ async def handle_rank_students(request: RankStudentsRequest):
 ```
 
 **`src/ai/python_example/main.py`**:
-This is your main application entry point.
+This is your main application entry point. **The `CORSMiddleware` is essential to fix fetch errors from the frontend.**
 
 ```python
 import os

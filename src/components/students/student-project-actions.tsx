@@ -19,7 +19,6 @@ const initialMilestones: Milestone[] = [
   { id: "nda", text: "Submit Signed NDAs", status: "pending" as Milestone['status'], dueDate: '2024-01-20' },
   { id: "action-plan", text: "Submit Project Action Plan", status: "pending" as Milestone['status'], dueDate: '2024-02-01' },
   { id: "mid-review", text: "Complete Mid-Point Review", status: "pending" as Milestone['status'], dueDate: '2024-03-15' },
-  { id: "testimonial", text: "Submit Written Testimonial", status: "pending" as Milestone['status'], dueDate: '2024-05-01' },
   { id: "video", text: "Upload 'Lesson Learned' Video", status: "pending" as Milestone['status'], dueDate: '2024-05-01' },
   { id: "survey", text: "Complete Post-Capstone Survey", status: "pending" as Milestone['status'], dueDate: '2024-05-10' },
 ];
@@ -28,7 +27,6 @@ const milestoneTypes: Record<string, string> = {
   nda: "submission",
   'action-plan': "submission",
   'mid-review': "review",
-  testimonial: "submission",
   video: "submission",
   survey: "link",
   'company-feedback-review': 'submission',
@@ -137,12 +135,6 @@ export function StudentProjectActions() {
                                          <div className="p-4 rounded-md bg-secondary border space-y-2">
                                             <Label htmlFor="action-plan-upload">Project Action Plan Document</Label>
                                             <Input id="action-plan-upload" type="file" accept=".pdf,.doc,.docx" />
-                                        </div>
-                                    )}
-                                    {milestone.id === 'testimonial' && milestone.status === 'pending' && (
-                                         <div className="p-4 rounded-md bg-secondary border space-y-2">
-                                            <Label htmlFor="testimonial-upload">Testimonial Document</Label>
-                                            <Input id="testimonial-upload" type="file" accept=".pdf,.doc,.docx,.txt" />
                                         </div>
                                     )}
                                     {milestone.id === 'video' && milestone.status === 'pending' && (
@@ -267,3 +259,5 @@ export function StudentProjectActions() {
     </div>
   );
 }
+
+    

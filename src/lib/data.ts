@@ -6,7 +6,6 @@ const studentMilestones: Milestone[] = [
     { id: 'nda', text: 'Submit Signed NDAs', status: 'completed', dueDate: '2024-01-20' },
     { id: 'action-plan', text: 'Submit Project Action Plan', status: 'completed', dueDate: '2024-02-01' },
     { id: 'mid-review', text: 'Complete Mid-Point Review', status: 'pending', dueDate: '2024-03-15' },
-    { id: 'testimonial', text: 'Submit Written Testimonial', status: 'pending', dueDate: '2024-05-01' },
     { id: 'company-feedback-review', text: 'Review Company Feedback', status: 'pending', dueDate: '2024-05-05' },
     { id: 'video', text: "Upload 'Lesson Learned' Video (Student)", status: 'pending', dueDate: '2024-05-01' },
     { id: 'final-report', text: 'Submit Final Report', status: 'pending', dueDate: '2024-05-12' },
@@ -354,3 +353,5 @@ export const courses: Course[] = [
       mentorId: 'm1',
     }
 ]
+
+    

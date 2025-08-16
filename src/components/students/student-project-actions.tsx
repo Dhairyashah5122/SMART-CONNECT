@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, FileVideo, FileText, Send, CheckCircle, Circle, ArrowRight } from "lucide-react";
+import { Upload, FileVideo, FileText, Send, CheckCircle, Circle, ArrowRight, Video } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -24,13 +24,15 @@ const initialMilestones: Milestone[] = [
   { id: "survey", text: "Complete Post-Capstone Survey", status: "pending" as Milestone['status'], dueDate: '2024-05-10' },
 ];
 
-const milestoneTypes = {
+const milestoneTypes: Record<string, string> = {
   nda: "submission",
   'action-plan': "submission",
   'mid-review': "review",
   testimonial: "submission",
   video: "submission",
   survey: "link",
+  'company-feedback-review': 'review',
+  'final-video': 'submission',
 }
 
 export function StudentProjectActions() {
@@ -85,7 +87,7 @@ export function StudentProjectActions() {
                 <CardContent>
                     <ul className="space-y-4">
                         {milestones.map(milestone => {
-                             const type = milestoneTypes[milestone.id as keyof typeof milestoneTypes] || 'review';
+                             const type = milestoneTypes[milestone.id] || 'review';
                              return (
                              <li key={milestone.id} className="flex items-start gap-4">
                                 <div>
@@ -120,8 +122,21 @@ export function StudentProjectActions() {
                                     )}
                                     {milestone.id === 'video' && milestone.status === 'pending' && (
                                          <div className="p-4 rounded-md bg-secondary border space-y-2">
-                                            <Label htmlFor="video-upload">"Lesson Learned" Video</Label>
+                                            <Label htmlFor="video-upload" className="flex items-center gap-2"><FileVideo /> "Lesson Learned" Video</Label>
                                             <Input id="video-upload" type="file" accept="video/*" />
+                                        </div>
+                                    )}
+                                    {milestone.id === 'final-video' && milestone.status === 'pending' && (
+                                        <div className="p-4 rounded-md bg-secondary border space-y-2">
+                                            <Label htmlFor="final-video-upload" className="flex items-center gap-2"><Video /> Final Combined Video</Label>
+                                            <Input id="final-video-upload" type="file" accept="video/*" />
+                                            <p className="text-xs text-muted-foreground">Upload the final video combining student and company perspectives.</p>
+                                        </div>
+                                    )}
+                                    {milestone.id === 'company-feedback-review' && milestone.status === 'pending' && (
+                                        <div className="p-4 rounded-md bg-secondary border space-y-2">
+                                            <p className="text-sm text-muted-foreground">Once the company provides feedback, you will be able to review it here.</p>
+                                            <Button variant="outline" disabled>View Feedback (Pending)</Button>
                                         </div>
                                     )}
                                     {milestone.id === 'survey' && (

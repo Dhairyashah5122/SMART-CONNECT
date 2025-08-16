@@ -7,8 +7,10 @@ const studentMilestones: Milestone[] = [
     { id: 'action-plan', text: 'Submit Project Action Plan', status: 'completed', dueDate: '2024-02-01' },
     { id: 'mid-review', text: 'Complete Mid-Point Review', status: 'pending', dueDate: '2024-03-15' },
     { id: 'testimonial', text: 'Submit Written Testimonial', status: 'pending', dueDate: '2024-05-01' },
-    { id: 'video', text: "Upload 'Lesson Learned' Video", status: 'pending', dueDate: '2024-05-01' },
+    { id: 'company-feedback-review', text: 'Review Company Feedback', status: 'pending', dueDate: '2024-05-05' },
+    { id: 'video', text: "Upload 'Lesson Learned' Video (Student)", status: 'pending', dueDate: '2024-05-01' },
     { id: 'survey', text: 'Complete Post-Capstone Survey', status: 'pending', dueDate: '2024-05-10' },
+    { id: 'final-video', text: 'Submit Final Combined Video (Student & Company)', status: 'pending', dueDate: '2024-05-15' },
 ];
 
 export const students: Student[] = [
@@ -31,7 +33,7 @@ export const students: Student[] = [
       ndaStatus: 'Signed',
       gpa: 3.9,
       registrationDate: '2024-01-10',
-      milestones: studentMilestones.map(m => m.id === 'survey' ? {...m, status: 'completed'} : m),
+      milestones: studentMilestones.map(m => ['nda', 'action-plan'].includes(m.id) ? {...m, status: 'completed'} : m),
       program: 'DBA',
     }
   },

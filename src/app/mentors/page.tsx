@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from 'react';
@@ -38,12 +39,19 @@ function AddMentorForm({ onAddMentor }: { onAddMentor: (mentor: Mentor) => void 
 
         const newMentor: Mentor = {
             id: `m${Date.now()}`,
-            name,
+            role: 'Mentor',
+            firstName: name.split(' ')[0],
+            lastName: name.split(' ').slice(1).join(' '),
+            fullName: name,
             email,
-            skills: skills.split(',').map(s => s.trim()).filter(Boolean),
-            status,
-            pastProjects: [],
-            mentees: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            mentorProfile: {
+                skills: skills.split(',').map(s => s.trim()).filter(Boolean),
+                status,
+                pastProjects: [],
+                menteeIds: [],
+            }
         };
 
         onAddMentor(newMentor);
@@ -104,7 +112,7 @@ function AddMentorForm({ onAddMentor }: { onAddMentor: (mentor: Mentor) => void 
 }
 
 function EditSkillsDialog({ mentor, onSkillsUpdate }: { mentor: Mentor, onSkillsUpdate: (mentorId: string, skills: string[]) => void }) {
-    const [currentSkills, setCurrentSkills] = useState(mentor.skills);
+    const [currentSkills, setCurrentSkills] = useState(mentor.mentorProfile.skills);
     const [newSkill, setNewSkill] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
@@ -133,7 +141,7 @@ function EditSkillsDialog({ mentor, onSkillsUpdate }: { mentor: Mentor, onSkills
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit Skills for {mentor.name}</DialogTitle>
+                    <DialogTitle>Edit Skills for {mentor.fullName}</DialogTitle>
                     <DialogDescription>Add or remove skills below.</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
@@ -171,7 +179,7 @@ function EditSkillsDialog({ mentor, onSkillsUpdate }: { mentor: Mentor, onSkills
 }
 
 function EditProjectsDialog({ mentor, onProjectsUpdate }: { mentor: Mentor, onProjectsUpdate: (mentorId: string, projects: string[]) => void }) {
-    const [currentProjects, setCurrentProjects] = useState(mentor.pastProjects);
+    const [currentProjects, setCurrentProjects] = useState(mentor.mentorProfile.pastProjects);
     const [newProject, setNewProject] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
@@ -200,7 +208,7 @@ function EditProjectsDialog({ mentor, onProjectsUpdate }: { mentor: Mentor, onPr
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit Past Projects for {mentor.name}</DialogTitle>
+                    <DialogTitle>Edit Past Projects for {mentor.fullName}</DialogTitle>
                     <DialogDescription>Add or remove past project titles below.</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
@@ -291,15 +299,15 @@ function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills, onUpdateMen
                     <TableBody>
                         {mentors.map(mentor => (
                             <TableRow key={mentor.id}>
-                                <TableCell className="font-medium">{mentor.name}</TableCell>
+                                <TableCell className="font-medium">{mentor.fullName}</TableCell>
                                 <TableCell>{mentor.email}</TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-2">
                                         <div className="flex flex-wrap gap-1 max-w-xs">
-                                            {mentor.skills.slice(0, 2).map(skill => (
+                                            {mentor.mentorProfile.skills.slice(0, 2).map(skill => (
                                                 <Badge key={skill} variant="secondary">{skill}</Badge>
                                             ))}
-                                            {mentor.skills.length > 2 && <Badge variant="outline">+{mentor.skills.length - 2}</Badge>}
+                                            {mentor.mentorProfile.skills.length > 2 && <Badge variant="outline">+{mentor.mentorProfile.skills.length - 2}</Badge>}
                                         </div>
                                          <EditSkillsDialog mentor={mentor} onSkillsUpdate={onUpdateMentorSkills}/>
                                     </div>
@@ -307,20 +315,20 @@ function MentorList({ mentors, onRemoveMentor, onUpdateMentorSkills, onUpdateMen
                                 <TableCell>
                                     <div className="flex items-center gap-2">
                                         <div className="flex flex-wrap gap-1 max-w-xs">
-                                            {mentor.pastProjects.slice(0, 1).map(project => (
+                                            {mentor.mentorProfile.pastProjects.slice(0, 1).map(project => (
                                                 <Badge key={project} variant="outline" className="truncate">{project}</Badge>
                                             ))}
-                                             {mentor.pastProjects.length > 1 && <Badge variant="outline">+{mentor.pastProjects.length - 1}</Badge>}
+                                             {mentor.mentorProfile.pastProjects.length > 1 && <Badge variant="outline">+{mentor.mentorProfile.pastProjects.length - 1}</Badge>}
                                         </div>
                                          <EditProjectsDialog mentor={mentor} onProjectsUpdate={onUpdateMentorProjects}/>
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                     <Badge variant={getStatusVariant(mentor.status)} className={getStatusClass(mentor.status)}>
-                                        {mentor.status}
+                                     <Badge variant={getStatusVariant(mentor.mentorProfile.status)} className={getStatusClass(mentor.mentorProfile.status)}>
+                                        {mentor.mentorProfile.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell>{students.filter(s => s.mentorId === mentor.id).length}</TableCell>
+                                <TableCell>{students.filter(s => s.studentProfile.mentorId === mentor.id).length}</TableCell>
                                 <TableCell className="text-right">
                                     <Button variant="ghost" size="icon" onClick={() => onRemoveMentor(mentor.id)}>
                                         <Trash2 className="h-4 w-4 text-destructive" />
@@ -344,7 +352,7 @@ export default function MentorsPage() {
     }
     
     const updateMentorSkills = (mentorId: string, skills: string[]) => {
-        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, skills} : m));
+        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, mentorProfile: { ...m.mentorProfile, skills } } : m));
         toast({
             title: 'Skills Updated',
             description: `Skills for mentor have been successfully updated.`,
@@ -352,7 +360,7 @@ export default function MentorsPage() {
     }
 
     const updateMentorProjects = (mentorId: string, projects: string[]) => {
-        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, pastProjects: projects} : m));
+        setMentors(prev => prev.map(m => m.id === mentorId ? {...m, mentorProfile: { ...m.mentorProfile, pastProjects: projects } } : m));
         toast({
             title: 'Past Projects Updated',
             description: `Past projects for mentor have been successfully updated.`,
@@ -361,11 +369,11 @@ export default function MentorsPage() {
 
     const removeMentor = (id: string) => {
         const mentorToRemove = mentors.find(m => m.id === id);
-        if (students.some(s => s.mentorId === id)) {
+        if (students.some(s => s.studentProfile.mentorId === id)) {
             toast({
                 variant: 'destructive',
                 title: 'Cannot Remove Mentor',
-                description: `${mentorToRemove?.name} is currently assigned to students and cannot be removed.`,
+                description: `${mentorToRemove?.fullName} is currently assigned to students and cannot be removed.`,
             });
             return;
         }
@@ -373,7 +381,7 @@ export default function MentorsPage() {
         setMentors(prev => prev.filter(mentor => mentor.id !== id));
         toast({
             title: 'Mentor Removed',
-            description: `${mentorToRemove?.name} has been removed.`,
+            description: `${mentorToRemove?.fullName} has been removed.`,
         });
     }
 

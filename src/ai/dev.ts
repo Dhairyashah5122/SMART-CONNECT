@@ -17,3 +17,4 @@ import '@/ai/flows/rank-students-for-program.ts';
 import '@/ai/flows/generate-project-analysis-report.ts';
 import '@/ai/flows/generate-skills-matrix-report.ts';
 import '@/ai/flows/generate-milestone-reminder.ts';
+import '@/ai/flows/analyze-student-project-fit.ts';

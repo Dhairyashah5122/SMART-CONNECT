@@ -1,4 +1,5 @@
 import { ComparativeAnalysisForm } from "@/components/analysis/comparative-analysis-form";
+import { StudentProjectFitAnalysis } from "@/components/analysis/student-project-fit-analysis";
 import { SurveyDataAnalysisForm } from "@/components/analysis/survey-data-analysis-form";
 import { Separator } from "@/components/ui/separator";
 
@@ -18,6 +19,8 @@ export default function AnalysisPage() {
             <ComparativeAnalysisForm />
             <Separator />
             <SurveyDataAnalysisForm />
+            <Separator />
+            <StudentProjectFitAnalysis />
         </div>
     </div>
     );

@@ -31,7 +31,7 @@ const milestoneTypes: Record<string, string> = {
   testimonial: "submission",
   video: "submission",
   survey: "link",
-  'company-feedback-review': 'review',
+  'company-feedback-review': 'submission',
   'final-video': 'submission',
 }
 
@@ -50,6 +50,8 @@ export function StudentProjectActions() {
     
     const [lessonLearnedVideo, setLessonLearnedVideo] = useState<VideoFileState | null>(null);
     const [finalVideo, setFinalVideo] = useState<VideoFileState | null>(null);
+    const [companyFeedbackVideo, setCompanyFeedbackVideo] = useState<VideoFileState | null>(null);
+
 
     const handleNdaFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -179,9 +181,22 @@ export function StudentProjectActions() {
                                         </div>
                                     )}
                                     {milestone.id === 'company-feedback-review' && milestone.status === 'pending' && (
-                                        <div className="p-4 rounded-md bg-secondary border space-y-2">
-                                            <p className="text-sm text-muted-foreground">Once the company provides feedback, you will be able to review it here.</p>
-                                            <Button variant="outline" disabled>View Feedback (Pending)</Button>
+                                        <div className="p-4 rounded-md bg-secondary border space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="company-feedback-video-upload" className="flex items-center gap-2"><Video /> Company Feedback Video</Label>
+                                                <Input id="company-feedback-video-upload" type="file" accept="video/*" onChange={e => handleVideoFileChange(e, setCompanyFeedbackVideo)} />
+                                                <p className="text-xs text-muted-foreground">Upload a video summarizing or responding to the company's feedback.</p>
+                                            </div>
+                                            {companyFeedbackVideo && (
+                                                <div>
+                                                    <video src={companyFeedbackVideo.url} controls className="w-full rounded-md max-h-60" />
+                                                    <a href={companyFeedbackVideo.url} download={companyFeedbackVideo.file.name}>
+                                                        <Button variant="outline" className="mt-2 w-full">
+                                                            <Download className="mr-2"/> Download Uploaded Video
+                                                        </Button>
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {milestone.id === 'survey' && (
@@ -236,3 +251,4 @@ export function StudentProjectActions() {
     </div>
   );
 }
+

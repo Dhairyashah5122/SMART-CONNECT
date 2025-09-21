@@ -152,7 +152,7 @@ load_dotenv()
 genkit.init()
 
 # Initialize FastAPI app
-app = FastAPI(title="SynergyScope AI Backend")
+app = FastAPI(title="SMART CONNECTION AI Backend")
 
 # Configure CORS to allow requests from the Next.js frontend
 app.add_middleware(
@@ -168,7 +168,7 @@ app.include_router(rank_students.router, prefix="/api/v1", tags=["v1"])
 
 @app.get("/")
 def read_root():
-    return {"message": "SynergyScope Python AI backend is running"}
+    return {"message": "SMART CONNECTION Python AI backend is running"}
 
 ```
 

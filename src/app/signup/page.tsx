@@ -11,7 +11,7 @@ export default function SignupPage() {
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">Sign Up</CardTitle>
-                    <CardDescription>Create your SynergyScope account.</CardDescription>
+                    <CardDescription>Create your SMART CONNECTION account.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">

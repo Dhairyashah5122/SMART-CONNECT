@@ -1,0 +1,275 @@
+{
+  "name": "Survey Analysis Configuration",
+  "version": "1.0.0",
+  "description": "AI-powered survey data analysis for student feedback and program improvement",
+  "survey_types": {
+    "skills_assessment": {
+      "description": "Evaluate student technical and soft skills",
+      "analysis_methods": ["skill_proficiency", "gap_analysis", "competency_mapping"],
+      "output_format": "skills_matrix",
+      "weight_factors": {
+        "self_assessment": 0.4,
+        "peer_evaluation": 0.3,
+        "instructor_rating": 0.3
+      }
+    },
+    "project_feedback": {
+      "description": "Collect feedback on project experiences and outcomes",
+      "analysis_methods": ["sentiment_analysis", "theme_extraction", "satisfaction_scoring"],
+      "output_format": "feedback_report",
+      "key_metrics": ["satisfaction", "learning_value", "difficulty_level", "mentor_support"]
+    },
+    "program_evaluation": {
+      "description": "Assess overall program effectiveness and student satisfaction",
+      "analysis_methods": ["trend_analysis", "comparative_assessment", "outcome_prediction"],
+      "output_format": "program_report",
+      "evaluation_areas": ["curriculum", "resources", "support", "outcomes", "recommendations"]
+    },
+    "career_interest": {
+      "description": "Understand student career goals and industry preferences",
+      "analysis_methods": ["interest_clustering", "career_pathway_mapping", "industry_alignment"],
+      "output_format": "career_profile",
+      "categories": ["industry_preference", "role_interest", "location_preference", "company_size"]
+    },
+    "mentor_evaluation": {
+      "description": "Evaluate mentor effectiveness and support quality",
+      "analysis_methods": ["performance_scoring", "feedback_categorization", "improvement_identification"],
+      "output_format": "mentor_report",
+      "metrics": ["communication", "expertise", "availability", "guidance_quality"]
+    }
+  },
+  "question_types": {
+    "multiple_choice": {
+      "analysis_methods": ["frequency_distribution", "cross_tabulation", "correlation_analysis"],
+      "visualization": ["bar_chart", "pie_chart", "stacked_bar"],
+      "statistical_tests": ["chi_square", "anova"]
+    },
+    "rating_scale": {
+      "analysis_methods": ["mean_calculation", "standard_deviation", "distribution_analysis"],
+      "visualization": ["histogram", "box_plot", "heat_map"],
+      "statistical_tests": ["t_test", "mann_whitney"]
+    },
+    "text_response": {
+      "analysis_methods": ["sentiment_analysis", "theme_extraction", "keyword_frequency"],
+      "visualization": ["word_cloud", "sentiment_timeline", "theme_network"],
+      "nlp_techniques": ["tokenization", "lemmatization", "named_entity_recognition"]
+    },
+    "checkbox": {
+      "analysis_methods": ["co_occurrence_analysis", "pattern_detection", "association_rules"],
+      "visualization": ["network_graph", "heatmap", "matrix_plot"],
+      "statistical_tests": ["market_basket_analysis"]
+    },
+    "ranking": {
+      "analysis_methods": ["priority_scoring", "consensus_ranking", "preference_analysis"],
+      "visualization": ["ranking_chart", "priority_matrix", "comparison_plot"],
+      "algorithms": ["borda_count", "condorcet_method"]
+    }
+  },
+  "analysis_algorithms": {
+    "sentiment_analysis": {
+      "models": ["vader", "textblob", "transformers"],
+      "confidence_threshold": 0.7,
+      "categories": ["positive", "negative", "neutral"],
+      "intensity_scale": [-1.0, 1.0]
+    },
+    "theme_extraction": {
+      "methods": ["lda", "nmf", "bert_topic"],
+      "min_topic_coherence": 0.5,
+      "max_topics": 10,
+      "min_words_per_topic": 5
+    },
+    "clustering": {
+      "algorithms": ["kmeans", "dbscan", "hierarchical"],
+      "distance_metrics": ["euclidean", "cosine", "manhattan"],
+      "optimal_clusters": "elbow_method"
+    },
+    "correlation_analysis": {
+      "methods": ["pearson", "spearman", "kendall"],
+      "significance_level": 0.05,
+      "correction_methods": ["bonferroni", "fdr"]
+    },
+    "trend_analysis": {
+      "time_windows": ["monthly", "quarterly", "yearly"],
+      "trend_detection": ["linear_regression", "seasonal_decomposition"],
+      "forecasting": ["arima", "exponential_smoothing"]
+    }
+  },
+  "ai_prompts": {
+    "survey_summary": {
+      "system_prompt": "You are an expert data analyst specializing in educational survey analysis. Provide comprehensive, actionable insights from survey data.",
+      "user_prompt_template": "Analyze this survey data and provide key insights:\n\nSurvey Type: {survey_type}\nResponse Data: {responses}\nContext: {context}\n\nProvide: 1) Summary statistics, 2) Key findings, 3) Trends, 4) Recommendations"
+    },
+    "text_analysis": {
+      "system_prompt": "You are an expert in natural language processing and text analysis for educational feedback.",
+      "user_prompt_template": "Analyze these text responses for themes, sentiment, and actionable insights:\n\nResponses: {text_responses}\nQuestion Context: {question}\n\nExtract main themes, sentiment patterns, and specific recommendations."
+    },
+    "comparative_analysis": {
+      "system_prompt": "You are an expert at comparative analysis of educational data across different groups and time periods.",
+      "user_prompt_template": "Compare these survey results and identify significant differences:\n\nGroup A: {group_a_data}\nGroup B: {group_b_data}\nComparison Criteria: {criteria}\n\nHighlight key differences, statistical significance, and implications."
+    },
+    "recommendation_engine": {
+      "system_prompt": "You are an expert educational consultant who provides actionable recommendations based on survey data analysis.",
+      "user_prompt_template": "Based on this survey analysis, provide specific, actionable recommendations:\n\nAnalysis Results: {analysis}\nStakeholders: {stakeholders}\nConstraints: {constraints}\n\nProvide prioritized recommendations with implementation strategies."
+    }
+  },
+  "statistical_significance": {
+    "confidence_levels": [0.90, 0.95, 0.99],
+    "minimum_sample_size": 30,
+    "effect_size_thresholds": {
+      "small": 0.2,
+      "medium": 0.5,
+      "large": 0.8
+    },
+    "p_value_threshold": 0.05
+  },
+  "visualization_config": {
+    "color_schemes": {
+      "primary": ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"],
+      "accessibility": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"],
+      "gradient": ["#EBF8FF", "#3182CE", "#1A365D"]
+    },
+    "chart_types": {
+      "bar_chart": {
+        "best_for": ["categorical_data", "comparisons"],
+        "max_categories": 15
+      },
+      "line_chart": {
+        "best_for": ["time_series", "trends"],
+        "smoothing": true
+      },
+      "scatter_plot": {
+        "best_for": ["correlations", "relationships"],
+        "trend_line": true
+      },
+      "heatmap": {
+        "best_for": ["matrix_data", "correlations"],
+        "clustering": true
+      }
+    }
+  },
+  "data_quality": {
+    "response_completeness": {
+      "minimum_completion_rate": 0.7,
+      "required_questions": ["demographics", "main_topic"],
+      "partial_response_handling": "include_with_flag"
+    },
+    "outlier_detection": {
+      "methods": ["z_score", "iqr", "isolation_forest"],
+      "thresholds": {
+        "z_score": 3.0,
+        "iqr_multiplier": 1.5
+      }
+    },
+    "data_validation": {
+      "range_checks": true,
+      "consistency_checks": true,
+      "duplicate_detection": true
+    }
+  },
+  "reporting_templates": {
+    "executive_summary": {
+      "sections": [
+        "key_findings",
+        "response_overview",
+        "main_insights",
+        "recommendations",
+        "next_steps"
+      ],
+      "length": "1-2 pages",
+      "audience": "administrators"
+    },
+    "detailed_analysis": {
+      "sections": [
+        "methodology",
+        "response_analysis",
+        "statistical_results",
+        "visualizations",
+        "detailed_findings",
+        "limitations",
+        "appendix"
+      ],
+      "length": "5-10 pages",
+      "audience": "researchers"
+    },
+    "stakeholder_report": {
+      "sections": [
+        "overview",
+        "student_feedback",
+        "program_strengths",
+        "improvement_areas",
+        "action_plan"
+      ],
+      "length": "3-5 pages",
+      "audience": "faculty_staff"
+    }
+  },
+  "automation_rules": {
+    "alert_triggers": {
+      "low_satisfaction": {
+        "threshold": 2.5,
+        "scale": 5.0,
+        "notification": "immediate"
+      },
+      "response_rate": {
+        "threshold": 0.3,
+        "time_window": "48_hours",
+        "notification": "daily"
+      },
+      "negative_sentiment": {
+        "threshold": 0.7,
+        "notification": "weekly"
+      }
+    },
+    "auto_generation": {
+      "basic_reports": "weekly",
+      "trend_analysis": "monthly",
+      "comparative_studies": "quarterly"
+    }
+  },
+  "privacy_compliance": {
+    "anonymization": {
+      "remove_identifiers": true,
+      "aggregate_small_groups": true,
+      "minimum_group_size": 5
+    },
+    "data_retention": {
+      "raw_responses": "2_years",
+      "aggregated_data": "5_years",
+      "personal_identifiers": "1_year"
+    },
+    "consent_tracking": {
+      "explicit_consent": true,
+      "purpose_limitation": true,
+      "withdrawal_mechanism": true
+    }
+  },
+  "integration_settings": {
+    "export_formats": ["pdf", "excel", "csv", "json"],
+    "api_endpoints": {
+      "submit_response": "/api/v1/surveys/{id}/responses",
+      "get_analysis": "/api/v1/surveys/{id}/analysis",
+      "download_report": "/api/v1/surveys/{id}/reports"
+    },
+    "webhook_notifications": {
+      "response_received": true,
+      "analysis_complete": true,
+      "threshold_exceeded": true
+    }
+  },
+  "performance_optimization": {
+    "caching": {
+      "analysis_results": "24_hours",
+      "visualizations": "12_hours",
+      "reports": "1_week"
+    },
+    "batch_processing": {
+      "minimum_batch_size": 10,
+      "processing_schedule": "hourly"
+    },
+    "resource_limits": {
+      "max_responses_per_analysis": 10000,
+      "max_text_length": 10000,
+      "timeout_seconds": 300
+    }
+  }
+}

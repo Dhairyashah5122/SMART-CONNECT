@@ -30,9 +30,9 @@ import {
   Shield,
   LayoutDashboard,
   LogOut,
-  ChevronDown,
   Star,
   BookOpen,
+  Database,
 } from "lucide-react"
 import { Logo } from "@/components/icons/logo"
 import { Button } from "@/components/ui/button"
@@ -58,7 +58,7 @@ function AppHeader() {
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       {isMobile && <SidebarTrigger />}
        <div className="relative flex-1 md:grow-0">
-         <h1 className="text-lg font-semibold">SynergyScope</h1>
+        <h1 className="text-lg font-semibold">SMART CONNECTION</h1>
       </div>
       <div className="flex-1" />
        <DropdownMenu>
@@ -103,6 +103,7 @@ function MainSidebarContent() {
   const mainMenuItems = [
     { href: "/", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/analysis", icon: BarChart2, label: "Analysis" },
+    { href: "/data-mining", icon: Database, label: "Data Mining" },
     { href: "/projects", icon: Briefcase, label: "Projects" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/students", icon: GraduationCap, label: "Students" },
@@ -126,13 +127,13 @@ function MainSidebarContent() {
          <div className="flex h-14 items-center gap-2 px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Logo className="h-6 w-6" />
-              <span>SynergyScope</span>
+              <span>SMART CONNECTION</span>
             </Link>
           </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
-            <SidebarMenuButton asChild variant="ghost" className="w-full justify-start text-left h-auto py-2">
+            <SidebarMenuButton asChild className="w-full justify-start text-left h-auto py-2">
                 <div>
                     <p className="font-semibold">Smaty Capstone</p>
                     <p className="text-xs text-muted-foreground">Innovate Inc.</p>

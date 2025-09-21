@@ -43,7 +43,7 @@ export default function LoginPage() {
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">Log In</CardTitle>
-                    <CardDescription>Welcome back to SynergyScope.</CardDescription>
+                    <CardDescription>Welcome back to SMART CONNECTION.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Button variant="outline" className="w-full" onClick={handleLogin} disabled={isLoading}>

@@ -1,0 +1,322 @@
+{
+  "name": "Company Project Requirements Analysis",
+  "version": "1.0.0",
+  "description": "AI-powered analysis and matching of company project requirements with student capabilities",
+  "project_categories": {
+    "web_development": {
+      "weight": 0.2,
+      "common_skills": [
+        "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js", "Node.js",
+        "Express.js", "Django", "Flask", "Spring Boot", "ASP.NET", "PHP", "Laravel"
+      ],
+      "typical_deliverables": [
+        "Responsive web application", "REST API", "Database design", "User authentication",
+        "Admin dashboard", "Mobile-responsive UI", "API documentation"
+      ],
+      "complexity_indicators": [
+        "real-time features", "payment integration", "third-party APIs", "microservices",
+        "scalability requirements", "performance optimization"
+      ]
+    },
+    "mobile_development": {
+      "weight": 0.18,
+      "common_skills": [
+        "React Native", "Flutter", "Swift", "Kotlin", "Java", "Dart", "Xamarin",
+        "Ionic", "Cordova", "Firebase", "SQLite", "Core Data"
+      ],
+      "typical_deliverables": [
+        "Native mobile app", "Cross-platform app", "App store deployment",
+        "Push notifications", "Offline functionality", "User onboarding"
+      ],
+      "complexity_indicators": [
+        "native features", "camera integration", "GPS functionality", "biometric auth",
+        "background processing", "AR/VR features"
+      ]
+    },
+    "data_science": {
+      "weight": 0.22,
+      "common_skills": [
+        "Python", "R", "SQL", "Pandas", "NumPy", "Scikit-learn", "TensorFlow",
+        "PyTorch", "Matplotlib", "Seaborn", "Jupyter", "Apache Spark", "Tableau"
+      ],
+      "typical_deliverables": [
+        "Data analysis report", "Predictive model", "Data visualization dashboard",
+        "ETL pipeline", "Machine learning model", "Statistical analysis"
+      ],
+      "complexity_indicators": [
+        "big data processing", "real-time analytics", "deep learning", "NLP",
+        "computer vision", "time series forecasting"
+      ]
+    },
+    "ai_machine_learning": {
+      "weight": 0.25,
+      "common_skills": [
+        "Python", "TensorFlow", "PyTorch", "Keras", "OpenCV", "NLTK", "spaCy",
+        "Hugging Face", "MLflow", "Docker", "Kubernetes", "AWS SageMaker"
+      ],
+      "typical_deliverables": [
+        "ML model", "AI application", "Model deployment", "Training pipeline",
+        "Data preprocessing", "Model evaluation", "API integration"
+      ],
+      "complexity_indicators": [
+        "custom neural networks", "reinforcement learning", "generative AI",
+        "multimodal models", "edge deployment", "federated learning"
+      ]
+    },
+    "cybersecurity": {
+      "weight": 0.15,
+      "common_skills": [
+        "Network Security", "Penetration Testing", "Ethical Hacking", "Cryptography",
+        "SIEM", "Incident Response", "Risk Assessment", "Compliance", "Forensics"
+      ],
+      "typical_deliverables": [
+        "Security assessment", "Vulnerability report", "Security policy",
+        "Incident response plan", "Penetration test", "Compliance audit"
+      ],
+      "complexity_indicators": [
+        "advanced persistent threats", "zero-day exploits", "security automation",
+        "threat hunting", "malware analysis", "blockchain security"
+      ]
+    }
+  },
+  "requirement_extraction": {
+    "skill_patterns": {
+      "explicit_mentions": [
+        "must have", "required", "essential", "mandatory", "needs to know",
+        "experience with", "proficient in", "expertise in", "skilled in"
+      ],
+      "preferred_indicators": [
+        "preferred", "nice to have", "bonus", "plus", "desired", "advantageous",
+        "would be great", "ideal candidate", "looking for someone with"
+      ],
+      "technology_contexts": [
+        "using", "with", "in", "for", "through", "via", "leveraging",
+        "implementing", "developing", "building", "creating"
+      ]
+    },
+    "difficulty_assessment": {
+      "beginner_indicators": [
+        "entry level", "junior", "new graduate", "no experience required",
+        "training provided", "mentorship available", "learning opportunity"
+      ],
+      "intermediate_indicators": [
+        "some experience", "1-3 years", "working knowledge", "familiar with",
+        "basic understanding", "guided development"
+      ],
+      "advanced_indicators": [
+        "experienced", "senior level", "expert", "lead", "architect",
+        "complex projects", "enterprise scale", "performance critical"
+      ],
+      "expert_indicators": [
+        "thought leader", "cutting edge", "research level", "innovative",
+        "industry expertise", "advanced algorithms", "patent potential"
+      ]
+    },
+    "time_estimation": {
+      "factors": {
+        "project_scope": {
+          "small": "4-8 weeks",
+          "medium": "8-12 weeks", 
+          "large": "12-16 weeks",
+          "enterprise": "16+ weeks"
+        },
+        "complexity_multipliers": {
+          "low": 1.0,
+          "medium": 1.3,
+          "high": 1.7,
+          "very_high": 2.2
+        },
+        "team_size_adjustments": {
+          "solo": 1.0,
+          "pair": 0.7,
+          "small_team": 0.5,
+          "large_team": 0.4
+        }
+      }
+    }
+  },
+  "matching_algorithms": {
+    "skill_matching": {
+      "exact_match_weight": 0.6,
+      "partial_match_weight": 0.3,
+      "transferable_skill_weight": 0.1,
+      "skill_hierarchy": {
+        "programming_languages": {
+          "python": ["data_analysis", "web_development", "automation"],
+          "javascript": ["web_development", "mobile_development", "backend"],
+          "java": ["enterprise_development", "android", "backend_services"]
+        }
+      }
+    },
+    "experience_matching": {
+      "project_type_alignment": 0.4,
+      "technology_stack_overlap": 0.35,
+      "industry_relevance": 0.15,
+      "complexity_appropriateness": 0.1
+    },
+    "learning_opportunity": {
+      "skill_gap_bonus": 0.2,
+      "career_alignment_bonus": 0.15,
+      "mentor_expertise_match": 0.1,
+      "technology_advancement": 0.05
+    }
+  },
+  "ai_prompts": {
+    "requirement_extraction": {
+      "system_prompt": "You are an expert at analyzing project descriptions and extracting technical requirements, skills needed, and project specifications. Focus on identifying both explicit and implicit requirements.",
+      "user_prompt_template": "Analyze this project description and extract:\n1. Required technical skills (must-have)\n2. Preferred skills (nice-to-have)\n3. Project complexity level\n4. Estimated time commitment\n5. Deliverables expected\n6. Learning opportunities\n\nProject Description: {project_description}\n\nProvide structured output with confidence scores."
+    },
+    "student_project_matching": {
+      "system_prompt": "You are an expert at matching students to appropriate projects based on their skills, experience level, and learning goals.",
+      "user_prompt_template": "Match this student to the most suitable projects:\n\nStudent Profile: {student_profile}\nAvailable Projects: {projects}\nMatching Criteria: {criteria}\n\nRank projects by suitability and provide detailed reasoning for each match."
+    },
+    "requirement_enhancement": {
+      "system_prompt": "You are an expert at improving project requirement descriptions to make them clearer and more comprehensive for student matching.",
+      "user_prompt_template": "Enhance this project requirement description:\n\nOriginal: {original_description}\nTarget Audience: Students\nProject Category: {category}\n\nImprove clarity, add missing technical details, and suggest learning outcomes."
+    },
+    "gap_analysis": {
+      "system_prompt": "You are an expert at identifying skill gaps and providing learning recommendations for students interested in specific projects.",
+      "user_prompt_template": "Analyze the gap between student capabilities and project requirements:\n\nStudent Skills: {student_skills}\nProject Requirements: {project_requirements}\n\nIdentify gaps, estimate learning time, and suggest resources for skill development."
+    }
+  },
+  "scoring_metrics": {
+    "technical_fit": {
+      "skill_overlap_percentage": {
+        "weight": 0.4,
+        "calculation": "matched_skills / total_required_skills"
+      },
+      "experience_relevance": {
+        "weight": 0.3,
+        "factors": ["similar_projects", "technology_stack", "domain_knowledge"]
+      },
+      "complexity_appropriateness": {
+        "weight": 0.3,
+        "mapping": {
+          "underqualified": 0.3,
+          "appropriate": 1.0,
+          "overqualified": 0.7
+        }
+      }
+    },
+    "learning_value": {
+      "new_skill_exposure": {
+        "weight": 0.4,
+        "bonus_for_stretch": 0.2
+      },
+      "career_relevance": {
+        "weight": 0.35,
+        "alignment_with_goals": "high_medium_low"
+      },
+      "mentor_expertise": {
+        "weight": 0.25,
+        "overlap_with_project": "percentage"
+      }
+    },
+    "success_probability": {
+      "student_track_record": {
+        "weight": 0.4,
+        "metrics": ["completion_rate", "quality_scores", "feedback"]
+      },
+      "project_difficulty": {
+        "weight": 0.3,
+        "relative_to_student_level": "ratio"
+      },
+      "support_availability": {
+        "weight": 0.3,
+        "factors": ["mentor_availability", "resource_access", "peer_support"]
+      }
+    }
+  },
+  "company_requirements": {
+    "standard_fields": {
+      "project_title": "required",
+      "description": "required",
+      "required_skills": "required",
+      "preferred_skills": "optional",
+      "duration": "required",
+      "team_size": "required",
+      "difficulty_level": "required",
+      "deliverables": "required",
+      "success_criteria": "recommended",
+      "learning_objectives": "recommended"
+    },
+    "validation_rules": {
+      "minimum_description_length": 100,
+      "required_skills_minimum": 3,
+      "duration_range": [4, 20],
+      "team_size_range": [1, 5]
+    },
+    "enhancement_suggestions": {
+      "missing_technical_details": "Add specific technologies, frameworks, or tools",
+      "vague_requirements": "Specify exact skill levels and experience needed",
+      "unclear_deliverables": "Define concrete, measurable outputs",
+      "no_learning_outcomes": "Include skills students will develop"
+    }
+  },
+  "industry_standards": {
+    "technology_stacks": {
+      "web_development": {
+        "frontend": ["React", "Angular", "Vue.js", "Svelte"],
+        "backend": ["Node.js", "Django", "Spring Boot", "ASP.NET"],
+        "database": ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+        "deployment": ["Docker", "AWS", "Heroku", "Vercel"]
+      },
+      "mobile_development": {
+        "cross_platform": ["React Native", "Flutter", "Xamarin"],
+        "native_ios": ["Swift", "Objective-C", "Xcode"],
+        "native_android": ["Kotlin", "Java", "Android Studio"],
+        "backend": ["Firebase", "AWS Amplify", "Node.js"]
+      },
+      "data_science": {
+        "languages": ["Python", "R", "SQL", "Scala"],
+        "frameworks": ["Pandas", "NumPy", "Scikit-learn", "TensorFlow"],
+        "visualization": ["Matplotlib", "Plotly", "Tableau", "D3.js"],
+        "infrastructure": ["Jupyter", "Docker", "Apache Spark", "AWS"]
+      }
+    },
+    "skill_progression": {
+      "beginner_to_intermediate": "3-6 months",
+      "intermediate_to_advanced": "6-12 months",
+      "advanced_to_expert": "1-2 years"
+    }
+  },
+  "output_format": {
+    "project_analysis": {
+      "project_id": "string",
+      "extracted_requirements": {
+        "required_skills": ["string"],
+        "preferred_skills": ["string"],
+        "complexity_level": "string",
+        "estimated_duration": "string",
+        "team_size": "integer"
+      },
+      "category_classification": "string",
+      "difficulty_score": "float",
+      "learning_opportunities": ["string"],
+      "enhancement_suggestions": ["string"],
+      "confidence": "float"
+    },
+    "student_matches": {
+      "student_id": "string",
+      "match_score": "float",
+      "technical_fit": "float",
+      "learning_value": "float",
+      "success_probability": "float",
+      "skill_gaps": ["string"],
+      "preparation_recommendations": ["string"],
+      "estimated_prep_time": "string"
+    }
+  },
+  "continuous_learning": {
+    "feedback_collection": {
+      "project_outcomes": "success_rate_by_match_score",
+      "student_feedback": "learning_value_assessment",
+      "mentor_feedback": "student_preparedness"
+    },
+    "model_improvement": {
+      "retraining_frequency": "quarterly",
+      "performance_metrics": ["accuracy", "precision", "recall"],
+      "data_sources": ["historical_matches", "outcome_data", "feedback"]
+    }
+  }
+}

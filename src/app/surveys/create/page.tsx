@@ -28,7 +28,7 @@ export default function CreateSurveyPage() {
                 <CardHeader>
                     <CardTitle>Link to External Survey</CardTitle>
                     <CardDescription>
-                        If you are using an external platform like Google Forms, paste the link here to track it within SynergyScope.
+                        If you are using an external platform like Google Forms, paste the link here to track it within SMART CONNECTION.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

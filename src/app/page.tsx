@@ -10,7 +10,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Welcome to SynergyScope</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Welcome to SMART CONNECTION</h1>
         <p className="text-muted-foreground">An integrated platform for survey analysis, student-project matching, and comparative insights.</p>
       </div>
 

@@ -1,0 +1,309 @@
+{
+  "name": "Student Ranking Algorithm Configuration",
+  "version": "1.0.0",
+  "description": "AI-powered student ranking system for project assignments and program selection",
+  "ranking_criteria": {
+    "academic_performance": {
+      "weight": 0.25,
+      "factors": {
+        "gpa": {
+          "weight": 0.6,
+          "scale": "4.0",
+          "thresholds": {
+            "excellent": 3.7,
+            "good": 3.3,
+            "satisfactory": 3.0,
+            "needs_improvement": 2.5
+          }
+        },
+        "course_grades": {
+          "weight": 0.3,
+          "relevant_courses": [
+            "CS550", "CS580", "CS590", "MATH530", "DATA510", "WEB520", "AI530"
+          ]
+        },
+        "academic_progress": {
+          "weight": 0.1,
+          "factors": ["completion_rate", "credit_hours", "semester_performance"]
+        }
+      }
+    },
+    "technical_skills": {
+      "weight": 0.30,
+      "factors": {
+        "programming_languages": {
+          "weight": 0.35,
+          "high_value_skills": [
+            "Python", "Java", "JavaScript", "TypeScript", "C++", "Go", "Rust"
+          ],
+          "scoring": {
+            "expert": 5.0,
+            "advanced": 4.0,
+            "intermediate": 3.0,
+            "beginner": 2.0,
+            "novice": 1.0
+          }
+        },
+        "frameworks_technologies": {
+          "weight": 0.30,
+          "categories": {
+            "web_development": ["React", "Angular", "Vue.js", "Node.js", "Django", "Spring Boot"],
+            "mobile_development": ["React Native", "Flutter", "Swift", "Kotlin"],
+            "data_science": ["TensorFlow", "PyTorch", "Pandas", "NumPy", "Scikit-learn"],
+            "cloud_platforms": ["AWS", "Azure", "Google Cloud", "Docker", "Kubernetes"],
+            "databases": ["PostgreSQL", "MongoDB", "MySQL", "Redis", "Elasticsearch"]
+          }
+        },
+        "specialized_expertise": {
+          "weight": 0.25,
+          "high_demand_areas": [
+            "Machine Learning", "AI", "Cybersecurity", "DevOps", "Blockchain",
+            "Data Science", "Cloud Computing", "Mobile Development", "Game Development"
+          ]
+        },
+        "skill_diversity": {
+          "weight": 0.10,
+          "bonus_multiplier": 1.2,
+          "minimum_categories": 3
+        }
+      }
+    },
+    "project_experience": {
+      "weight": 0.20,
+      "factors": {
+        "project_quality": {
+          "weight": 0.4,
+          "assessment_criteria": [
+            "code_quality", "documentation", "innovation", "complexity", "impact"
+          ]
+        },
+        "project_diversity": {
+          "weight": 0.3,
+          "project_types": [
+            "web_application", "mobile_app", "data_analysis", "machine_learning",
+            "api_development", "database_design", "game_development", "research"
+          ]
+        },
+        "collaboration_skills": {
+          "weight": 0.2,
+          "indicators": ["team_projects", "open_source_contributions", "leadership_roles"]
+        },
+        "completion_rate": {
+          "weight": 0.1,
+          "thresholds": {
+            "excellent": 0.95,
+            "good": 0.85,
+            "satisfactory": 0.75,
+            "needs_improvement": 0.65
+          }
+        }
+      }
+    },
+    "soft_skills": {
+      "weight": 0.15,
+      "factors": {
+        "communication": {
+          "weight": 0.3,
+          "assessment_methods": ["presentations", "documentation_quality", "peer_feedback"]
+        },
+        "problem_solving": {
+          "weight": 0.25,
+          "indicators": ["debugging_skills", "algorithmic_thinking", "creative_solutions"]
+        },
+        "teamwork": {
+          "weight": 0.2,
+          "metrics": ["collaboration_rating", "peer_reviews", "team_project_success"]
+        },
+        "leadership": {
+          "weight": 0.15,
+          "evidence": ["team_lead_experience", "mentoring", "initiative_taking"]
+        },
+        "adaptability": {
+          "weight": 0.1,
+          "measures": ["learning_new_technologies", "feedback_incorporation", "change_management"]
+        }
+      }
+    },
+    "industry_readiness": {
+      "weight": 0.10,
+      "factors": {
+        "portfolio_quality": {
+          "weight": 0.3,
+          "criteria": ["github_activity", "deployed_projects", "code_samples", "documentation"]
+        },
+        "professional_development": {
+          "weight": 0.25,
+          "activities": ["certifications", "online_courses", "workshops", "conferences"]
+        },
+        "networking": {
+          "weight": 0.2,
+          "platforms": ["linkedin_profile", "professional_associations", "industry_connections"]
+        },
+        "internship_experience": {
+          "weight": 0.15,
+          "evaluation": ["performance_rating", "duration", "relevance", "recommendations"]
+        },
+        "career_clarity": {
+          "weight": 0.1,
+          "assessment": ["goal_definition", "pathway_planning", "skill_alignment"]
+        }
+      }
+    }
+  },
+  "ranking_algorithms": {
+    "weighted_score": {
+      "name": "Weighted Score Algorithm",
+      "description": "Calculate weighted average of all criteria",
+      "formula": "sum(criterion_score * weight) for all criteria",
+      "normalization": "0-100 scale"
+    },
+    "composite_ranking": {
+      "name": "Composite Ranking Algorithm",
+      "description": "Multi-factor ranking with bonus systems",
+      "bonuses": {
+        "well_rounded": {
+          "description": "Bonus for students strong in multiple areas",
+          "threshold": 0.7,
+          "bonus": 0.05
+        },
+        "exceptional_skill": {
+          "description": "Bonus for exceptional expertise in any area",
+          "threshold": 0.9,
+          "bonus": 0.1
+        },
+        "growth_trajectory": {
+          "description": "Bonus for consistent improvement",
+          "measurement": "semester_progression",
+          "bonus": 0.03
+        }
+      }
+    },
+    "ai_enhanced": {
+      "name": "AI-Enhanced Ranking",
+      "description": "Use machine learning for pattern recognition and prediction",
+      "models": {
+        "skill_potential": "Predict future skill development",
+        "project_success": "Predict project completion success",
+        "industry_fit": "Match student profile to industry needs"
+      }
+    }
+  },
+  "project_matching": {
+    "skill_alignment": {
+      "weight": 0.4,
+      "calculation": "cosine_similarity(student_skills, project_requirements)",
+      "bonus_for_exceeding": 0.2
+    },
+    "difficulty_appropriateness": {
+      "weight": 0.25,
+      "student_level_mapping": {
+        "beginner": ["Beginner"],
+        "intermediate": ["Beginner", "Intermediate"],
+        "advanced": ["Beginner", "Intermediate", "Advanced"],
+        "expert": ["Beginner", "Intermediate", "Advanced", "Expert"]
+      }
+    },
+    "learning_opportunity": {
+      "weight": 0.2,
+      "factors": ["new_skill_exposure", "career_goal_alignment", "technology_advancement"]
+    },
+    "availability_compatibility": {
+      "weight": 0.1,
+      "considerations": ["time_commitment", "schedule_flexibility", "deadline_alignment"]
+    },
+    "mentor_compatibility": {
+      "weight": 0.05,
+      "factors": ["expertise_overlap", "communication_style", "previous_feedback"]
+    }
+  },
+  "ai_prompts": {
+    "student_analysis": {
+      "system_prompt": "You are an expert educational advisor specializing in student assessment and ranking. Analyze student profiles comprehensively considering academic performance, technical skills, project experience, and growth potential.",
+      "user_prompt_template": "Analyze this student profile and provide a comprehensive ranking assessment:\n\nStudent Data: {student_data}\nRanking Criteria: {criteria}\nComparison Group: {peer_group}\n\nProvide scores for each criterion and overall ranking justification."
+    },
+    "skill_gap_analysis": {
+      "system_prompt": "You are an expert at identifying skill gaps and development opportunities for students in technology programs.",
+      "user_prompt_template": "Analyze the skill gap between this student's current abilities and the requirements for {target_role}:\n\nStudent Skills: {current_skills}\nTarget Requirements: {target_requirements}\n\nProvide actionable recommendations for skill development."
+    },
+    "project_recommendation": {
+      "system_prompt": "You are an expert at matching students to appropriate projects based on their skills, interests, and learning goals.",
+      "user_prompt_template": "Recommend the best projects for this student:\n\nStudent Profile: {student_profile}\nAvailable Projects: {projects}\nLearning Objectives: {objectives}\n\nRank projects by suitability and explain the reasoning."
+    }
+  },
+  "ranking_tiers": {
+    "exceptional": {
+      "range": [90, 100],
+      "description": "Outstanding students ready for advanced projects and leadership roles",
+      "characteristics": ["Top 10%", "Multiple expertise areas", "Strong portfolio"]
+    },
+    "proficient": {
+      "range": [75, 89],
+      "description": "Well-prepared students suitable for standard to challenging projects",
+      "characteristics": ["Above average", "Solid technical foundation", "Good collaboration skills"]
+    },
+    "developing": {
+      "range": [60, 74],
+      "description": "Students with potential who need guidance and structured learning",
+      "characteristics": ["Average performance", "Basic skills", "Room for growth"]
+    },
+    "emerging": {
+      "range": [40, 59],
+      "description": "Early-stage students requiring significant support and mentoring",
+      "characteristics": ["Below average", "Limited experience", "High potential"]
+    },
+    "needs_support": {
+      "range": [0, 39],
+      "description": "Students requiring intensive support and remedial assistance",
+      "characteristics": ["Struggling", "Gaps in foundation", "Needs intervention"]
+    }
+  },
+  "validation_rules": {
+    "minimum_data_requirements": {
+      "gpa": "required",
+      "skills": "minimum_3",
+      "projects": "minimum_1",
+      "enrollment_status": "active"
+    },
+    "data_freshness": {
+      "skill_assessment": "6_months",
+      "project_updates": "3_months",
+      "academic_records": "1_semester"
+    },
+    "scoring_bounds": {
+      "individual_scores": [0, 100],
+      "confidence_intervals": [0, 1],
+      "ranking_percentiles": [0, 100]
+    }
+  },
+  "output_format": {
+    "individual_ranking": {
+      "student_id": "string",
+      "overall_score": "float",
+      "percentile": "float",
+      "tier": "string",
+      "criterion_scores": {
+        "academic_performance": "float",
+        "technical_skills": "float",
+        "project_experience": "float",
+        "soft_skills": "float",
+        "industry_readiness": "float"
+      },
+      "strengths": ["string"],
+      "improvement_areas": ["string"],
+      "recommendations": ["string"],
+      "confidence": "float"
+    },
+    "cohort_ranking": {
+      "total_students": "integer",
+      "ranking_distribution": {},
+      "top_performers": [],
+      "statistical_summary": {},
+      "trends": []
+    }
+  },
+  "update_frequency": {
+    "real_time_triggers": ["grade_update", "skill_assessment", "project_completion"],
+    "scheduled_updates": ["weekly_batch", "semester_comprehensive"],
+    "manual_triggers": ["instructor_request", "program_review"]
+  }
+}

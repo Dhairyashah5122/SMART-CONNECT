@@ -1,0 +1,183 @@
+{
+  "name": "Resume Skill Extraction Configuration",
+  "version": "1.0.0",
+  "description": "AI-powered skill extraction from student resumes and applications",
+  "categories": {
+    "programming_languages": {
+      "weight": 0.25,
+      "skills": [
+        "Python", "Java", "JavaScript", "TypeScript", "C++", "C#", "C", "Go", "Rust", "Kotlin",
+        "Swift", "Ruby", "PHP", "Scala", "R", "MATLAB", "Perl", "Bash", "PowerShell", "SQL",
+        "HTML", "CSS", "Dart", "Objective-C", "Assembly", "COBOL", "Fortran", "Haskell", "Lua",
+        "VB.NET", "F#", "Clojure", "Erlang", "Elixir", "Julia", "ActionScript", "CoffeeScript"
+      ]
+    },
+    "web_technologies": {
+      "weight": 0.20,
+      "skills": [
+        "React", "Angular", "Vue.js", "Node.js", "Express.js", "Next.js", "Nuxt.js", "Svelte",
+        "Django", "Flask", "FastAPI", "Spring Boot", "Laravel", "Ruby on Rails", "ASP.NET",
+        "Blazor", "jQuery", "Bootstrap", "Tailwind CSS", "Material-UI", "Chakra UI", "Ant Design",
+        "Webpack", "Vite", "Parcel", "Rollup", "Babel", "ESLint", "Prettier", "GraphQL", "REST API",
+        "WebSockets", "PWA", "Service Workers", "Web Components", "Sass", "Less", "Styled Components"
+      ]
+    },
+    "databases": {
+      "weight": 0.15,
+      "skills": [
+        "PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLite", "Microsoft SQL Server", "Oracle",
+        "Cassandra", "DynamoDB", "Firebase", "Supabase", "CouchDB", "Neo4j", "InfluxDB",
+        "Elasticsearch", "Apache Solr", "MariaDB", "Amazon RDS", "Google Cloud SQL", "Azure SQL",
+        "Snowflake", "BigQuery", "Redshift", "Apache Spark", "Hadoop", "Hive", "HBase"
+      ]
+    },
+    "cloud_platforms": {
+      "weight": 0.18,
+      "skills": [
+        "AWS", "Google Cloud Platform", "Microsoft Azure", "Digital Ocean", "Heroku", "Vercel",
+        "Netlify", "Firebase", "Supabase", "Railway", "Render", "PlanetScale", "Cloudflare",
+        "Docker", "Kubernetes", "OpenShift", "Terraform", "Ansible", "Jenkins", "GitHub Actions",
+        "GitLab CI", "CircleCI", "Travis CI", "Azure DevOps", "AWS Lambda", "Google Cloud Functions",
+        "Azure Functions", "Serverless Framework", "CDN", "Load Balancing", "Auto Scaling"
+      ]
+    },
+    "frameworks_libraries": {
+      "weight": 0.15,
+      "skills": [
+        "React Native", "Flutter", "Ionic", "Xamarin", "Unity", "Unreal Engine", "TensorFlow",
+        "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly",
+        "D3.js", "Chart.js", "Three.js", "Babylon.js", "Socket.io", "Electron", "Tauri", "Qt",
+        "GTK", "wxWidgets", "Spring Framework", "Hibernate", "MyBatis", ".NET Framework", ".NET Core",
+        "Entity Framework", "Dapper", "NHibernate", "Xamarin.Forms", "MAUI", "WPF", "WinUI"
+      ]
+    },
+    "development_tools": {
+      "weight": 0.12,
+      "skills": [
+        "Git", "GitHub", "GitLab", "Bitbucket", "SVN", "Mercurial", "Visual Studio Code", "IntelliJ IDEA",
+        "Eclipse", "Visual Studio", "Xcode", "Android Studio", "PyCharm", "WebStorm", "Sublime Text",
+        "Atom", "Vim", "Emacs", "Postman", "Insomnia", "Swagger", "OpenAPI", "Figma", "Adobe XD",
+        "Sketch", "InVision", "Zeplin", "Slack", "Discord", "Microsoft Teams", "Zoom", "Jira",
+        "Trello", "Asana", "Monday.com", "Linear", "Notion", "Confluence", "Microsoft Office"
+      ]
+    },
+    "soft_skills": {
+      "weight": 0.10,
+      "skills": [
+        "Problem Solving", "Critical Thinking", "Communication", "Teamwork", "Leadership",
+        "Project Management", "Time Management", "Adaptability", "Creativity", "Innovation",
+        "Analytical Thinking", "Attention to Detail", "Customer Service", "Presentation Skills",
+        "Public Speaking", "Writing", "Documentation", "Training", "Mentoring", "Collaboration",
+        "Conflict Resolution", "Negotiation", "Decision Making", "Strategic Planning", "Agile",
+        "Scrum", "Kanban", "Lean", "Design Thinking", "User Experience", "User Interface Design"
+      ]
+    },
+    "specialized_skills": {
+      "weight": 0.08,
+      "skills": [
+        "Machine Learning", "Deep Learning", "Natural Language Processing", "Computer Vision",
+        "Data Science", "Data Analytics", "Business Intelligence", "Statistical Analysis",
+        "Artificial Intelligence", "Robotics", "IoT", "Blockchain", "Cryptocurrency", "Smart Contracts",
+        "Cybersecurity", "Information Security", "Penetration Testing", "Ethical Hacking",
+        "Digital Forensics", "Network Security", "Cloud Security", "DevOps", "Site Reliability Engineering",
+        "System Administration", "Network Administration", "Database Administration", "Quality Assurance",
+        "Software Testing", "Test Automation", "Performance Testing", "Load Testing", "Mobile Development",
+        "Game Development", "AR/VR Development", "Embedded Systems", "Firmware Development"
+      ]
+    }
+  },
+  "extraction_patterns": {
+    "section_headers": [
+      "skills", "technical skills", "core competencies", "expertise", "proficiencies",
+      "technologies", "programming languages", "tools", "software", "platforms",
+      "languages", "certifications", "qualifications", "abilities", "experience with"
+    ],
+    "skill_indicators": [
+      "experience in", "proficient in", "skilled in", "expertise in", "knowledge of",
+      "familiar with", "worked with", "used", "developed with", "built using",
+      "implemented in", "created with", "years of experience", "competent in"
+    ],
+    "context_keywords": [
+      "project", "developed", "created", "built", "implemented", "designed", "worked on",
+      "responsible for", "led", "managed", "collaborated", "contributed", "maintained",
+      "optimized", "integrated", "deployed", "tested", "debugged", "troubleshot"
+    ]
+  },
+  "scoring_algorithm": {
+    "base_weight": 1.0,
+    "frequency_multiplier": 0.1,
+    "context_bonus": 0.2,
+    "section_bonus": 0.3,
+    "experience_multiplier": {
+      "beginner": 0.5,
+      "intermediate": 1.0,
+      "advanced": 1.5,
+      "expert": 2.0
+    },
+    "recency_decay": {
+      "current": 1.0,
+      "1_year": 0.9,
+      "2_years": 0.8,
+      "3_years": 0.7,
+      "4_years": 0.6,
+      "5_years": 0.5
+    }
+  },
+  "confidence_thresholds": {
+    "high": 0.8,
+    "medium": 0.6,
+    "low": 0.4,
+    "minimum": 0.2
+  },
+  "output_format": {
+    "skills": [
+      {
+        "name": "string",
+        "category": "string",
+        "confidence": "float",
+        "experience_level": "string",
+        "context": ["string"],
+        "frequency": "integer",
+        "weight": "float"
+      }
+    ],
+    "summary": {
+      "total_skills": "integer",
+      "high_confidence_skills": "integer",
+      "top_categories": ["string"],
+      "overall_score": "float",
+      "recommendations": ["string"]
+    }
+  },
+  "ai_prompts": {
+    "skill_extraction": {
+      "system_prompt": "You are an expert at extracting technical and professional skills from resumes and job applications. Analyze the provided text and identify all relevant skills, categorize them appropriately, and assess the candidate's proficiency level based on context clues.",
+      "user_prompt_template": "Extract all skills from the following resume/application text. For each skill, provide:\n1. Skill name (normalized)\n2. Category (from predefined categories)\n3. Confidence level (0.0-1.0)\n4. Experience level (Beginner/Intermediate/Advanced/Expert)\n5. Context where mentioned\n\nText: {resume_text}\n\nRespond with a structured JSON format as specified in the configuration."
+    },
+    "skill_normalization": {
+      "system_prompt": "You are an expert at normalizing and standardizing technical skill names. Convert variations and synonyms to their canonical forms.",
+      "user_prompt_template": "Normalize these skill names to their standard forms: {skill_list}"
+    },
+    "experience_assessment": {
+      "system_prompt": "You are an expert at assessing technical experience levels based on context and project descriptions.",
+      "user_prompt_template": "Based on this context: '{context}', assess the experience level for {skill_name}. Consider project complexity, responsibilities, and duration."
+    }
+  },
+  "validation_rules": {
+    "minimum_skill_length": 2,
+    "maximum_skill_length": 50,
+    "minimum_confidence": 0.2,
+    "maximum_skills_per_resume": 100,
+    "required_categories": ["programming_languages", "web_technologies", "soft_skills"]
+  },
+  "processing_options": {
+    "remove_duplicates": true,
+    "normalize_case": true,
+    "merge_similar_skills": true,
+    "similarity_threshold": 0.8,
+    "include_soft_skills": true,
+    "include_certifications": true,
+    "language_detection": true,
+    "supported_languages": ["en", "es", "fr", "de", "it", "pt"]
+  }
+}

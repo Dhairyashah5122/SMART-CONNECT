@@ -3,7 +3,7 @@
 "use client"
 
 import * as React from "react"
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   SidebarProvider,
@@ -40,18 +40,19 @@ import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/lib/auth"
 
 function AppHeader() {
   const { isMobile } = useSidebar();
-  const router = useRouter();
   const { toast } = useToast();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     toast({
         title: "Logged Out",
         description: "You have been successfully logged out.",
     })
-    router.push('/login');
+    logout();
   }
 
   return (
@@ -65,30 +66,35 @@ function AppHeader() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
-               <AvatarImage src="https://i.pravatar.cc/150?u=admin" data-ai-hint="person" />
-              <AvatarFallback>AD</AvatarFallback>
+               <AvatarImage src={user?.avatar || `https://i.pravatar.cc/150?u=${user?.email}`} data-ai-hint="person" />
+              <AvatarFallback>
+                {user?.name?.slice(0, 2).toUpperCase() || 'U'}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">Admin</p>
+              <p className="text-sm font-medium leading-none">{user?.name || 'User'}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                admin@synergyscope.com
+                {user?.email}
+              </p>
+              <p className="text-xs leading-none text-muted-foreground capitalize">
+                {user?.role} Account
               </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/profile"><User className="mr-2"/>Profile</Link>
+              <Link href="/profile"><User className="mr-2 h-4 w-4"/>Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/settings"><Settings className="mr-2"/>Settings</Link>
+              <Link href="/settings"><Settings className="mr-2 h-4 w-4"/>Settings</Link>
             </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
-            <LogOut className="mr-2"/>Log out
+            <LogOut className="mr-2 h-4 w-4"/>Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -98,6 +104,7 @@ function AppHeader() {
 
 function MainSidebarContent() {
   const pathname = usePathname();
+  const { user } = useAuth();
   const isActive = (path: string) => pathname === path || (pathname.startsWith(path) && path !== '/');
 
   const mainMenuItems = [
@@ -115,11 +122,15 @@ function MainSidebarContent() {
     { href: "/showcase", icon: Star, label: "Showcase" },
   ];
   
+  const adminMenuItems = [
+    { href: "/admin/users", icon: Users, label: "User Management" },
+    { href: "/admin/dashboard", icon: Shield, label: "Admin Dashboard" },
+  ];
+
   const secondaryMenuItems = [
-    { href: "/admin/dashboard", icon: Shield, label: "Admin" },
     { href: "/mentor/dashboard", icon: User, label: "Mentor" },
     { href: "/student/dashboard", icon: GraduationCap, label: "Student" },
-  ]
+  ];
 
   return (
     <>
@@ -135,7 +146,7 @@ function MainSidebarContent() {
         <SidebarMenu>
             <SidebarMenuButton asChild className="w-full justify-start text-left h-auto py-2">
                 <div>
-                    <p className="font-semibold">Smaty Capstone</p>
+                    <p className="font-semibold">Smart Capstone</p>
                     <p className="text-xs text-muted-foreground">Innovate Inc.</p>
                 </div>
             </SidebarMenuButton>
@@ -154,6 +165,27 @@ function MainSidebarContent() {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+        
+        {/* Admin Section - Only show if user is admin */}
+        {user?.role === 'admin' && (
+          <>
+            <Separator className="my-2" />
+            <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Administration</p>
+            <SidebarMenu>
+              {adminMenuItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton asChild isActive={isActive(item.href)} tooltip={item.label}>
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </>
+        )}
+        
         <Separator className="my-2" />
          <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Dashboards</p>
          <SidebarMenu>

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScopeOutcomeChart } from '@/components/dashboard/scope-outcome-chart';
@@ -5,13 +7,40 @@ import { StudentSatisfactionChart } from '@/components/dashboard/student-satisfa
 import { CompanySatisfactionChart } from '@/components/dashboard/company-satisfaction-chart';
 import Link from 'next/link';
 import { ArrowRight, BarChart, FileText, Users } from 'lucide-react';
+import { useAuth } from '@/lib/auth';
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+
+  const getRoleSpecificWelcome = () => {
+    switch (user?.role) {
+      case 'admin':
+        return 'Manage the entire platform, oversee users, and generate system-wide reports.';
+      case 'company':
+        return 'Manage your projects, review reports, and analyze company-specific survey data.';
+      case 'mentor':
+        return 'Guide students, manage mentorship programs, and track mentee progress.';
+      case 'student':
+        return 'Access your personalized dashboard, track progress, and manage projects.';
+      default:
+        return 'An integrated platform for survey analysis, student-project matching, and comparative insights.';
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Welcome to SMART CONNECTION</h1>
-        <p className="text-muted-foreground">An integrated platform for survey analysis, student-project matching, and comparative insights.</p>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Welcome back, {user?.name || 'User'}!
+        </h1>
+        <p className="text-muted-foreground">
+          {getRoleSpecificWelcome()}
+        </p>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span className="capitalize">{user?.role} Account</span>
+          <span>•</span>
+          <span>{user?.email}</span>
+        </div>
       </div>
 
        <Card>

@@ -89,10 +89,9 @@ class Settings(BaseSettings):
     
     @validator("database_url", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> str:
-        if isinstance(v, str) and v:
+        if isinstance(v, str):
             return v
-        # Default to SQLite for development if no database URL provided
-        return "sqlite:///./smart_connect.db"
+        return f"postgresql://{values.get('db_user')}:{values.get('db_password')}@{values.get('db_host')}:{values.get('db_port')}/{values.get('db_name')}"
     
     @validator("debug", pre=True)
     def set_debug_mode(cls, v: Optional[bool], values: Dict[str, Any]) -> bool:

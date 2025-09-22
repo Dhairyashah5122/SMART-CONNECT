@@ -33,12 +33,12 @@ $env:PGPASSWORD = "postgres"
 
 # Create database
 $createDbCmd = "CREATE DATABASE $DbName;"
-echo $createDbCmd | psql -h $DbHost -p $DbPort -U postgres 2>$null
+Write-Output $createDbCmd | psql -h $DbHost -p $DbPort -U postgres 2>$null
 Write-Host "SUCCESS: Database created (or already exists)" -ForegroundColor Green
 
 # Create user  
 $createUserCmd = "CREATE USER $DbUser WITH ENCRYPTED PASSWORD '$DbPassword'; GRANT ALL PRIVILEGES ON DATABASE $DbName TO $DbUser; ALTER USER $DbUser CREATEDB;"
-echo $createUserCmd | psql -h $DbHost -p $DbPort -U postgres 2>$null
+Write-Output $createUserCmd | psql -h $DbHost -p $DbPort -U postgres 2>$null
 Write-Host "SUCCESS: User created (or already exists)" -ForegroundColor Green
 
 # Set environment for database operations
@@ -68,7 +68,7 @@ if (Test-Path $sampleDataFile) {
 
 # Verify installation
 Write-Host "Verifying installation..." -ForegroundColor Yellow
-$result = echo "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'capstone';" | psql -h $DbHost -p $DbPort -U $DbUser -d $DbName -t 2>$null
+$result = Write-Output "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'capstone';" | psql -h $DbHost -p $DbPort -U $DbUser -d $DbName -t 2>$null
 $tableCount = [int]($result.Trim())
 
 if ($tableCount -gt 0) {
@@ -89,7 +89,7 @@ if ($tableCount -gt 0) {
     
     # List tables
     Write-Host "=== AVAILABLE TABLES ===" -ForegroundColor Cyan
-    echo "SELECT table_name FROM information_schema.tables WHERE table_schema = 'capstone' ORDER BY table_name;" | psql -h $DbHost -p $DbPort -U $DbUser -d $DbName 2>$null
+    Write-Output "SELECT table_name FROM information_schema.tables WHERE table_schema = 'capstone' ORDER BY table_name;" | psql -h $DbHost -p $DbPort -U $DbUser -d $DbName 2>$null
     
 } else {
     Write-Host "ERROR: No tables found in capstone schema" -ForegroundColor Red

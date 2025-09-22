@@ -7,12 +7,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
-import { Users, Briefcase, Bell, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2, UserCheck, KeyRound, GraduationCap, Building, Shield } from 'lucide-react';
+import { Users, Settings, UserCog, FolderCheck, Send, BarChart, FilePlus2, UserCheck, GraduationCap, Building, Shield } from 'lucide-react';
 import Link from 'next/link';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'student' | 'mentor' | 'company' | 'admin';
+  lastLogin?: Date;
+  createdAt: Date;
+}
 
 export default function AdminDashboardPage() {
   const { user, getUsers } = useAuth();
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState({
     totalUsers: 0,
     students: 0,
@@ -75,7 +84,7 @@ export default function AdminDashboardPage() {
   }
 
   const recentUsers = users
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
     .slice(0, 5);
 
   return (

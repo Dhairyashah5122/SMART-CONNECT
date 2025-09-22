@@ -6,7 +6,7 @@ from sqlalchemy import Column, Integer, String, Text, Date, ForeignKey, DECIMAL
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from core.database import Base
+from ..core.database import Base
 from .user import User
 
 

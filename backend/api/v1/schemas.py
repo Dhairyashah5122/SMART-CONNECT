@@ -312,13 +312,6 @@ class SkillExtractionResponse(BaseModel):
 
 
 # Generic response schemas
-class BaseResponse(BaseModel):
-    """Base response schema with common fields"""
-    success: bool = True
-    message: Optional[str] = None
-    timestamp: Optional[datetime] = None
-
-
 class MessageResponse(BaseModel):
     message: str
     success: bool = True

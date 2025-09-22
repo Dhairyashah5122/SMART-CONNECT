@@ -10,10 +10,10 @@ from sqlalchemy.orm import Session
 import base64
 from datetime import datetime
 
-from core.database import get_db
-from core.data_mining import DataMiningEngine, SearchQuery, SearchResult
-from core.data_extraction import DataExtractionEngine, ExportOptions, ExportResult, ExportFormat
-from api.v1.schemas import BaseResponse
+from ....core.database import get_db
+from ....core.data_mining import DataMiningEngine, SearchQuery, SearchResult
+from ....core.data_extraction import DataExtractionEngine, ExportOptions, ExportResult, ExportFormat
+from ..schemas import BaseResponse
 
 router = APIRouter(prefix="/search", tags=["Advanced Search & Data Mining"])
 

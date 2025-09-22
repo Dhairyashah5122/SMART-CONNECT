@@ -5,7 +5,7 @@ Project information and student/mentor assignments
 from sqlalchemy import Column, Integer, String, Text, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-from core.database import Base
+from ..core.database import Base
 
 
 class Project(Base):

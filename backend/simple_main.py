@@ -95,13 +95,13 @@ async def analyze_data(data: dict):
 
 if __name__ == "__main__":
     print("🚀 Starting SMART CONNECTION Backend...")
-    print("📡 Server will run on http://localhost:8001")
+    print("📡 Server will run on http://localhost:8002")
     print("🔧 Running in simplified mode (no complex AI dependencies)")
     
     uvicorn.run(
         app,
         host="0.0.0.0",
-        port=8001,
-        reload=True,
+        port=8002,
+        reload=False,
         log_level="info"
     )

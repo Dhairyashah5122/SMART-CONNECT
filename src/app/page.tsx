@@ -1,16 +1,17 @@
 "use client";
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScopeOutcomeChart } from '@/components/dashboard/scope-outcome-chart';
-import { StudentSatisfactionChart } from '@/components/dashboard/student-satisfaction-chart';
-import { CompanySatisfactionChart } from '@/components/dashboard/company-satisfaction-chart';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowRight, BarChart, FileText, Users } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 
 export default function DashboardPage() {
   const { user } = useAuth();
+
+  if (!user) {
+    return null; // This will be handled by AppWrapper redirect
+  }
 
   const getRoleSpecificWelcome = () => {
     switch (user?.role) {
@@ -43,39 +44,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-       <Card>
-        <CardHeader>
-          <CardTitle>Gap Analysis Overview</CardTitle>
-          <CardDescription>A high-level view of project scope vs. outcomes and stakeholder satisfaction.</CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base font-medium">Scope vs. Outcome</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScopeOutcomeChart />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base font-medium">Student Satisfaction</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <StudentSatisfactionChart />
-              </CardContent>
-            </Card>
-             <Card>
-              <CardHeader>
-                <CardTitle className="text-base font-medium">Company Satisfaction</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CompanySatisfactionChart />
-              </CardContent>
-            </Card>
-        </CardContent>
-      </Card>
-
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="flex flex-col">
           <CardHeader>
@@ -84,14 +52,14 @@ export default function DashboardPage() {
           <CardContent className="flex-grow">
             <p className="text-muted-foreground">Access your personalized dashboard to track progress, manage projects, and view matches.</p>
           </CardContent>
-          <CardFooter className='flex-col items-start gap-4'>
-            <Button asChild className="w-full justify-between">
+          <div className='flex-col items-start gap-4 p-6 pt-0'>
+            <Button asChild className="w-full justify-between mb-2">
               <Link href="/student/dashboard">Student Dashboard <ArrowRight /></Link>
             </Button>
             <Button asChild variant="outline" className="w-full justify-between">
               <Link href="/mentor/dashboard">Mentor Dashboard <ArrowRight /></Link>
             </Button>
-          </CardFooter>
+          </div>
         </Card>
         <Card className="flex flex-col">
           <CardHeader>
@@ -100,11 +68,11 @@ export default function DashboardPage() {
           <CardContent className="flex-grow">
              <p className="text-muted-foreground">Manage your projects, review reports, and analyze company-specific survey data.</p>
           </CardContent>
-          <CardFooter>
+          <div className="p-6 pt-0">
             <Button asChild className="w-full justify-between">
               <Link href="/companies">Company Hub <ArrowRight /></Link>
             </Button>
-          </CardFooter>
+          </div>
         </Card>
         <Card className="flex flex-col">
           <CardHeader>
@@ -113,11 +81,11 @@ export default function DashboardPage() {
           <CardContent className="flex-grow">
             <p className="text-muted-foreground">Oversee the entire platform, manage users, and generate system-wide reports.</p>
           </CardContent>
-          <CardFooter>
+          <div className="p-6 pt-0">
             <Button asChild className="w-full justify-between">
               <Link href="/admin/dashboard">Admin Dashboard <ArrowRight /></Link>
             </Button>
-          </CardFooter>
+          </div>
         </Card>
       </div>
 

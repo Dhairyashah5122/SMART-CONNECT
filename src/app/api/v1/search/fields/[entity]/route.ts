@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { entity: string } }
-) {
+): Promise<NextResponse> {
   const { entity } = params;
   
   // Mock field data for different entities

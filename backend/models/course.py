@@ -5,7 +5,7 @@ Course information and student enrollments
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
-from core.database import Base
+from ..core.database import Base
 
 
 class Course(Base):

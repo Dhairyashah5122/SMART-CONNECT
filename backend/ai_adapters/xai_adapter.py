@@ -7,7 +7,7 @@ import httpx
 import json
 import asyncio
 from typing import Dict, List, Optional, Any
-from ai_adapters.base import BaseAIAdapter, AIRequest, AIResponse, AITask
+from ai_adapters.base import BaseAIAdapter
 
 
 class XAIAdapter(BaseAIAdapter):
@@ -18,58 +18,12 @@ class XAIAdapter(BaseAIAdapter):
     """
     
     def __init__(self, api_key: Optional[str] = None):
-        config = {
-            "cost_per_1k_tokens": 0.0,  # Free tier
-            "max_tokens": 4000,
-            "supported_features": [task.value for task in AITask]
-        }
-        super().__init__("xai", api_key or "free-tier", config)
+        self.provider = "xai"
+        self.api_key = api_key or "free-tier"  # Free tier placeholder
         self.base_url = "https://api.x.ai/v1"  # Placeholder URL
         self.model_name = "grok-beta"
         self.is_free = True
         self.priority = 1  # High priority for free tier
-    
-    async def generate_response(self, request: AIRequest) -> AIResponse:
-        """Generate response using xAI's Grok model."""
-        try:
-            # Simulate API call delay
-            await asyncio.sleep(0.5)
-            
-            # Generate response based on task type
-            if request.task == AITask.STUDENT_RANKING:
-                content = self._generate_skill_analysis(request.prompt)
-            elif request.task == AITask.PROJECT_MATCHING:
-                content = self._generate_project_analysis(request.prompt)
-            elif request.task == AITask.SURVEY_ANALYSIS:
-                content = self._generate_survey_analysis(request.prompt)
-            else:
-                content = self._generate_general_response(request.prompt)
-            
-            return AIResponse(
-                content=content,
-                provider="xai",
-                model="grok-beta",
-                tokens_used=len(content.split()) * 1.3,  # Rough estimate
-                cost=0.0,  # Free tier
-                success=True
-            )
-                
-        except Exception as e:
-            return AIResponse(
-                content=f"Error with xAI Grok: {str(e)}",
-                provider="xai",
-                model="grok-beta",
-                tokens_used=0,
-                cost=0.0,
-                success=False,
-                error=str(e)
-            )
-    
-    def is_available(self) -> bool:
-        """Check if the adapter is available."""
-        # For mock implementation, always return True
-        # In production, this would check API connectivity
-        return True
         
     async def generate_text(self, prompt: str, **kwargs) -> str:
         """

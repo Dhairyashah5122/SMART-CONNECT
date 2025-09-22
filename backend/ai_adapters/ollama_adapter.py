@@ -103,7 +103,7 @@ class OllamaAdapter(BaseAIAdapter):
         """Check if Ollama server is running"""
         try:
             import httpx
-            with httpx.Client(timeout=2) as client:
+            with httpx.Client(timeout=5) as client:
                 response = client.get(f"{self.base_url}/api/tags")
                 return response.status_code == 200
         except Exception:

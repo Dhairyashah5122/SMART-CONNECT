@@ -1,6 +1,9 @@
 // AI Configuration for SMART Connect System
 // Supports multiple AI providers: OpenAI, Google AI, Hugging Face, Ollama
 
+import { ai as genkitAi } from 'genkit';
+export { z } from 'genkit';
+
 interface AIProvider {
   name: string;
   endpoint: string;
@@ -54,3 +57,6 @@ export const getDefaultProvider = (): AIProvider | null => {
   const defaultProvider = available.find(p => p.name === aiConfig.defaultProvider);
   return defaultProvider || available[0] || null;
 };
+
+// Export the genkit ai object
+export const ai = genkitAi;

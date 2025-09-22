@@ -1,6 +1,8 @@
+# LICENSE
+
 MIT License
 
-Copyright (c) 2024 Westcliff University
+Copyright (c) 2025 Westcliff University
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -67,8 +69,8 @@ For permissions, licensing questions, or commercial use inquiries, contact:
 **Westcliff University**  
 Technology Transfer Office  
 Email: licensing@westcliff.edu  
-Phone: (949) 825-5400  
-Address: 4199 Campus Drive, Irvine, CA 92612
+Phone: (949) 825-5999
+Address: 17877 Von Karman Ave 4th floor, Irvine, CA 92614
 
 ### Warranty Disclaimer
 

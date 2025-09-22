@@ -12,13 +12,13 @@ import json
 import re
 from enum import Enum
 
-from models.student import Student
-from models.mentor import Mentor
-from models.project import Project
-from models.company import Company
-from models.survey import Survey, SurveyResponse
-from models.user import User
-from models.course import Course
+from ..models.student import Student
+from ..models.mentor import Mentor
+from ..models.project import Project
+from ..models.company import Company
+from ..models.survey import Survey, SurveyResponse
+from ..models.user import User
+from ..models.course import Course
 
 
 class SearchOperator(str, Enum):

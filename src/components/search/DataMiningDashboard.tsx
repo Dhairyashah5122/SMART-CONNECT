@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Database, Search, Filter, Download, TrendingUp, Users, Building, GraduationCap, Briefcase } from 'lucide-react';
+import { Database, Search, Filter, Download, TrendingUp, Users, Building, GraduationCap } from 'lucide-react';
 import AdvancedSearch from '@/components/search/AdvancedSearch';
 import AdvancedFilters from '@/components/search/AdvancedFilters';
 import { SearchResult } from '@/lib/types';
@@ -11,6 +11,7 @@ import { SearchResult } from '@/lib/types';
 export default function DataMiningDashboard() {
   const [selectedEntity, setSelectedEntity] = useState('students');
   const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
+
   const entityStats = [
     {
       name: 'Students',
@@ -36,7 +37,7 @@ export default function DataMiningDashboard() {
     {
       name: 'Companies',
       value: 'companies',
-      icon: <Briefcase className="h-6 w-6" />,
+      icon: <Building className="h-6 w-6" />,
       count: '123',
       color: 'bg-orange-500'
     }
@@ -148,14 +149,16 @@ export default function DataMiningDashboard() {
             </Card>
           )}
         </div>
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <AdvancedFilters 
-              entity={selectedEntity}
-              onFiltersChange={() => {}}
-            />
-          </div>
+
+        {/* Filters Sidebar */}
+        <div className="lg:col-span-1">
+          <AdvancedFilters 
+            entity={selectedEntity}
+            onFiltersChange={() => {}}
+          />
         </div>
+      </div>
+
       {/* Tabs for Different Views */}
       <Card>
         <CardHeader>

@@ -14,7 +14,7 @@ from .google_adapter import GoogleAIAdapter
 from .ollama_adapter import OllamaAdapter
 from .huggingface_adapter import HuggingFaceAdapter, HuggingFaceAPIAdapter
 from .xai_adapter import XAIAdapter
-from core.config import settings, AIProvider, FEATURE_PROVIDER_MAP
+from ..core.config import settings, AIProvider, FEATURE_PROVIDER_MAP
 
 logger = logging.getLogger(__name__)
 
@@ -86,13 +86,10 @@ class AIManager:
             "temperature": 0.7,
             "supported_features": ["text_generation", "analysis", "student_ranking", "skill_extraction", "report_generation"]
         }
-        try:
-            ollama_adapter = OllamaAdapter(ollama_config)
-            if ollama_adapter.is_available():
-                self.adapters["ollama"] = ollama_adapter
-                logger.info("Ollama local AI provider initialized (FREE)")
-        except Exception as e:
-            logger.warning(f"Ollama adapter failed to initialize: {e}")
+        ollama_adapter = OllamaAdapter(ollama_config)
+        if ollama_adapter.is_available():
+            self.adapters["ollama"] = ollama_adapter
+            logger.info("Ollama local AI provider initialized (FREE)")
         
         # Hugging Face Local - Free local transformers
         hf_local_config = {
@@ -103,13 +100,10 @@ class AIManager:
             "temperature": 0.7,
             "supported_features": ["text_generation", "analysis", "skill_extraction"]
         }
-        try:
-            hf_local_adapter = HuggingFaceAdapter(hf_local_config)
-            if hf_local_adapter.is_available():
-                self.adapters["huggingface_local"] = hf_local_adapter
-                logger.info("Hugging Face local provider initialized (FREE)")
-        except Exception as e:
-            logger.warning(f"Hugging Face local adapter failed to initialize: {e}")
+        hf_local_adapter = HuggingFaceAdapter(hf_local_config)
+        if hf_local_adapter.is_available():
+            self.adapters["huggingface_local"] = hf_local_adapter
+            logger.info("Hugging Face local provider initialized (FREE)")
         
         # Hugging Face API - Free tier available
         if hasattr(settings, 'huggingface_api_key') and settings.huggingface_api_key:

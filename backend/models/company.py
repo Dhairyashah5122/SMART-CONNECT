@@ -5,7 +5,7 @@ Company information for project assignments
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.orm import relationship
 
-from core.database import Base
+from ..core.database import Base
 
 
 class Company(Base):

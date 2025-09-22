@@ -6,7 +6,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import expression
 
-from core.database import Base
+from ..core.database import Base
 
 
 class User(Base):

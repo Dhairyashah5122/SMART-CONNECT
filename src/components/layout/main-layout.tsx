@@ -1,13 +1,9 @@
-
-
 "use client"
-
 import * as React from "react"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   SidebarProvider,
-  Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarMenu,
@@ -17,6 +13,7 @@ import {
   SidebarTrigger,
   useSidebar,
   SidebarHeader,
+  Sidebar,
 } from "@/components/ui/sidebar"
 import {
   BarChart2,
@@ -231,7 +228,6 @@ function LayoutWithSidebar({ children }: { children: React.ReactNode }) {
         </SidebarProvider>
     );
 }
-
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const noLayoutRoutes = ['/login', '/nda', '/signup', '/forgot-password', '/unauthorized'];

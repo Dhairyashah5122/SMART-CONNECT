@@ -79,22 +79,22 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-background p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader className="text-center">
+        <div className="min-h-screen flex items-center justify-center bg-background">
+            <Card className="w-full max-w-md shadow-lg rounded-xl">
+                <CardHeader className="text-center pb-0">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                        <svg className="h-6 w-6" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <svg className="h-7 w-7 text-primary" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path d="M16 8.7a4 4 0 1 0-8 0"></path>
                             <path d="M16 15.3a4 4 0 1 1-8 0"></path>
                             <path d="M4.7 12A8.1 8.1 0 0 0 12 20a8.1 8.1 0 0 0 7.3-8"></path>
                             <path d="M19.3 12A8.1 8.1 0 0 0 12 4a8.1 8.1 0 0 0-7.3 8"></path>
                         </svg>
-                        <span className="font-semibold">SMART CONNECTION</span>
+                        <span className="font-bold text-lg tracking-wide">SMART CONNECTION</span>
                     </div>
-                    <CardTitle className="text-2xl">Create Account</CardTitle>
-                    <CardDescription>Join SMART CONNECTION to get started</CardDescription>
+                    <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+                    <CardDescription className="mt-1">Sign up and select your role to access the app</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6 pt-2">
                     <form onSubmit={handleSignup} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="name">Full Name</Label>
@@ -113,7 +113,7 @@ export default function SignupPage() {
                             <Input 
                                 id="email" 
                                 type="email" 
-                                placeholder="john.doe@westcliff.edu" 
+                                placeholder="your@email.com" 
                                 required 
                                 value={formData.email} 
                                 onChange={(e) => handleInputChange('email', e.target.value)} 
@@ -127,10 +127,10 @@ export default function SignupPage() {
                                     <SelectValue placeholder="Select your role" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="student">Student</SelectItem>
-                                    <SelectItem value="mentor">Mentor</SelectItem>
-                                    <SelectItem value="company">Company Representative</SelectItem>
-                                    <SelectItem value="admin">Administrator</SelectItem>
+                                    <SelectItem value="student">🎓 Student</SelectItem>
+                                    <SelectItem value="mentor">👨‍🏫 Mentor</SelectItem>
+                                    <SelectItem value="company">🏢 Company Representative</SelectItem>
+                                    <SelectItem value="admin">🔐 Administrator</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -158,16 +158,16 @@ export default function SignupPage() {
                                 disabled={isLoading}
                             />
                         </div>
-                        <Button type="submit" className="w-full" disabled={isLoading}>
+                        <Button type="submit" className="w-full font-semibold" disabled={isLoading}>
                              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UserPlus className="mr-2 h-4 w-4" />}
                             Create Account
                         </Button>
                     </form>
                 </CardContent>
-                <CardFooter className="flex flex-col gap-4">
+                <CardFooter className="flex flex-col gap-4 pt-2">
                     <div className="text-center text-sm">
                          <span className="text-muted-foreground">Already have an account? </span>
-                         <Link href="/login" className="text-primary hover:underline">
+                         <Link href="/login" className="text-primary hover:underline font-medium">
                             Sign in
                         </Link>
                     </div>

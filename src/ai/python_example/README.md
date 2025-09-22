@@ -6,27 +6,6 @@ This directory contains example code for a standalone Python backend that uses G
 
 For a clean and scalable backend, we recommend the following structure inside the `src/ai/python_example` directory. You will need to create these folders and files manually.
 
-```
-src/ai/python_example/
-├── api/
-│   ├── __init__.py
-│   └── v1/
-│       ├── __init__.py
-│       ├── endpoints/
-│       │   ├── __init__.py
-│       │   └── rank_students.py
-│       └── schemas.py
-├── core/
-│   ├── __init__.py
-│   └── config.py
-├── flows/
-│   ├── __init__.py
-│   └── rank_students_flow.py
-├── main.py
-├── requirements.txt
-└── README.md
-```
-
 ## Setup Instructions
 
 ### 1. Prerequisites
@@ -188,10 +167,10 @@ Your Python server will now be running, typically at `http://127.0.0.1:8000`.
 
 ## How It Works
 
-1.  The **Next.js frontend** makes a `fetch` request to `http://127.0.0.1:8000/api/v1/rank-students`.
-2.  The **FastAPI server** receives this request in `main.py` and routes it to the `handle_rank_students` function in `api/v1/endpoints/rank_students.py`.
-3.  The endpoint function calls your Python-based **Genkit flow** from `flows/rank_students_flow.py`.
-4.  The Genkit flow executes the AI prompt and returns the structured data.
-5.  FastAPI sends this data back to your Next.js frontend as a JSON response.
+1. The **Next.js frontend** makes a `fetch` request to `http://127.0.0.1:8000/api/v1/rank-students`.
+2. The **FastAPI server** receives this request in `main.py` and routes it to the `handle_rank_students` function in `api/v1/endpoints/rank_students.py`.
+3. The endpoint function calls your Python-based **Genkit flow** from `flows/rank_students_flow.py`.
+4. The Genkit flow executes the AI prompt and returns the structured data.
+5. FastAPI sends this data back to your Next.js frontend as a JSON response.
 
 You now have a fully functional hybrid system!

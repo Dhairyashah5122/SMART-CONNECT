@@ -119,27 +119,27 @@ export default function LoginPage() {
     const isAnyLoading = isLoading || ssoLoading !== '';
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-background p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader className="text-center">
+        <div className="min-h-screen flex items-center justify-center bg-background">
+            <Card className="w-full max-w-md shadow-lg rounded-xl">
+                <CardHeader className="text-center pb-0">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                        <svg className="h-6 w-6" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <svg className="h-7 w-7 text-primary" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path d="M16 8.7a4 4 0 1 0-8 0"></path>
                             <path d="M16 15.3a4 4 0 1 1-8 0"></path>
                             <path d="M4.7 12A8.1 8.1 0 0 0 12 20a8.1 8.1 0 0 0 7.3-8"></path>
                             <path d="M19.3 12A8.1 8.1 0 0 0 12 4a8.1 8.1 0 0 0-7.3 8"></path>
                         </svg>
-                        <span className="font-semibold">SMART CONNECTION</span>
+                        <span className="font-bold text-lg tracking-wide">SMART CONNECTION</span>
                     </div>
-                    <CardTitle className="text-2xl">Welcome Back</CardTitle>
-                    <CardDescription>Choose your preferred sign-in method</CardDescription>
+                    <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+                    <CardDescription className="mt-1">Access your dashboard based on your role</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6 pt-2">
                     {/* SSO Options */}
                     <div className="grid gap-3">
                         <Button 
                             variant="outline" 
-                            className="w-full justify-start gap-3" 
+                            className="w-full justify-center gap-3 py-2 font-medium" 
                             onClick={handleGoogleLogin} 
                             disabled={isAnyLoading}
                         >
@@ -153,12 +153,11 @@ export default function LoginPage() {
                                     <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                                 </svg>
                             )}
-                            Continue with Google
+                            Google SSO
                         </Button>
-                        
                         <Button 
                             variant="outline" 
-                            className="w-full justify-start gap-3" 
+                            className="w-full justify-center gap-3 py-2 font-medium" 
                             onClick={() => handleSSO('westcliff')} 
                             disabled={isAnyLoading}
                         >
@@ -167,12 +166,11 @@ export default function LoginPage() {
                             ) : (
                                 <Briefcase className="h-4 w-4" />
                             )}
-                            Sign in with Westcliff
+                            Westcliff SSO
                         </Button>
-
                         <Button 
                             variant="outline" 
-                            className="w-full justify-start gap-3" 
+                            className="w-full justify-center gap-3 py-2 font-medium" 
                             onClick={() => handleSSO('microsoft')} 
                             disabled={isAnyLoading}
                         >
@@ -183,11 +181,10 @@ export default function LoginPage() {
                                     <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/>
                                 </svg>
                             )}
-                            Sign in with Microsoft
+                            Microsoft SSO
                         </Button>
                     </div>
-
-                    <div className="relative">
+                    <div className="relative my-2">
                         <div className="absolute inset-0 flex items-center">
                             <span className="w-full border-t" />
                         </div>
@@ -197,7 +194,6 @@ export default function LoginPage() {
                             </span>
                         </div>
                     </div>
-
                     {/* Email/Password Form */}
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div className="space-y-2">
@@ -205,7 +201,7 @@ export default function LoginPage() {
                             <Input 
                                 id="email" 
                                 type="email" 
-                                placeholder="student@westcliff.edu" 
+                                placeholder="your@email.com" 
                                 required 
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)} 
@@ -224,31 +220,31 @@ export default function LoginPage() {
                                 disabled={isAnyLoading}
                             />
                         </div>
-                        <Button type="submit" className="w-full" disabled={isAnyLoading}>
+                        <Button type="submit" className="w-full font-semibold" disabled={isAnyLoading}>
                             {isLoading ? (
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             ) : (
                                 <Mail className="mr-2 h-4 w-4" />
                             )}
-                            Sign In with Email
+                            Sign In
                         </Button>
                     </form>
                 </CardContent>
-                <CardFooter className="flex flex-col gap-4">
+                <CardFooter className="flex flex-col gap-4 pt-2">
                     <div className="flex justify-between w-full text-sm">
-                         <Link href="/signup" className="text-primary hover:underline">
-                            Create an account
+                         <Link href="/signup" className="text-primary hover:underline font-medium">
+                            Create account
                         </Link>
-                        <Link href="/forgot-password" className="text-primary hover:underline">
+                        <Link href="/forgot-password" className="text-primary hover:underline font-medium">
                             Forgot password?
                         </Link>
                     </div>
                     <div className="text-center text-xs text-muted-foreground space-y-1">
                         <p className="font-semibold">Demo Accounts (any password):</p>
-                        <p>🔐 Admin: admin@smartconnection.edu</p>
-                        <p>🎓 Student: student@smartconnection.edu</p>
-                        <p>🏢 Company: company@smartconnection.edu</p>
-                        <p>👨‍🏫 Mentor: mentor@smartconnection.edu</p>
+                        <p>🔐 Admin: <span className="font-mono">admin@smartconnection.edu</span></p>
+                        <p>🎓 Student: <span className="font-mono">student@smartconnection.edu</span></p>
+                        <p>🏢 Company: <span className="font-mono">company@smartconnection.edu</span></p>
+                        <p>👨‍🏫 Mentor: <span className="font-mono">mentor@smartconnection.edu</span></p>
                     </div>
                 </CardFooter>
             </Card>

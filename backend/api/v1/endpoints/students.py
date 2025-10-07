@@ -6,11 +6,11 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session, joinedload
 
-from core.database import get_db
-from core.security import get_current_user, get_current_admin, get_current_mentor
-from models.user import User
-from models.student import Student
-from api.v1.schemas import (
+from backend.core.database import get_db
+from backend.core.security import get_current_user, get_current_admin, get_current_mentor
+from backend.models.user import User
+from backend.models.student import Student
+from backend.api.v1.schemas import (
     StudentCreate,
     StudentUpdate,
     StudentResponse,

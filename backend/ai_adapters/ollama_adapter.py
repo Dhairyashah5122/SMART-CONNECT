@@ -8,8 +8,9 @@ from typing import Dict, Any, Optional
 import httpx
 import json
 
-from ai_adapters.base import BaseAIAdapter, AIRequest, AIResponse, AITask
-from core.config import settings
+from backend.ai_adapters.base import BaseAIAdapter, AIRequest, AIResponse, AITask
+
+from backend.core.config import settings
 
 import logging
 logger = logging.getLogger(__name__)

@@ -11,16 +11,18 @@ from fastapi.responses import JSONResponse
 import time
 import uvicorn
 
-from core.config import settings
-from core.database import create_tables, check_db_connection
-from ai_adapters.manager import ai_manager
+from backend.core.config import settings
+
+from backend.core.database import create_tables, check_db_connection
+
+from backend.ai_adapters.manager import ai_manager
 
 # Import routers
-from api.v1.endpoints.auth import router as auth_router
-from api.v1.endpoints.students import router as students_router
-from api.v1.endpoints.rank_students import router as ranking_router
-from api.v1.endpoints.search import router as search_router
-from api.v1.endpoints.filters import router as filters_router
+from backend.api.v1.endpoints.auth import router as auth_router
+from backend.api.v1.endpoints.students import router as students_router
+from backend.api.v1.endpoints.rank_students import router as ranking_router
+from backend.api.v1.endpoints.search import router as search_router
+from backend.api.v1.endpoints.filters import router as filters_router
 
 # Configure logging
 logging.basicConfig(
@@ -242,9 +244,8 @@ async def get_ai_providers():
 
 
 if __name__ == "__main__":
-    # Run the application
     uvicorn.run(
-        "main:app",
+        "backend.main:app",
         host=settings.host,
         port=settings.port,
         reload=settings.reload and settings.environment == "development",

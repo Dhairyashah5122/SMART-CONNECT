@@ -4,6 +4,7 @@ Core settings for the application including database, AI providers, and API sett
 """
 import os
 from typing import Optional, Dict, Any
+from pathlib import Path
 from pydantic_settings import BaseSettings
 from pydantic import validator
 from enum import Enum
@@ -35,12 +36,14 @@ class Settings(BaseSettings):
     reload: bool = True
     
     # Database Settings
-    database_url: Optional[str] = None
+    database_url: str = "postgresql+psycopg2://smart_connect_user:1234567@localhost:5432/smart_connect"
+
+
     db_host: str = "localhost"
-    db_port: int = 5433
+    db_port: int = 5432
     db_name: str = "smart_connect"
     db_user: str = "smart_connect_user"
-    db_password: str = "SmartConnect2024!"
+    db_password: str = "1234567"
     db_schema: str = "capstone"
     
     # Security
@@ -100,9 +103,9 @@ class Settings(BaseSettings):
         return v or False
     
     class Config:
-        env_file = ".env"
+        env_file = str(Path(__file__).parent.parent / ".env")  # <- load from backend/.env
         case_sensitive = False
-        extra = "allow"  # Allow extra fields from .env file
+        extra = "allow"
 
 
 # Global settings instance

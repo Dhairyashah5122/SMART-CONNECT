@@ -5,6 +5,7 @@ A comprehensive FastAPI backend for the SMART Connect educational platform, feat
 ## 🚀 Features
 
 ### Core Functionality
+
 - **Multi-Role Authentication**: Support for Students, Mentors, and Administrators
 - **Student Management**: Complete CRUD operations with profile management
 - **Project Management**: Project creation, assignment, and tracking
@@ -12,6 +13,7 @@ A comprehensive FastAPI backend for the SMART Connect educational platform, feat
 - **Survey System**: Feedback collection and analysis
 
 ### AI-Powered Features
+
 - **Multi-AI Provider Support**: OpenAI, Google AI, Anthropic, Azure OpenAI
 - **Cost Optimization**: Automatic provider selection based on cost and performance
 - **Student Ranking**: AI-powered ranking for project assignments
@@ -20,6 +22,7 @@ A comprehensive FastAPI backend for the SMART Connect educational platform, feat
 - **Genkit Integration**: Compatible with existing Genkit flows
 
 ### Technical Features
+
 - **FastAPI Framework**: High-performance async API
 - **PostgreSQL Database**: Robust data storage with schema support
 - **JWT Authentication**: Secure token-based authentication
@@ -61,6 +64,7 @@ pip install -r requirements.txt
 ### 4. Database Setup
 
 #### Create PostgreSQL Database
+
 ```sql
 -- Connect to PostgreSQL as superuser
 CREATE DATABASE smart_connect;
@@ -74,6 +78,7 @@ GRANT ALL ON SCHEMA capstone TO smart_connect_user;
 ```
 
 #### Run Database Schema
+
 ```bash
 # Navigate to the main project directory
 cd "c:\Users\Allot\Downloads\SMART CAPSTON PROJECT"
@@ -125,17 +130,20 @@ CORS_ORIGINS=["http://localhost:3000", "http://localhost:3001"]
 ## 🚀 Running the Application
 
 ### Development Server
+
 ```bash
 cd backend
-python main.py
+    python main.py
 ```
 
 Or using uvicorn directly:
+
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8001
 ```
 
 ### Production Server
+
 ```bash
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 ```
@@ -143,6 +151,7 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 ## 📚 API Documentation
 
 Once running, access the interactive API documentation:
+
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 - **Health Check**: http://localhost:8000/health
@@ -150,12 +159,14 @@ Once running, access the interactive API documentation:
 ## 🔧 API Endpoints
 
 ### Authentication
+
 - `POST /api/v1/auth/login` - User login
 - `POST /api/v1/auth/register` - User registration
 - `GET /api/v1/auth/me` - Current user info
 - `POST /api/v1/auth/logout` - User logout
 
 ### Students
+
 - `GET /api/v1/students/` - List students
 - `GET /api/v1/students/{id}` - Get student details
 - `POST /api/v1/students/` - Create student profile
@@ -163,11 +174,13 @@ Once running, access the interactive API documentation:
 - `DELETE /api/v1/students/{id}` - Delete student profile
 
 ### AI-Powered Ranking
+
 - `POST /api/v1/rank-students/` - Rank students for project
 - `POST /api/v1/rank-students/by-skills` - Rank by specific skills
 - `GET /api/v1/rank-students/criteria` - Get ranking criteria
 
 ### System
+
 - `GET /health` - Health check
 - `GET /api/v1/status` - API status and capabilities
 - `GET /api/v1/ai/costs` - AI usage costs
@@ -176,18 +189,21 @@ Once running, access the interactive API documentation:
 ## 🤖 AI Integration
 
 ### Supported Providers
+
 1. **OpenAI**: GPT-4 for comprehensive analysis
 2. **Google AI**: Gemini Pro for cost-effective processing
 3. **Anthropic**: Claude for analytical tasks
 4. **Azure OpenAI**: Enterprise-grade OpenAI access
 
 ### Cost Optimization
+
 - Automatic provider selection based on task requirements
 - Real-time cost tracking and limits
 - Daily spending caps
 - Per-request cost limits
 
 ### AI Features
+
 - **Student Ranking**: Intelligent ranking based on multiple criteria
 - **Skill Extraction**: Automated skill identification from resumes
 - **Project Matching**: AI-powered student-project compatibility
@@ -206,6 +222,7 @@ Once running, access the interactive API documentation:
 ## 📊 Database Schema
 
 The application uses the provided PostgreSQL schema with tables for:
+
 - Users (authentication and profiles)
 - Students (student-specific data)
 - Mentors (mentor profiles)
@@ -230,13 +247,16 @@ pytest tests/test_auth.py
 ## 📈 Monitoring
 
 ### Health Checks
+
 The `/health` endpoint provides:
+
 - Database connectivity
 - AI provider availability
 - Cost usage statistics
 - System performance metrics
 
 ### Logging
+
 - Structured logging with configurable levels
 - Request/response logging
 - Error tracking
@@ -245,7 +265,9 @@ The `/health` endpoint provides:
 ## 🔧 Configuration
 
 ### Environment Variables
+
 Key configuration options:
+
 - `ENVIRONMENT`: development/testing/production
 - `DEBUG`: Enable debug mode
 - `DATABASE_URL`: Full database connection string
@@ -254,7 +276,9 @@ Key configuration options:
 - CORS origins
 
 ### AI Provider Configuration
+
 Each provider can be configured with:
+
 - Model selection
 - Cost per 1K tokens
 - Maximum tokens
@@ -264,6 +288,7 @@ Each provider can be configured with:
 ## 🚀 Deployment
 
 ### Docker (Optional)
+
 ```dockerfile
 FROM python:3.11-slim
 
@@ -278,6 +303,7 @@ CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "
 ```
 
 ### Production Checklist
+
 - [ ] Set strong SECRET_KEY
 - [ ] Configure production database
 - [ ] Set up SSL/TLS
@@ -290,6 +316,7 @@ CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "
 ## 🤝 Integration with Frontend
 
 The backend is designed to work with the Next.js frontend. Key integration points:
+
 - CORS configured for frontend URLs
 - JWT tokens for authentication
 - RESTful API design
@@ -299,18 +326,21 @@ The backend is designed to work with the Next.js frontend. Key integration point
 ## 📝 User Roles
 
 ### Students
+
 - Create and manage their profile
 - View assigned projects
 - Access course information
 - Submit survey responses
 
 ### Mentors
+
 - View and approve students
 - Rank students for projects
 - Manage project assignments
 - Access analytics and reports
 
 ### Administrators
+
 - Full system access
 - User management
 - System configuration
@@ -320,6 +350,7 @@ The backend is designed to work with the Next.js frontend. Key integration point
 ## 🛟 Support
 
 For issues and questions:
+
 1. Check the API documentation at `/docs`
 2. Review logs for error messages
 3. Verify environment configuration

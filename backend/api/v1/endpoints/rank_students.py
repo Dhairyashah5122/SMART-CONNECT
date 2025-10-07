@@ -6,14 +6,14 @@ from typing import List, Optional, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session, joinedload
 
-from core.database import get_db
-from core.security import get_current_mentor  # Mentors and admins can rank
-from models.user import User
-from models.student import Student
-from models.project import Project
-from ai_adapters.base import AIRequest, AITask
-from ai_adapters.manager import ai_manager
-from api.v1.schemas import (
+from backend.core.database import get_db
+from backend.core.security import get_current_mentor  # Mentors and admins can rank
+from backend.models.user import User
+from backend.models.student import Student
+from backend.models.project import Project
+from backend.ai_adapters.base import AIRequest, AITask
+from backend.ai_adapters.manager import ai_manager
+from backend.api.v1.schemas import (
     StudentRankingRequest,
     StudentRankingResponse,
     ErrorResponse

@@ -310,6 +310,10 @@ class SkillExtractionResponse(BaseModel):
     processing_time: float
     cost: float
 
+# Generic base response schema
+class BaseResponse(BaseModel):
+    success: bool = True
+    message: str = "OK"
 
 # Generic response schemas
 class MessageResponse(BaseModel):

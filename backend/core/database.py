@@ -1,38 +1,47 @@
 """
 Database connection and session management for SMART Connect
 """
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy.pool import StaticPool
-from typing import Generator
 import logging
+from typing import Generator
+
+from sqlalchemy import create_engine, MetaData, text
+from sqlalchemy.orm import sessionmaker, declarative_base, Session
 
 from .config import settings
 
 logger = logging.getLogger(__name__)
 
-# Create SQLAlchemy engine
+# -------------------------------
+# Engine configuration
+# -------------------------------
 engine = create_engine(
     settings.database_url,
-    poolclass=StaticPool,
-    pool_pre_ping=True,
-    echo=settings.debug,
+    echo=settings.debug,         # Enable SQL logging in debug mode
+    future=True                  # SQLAlchemy 2.x style
 )
 
-# Create SessionLocal class
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Create Base class for models
-Base = declarative_base()
-
-# Metadata with schema
+# -------------------------------
+# Metadata and Base for models
+# -------------------------------
 metadata = MetaData(schema=settings.db_schema)
+Base = declarative_base(metadata=metadata)
 
+# -------------------------------
+# Session factory
+# -------------------------------
+SessionLocal = sessionmaker(
+    bind=engine,
+    autocommit=False,
+    autoflush=False,
+    future=True
+)
 
+# -------------------------------
+# Dependency for FastAPI
+# -------------------------------
 def get_db() -> Generator[Session, None, None]:
     """
-    Dependency to get database session
+    Dependency to get a database session
     """
     db = SessionLocal()
     try:
@@ -44,7 +53,9 @@ def get_db() -> Generator[Session, None, None]:
     finally:
         db.close()
 
-
+# -------------------------------
+# Utility functions
+# -------------------------------
 def create_tables():
     """
     Create all tables in the database
@@ -56,14 +67,13 @@ def create_tables():
         logger.error(f"Error creating database tables: {e}")
         raise
 
-
 def check_db_connection() -> bool:
     """
     Check if database connection is working
     """
     try:
         with engine.connect() as connection:
-            connection.execute("SELECT 1")
+            connection.execute(text("SELECT 1"))  # v2-compatible
         logger.info("Database connection successful")
         return True
     except Exception as e:

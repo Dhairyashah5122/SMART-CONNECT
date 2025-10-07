@@ -7,7 +7,7 @@ import httpx
 import json
 import asyncio
 from typing import Dict, List, Optional, Any
-from ai_adapters.base import BaseAIAdapter
+from backend.ai_adapters.base import BaseAIAdapter
 
 
 class XAIAdapter(BaseAIAdapter):

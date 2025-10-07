@@ -9,9 +9,10 @@ from sqlalchemy.orm import Session
 from datetime import datetime, date
 from pydantic import BaseModel, Field
 
-from ....core.database import get_db
-from ....core.data_mining import DataMiningEngine, SearchQuery, FilterCondition, SortCondition, SearchOperator, DataType, SortOrder
-from ..schemas import BaseResponse
+from backend.core.database import get_db
+from backend.core.data_mining import DataMiningEngine, SearchQuery, FilterCondition, SortCondition, SearchOperator, DataType, SortOrder
+from backend.api.v1.schemas import BaseResponse
+
 
 router = APIRouter(prefix="/filters", tags=["Advanced Filtering"])
 

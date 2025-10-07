@@ -7,18 +7,18 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 
-from core.database import get_db
-from core.security import (
+from backend.core.database import get_db
+from backend.core.security import (
     verify_password, 
     get_password_hash, 
     create_access_token,
     get_current_user
 )
-from core.config import settings
-from models.user import User
-from models.student import Student
-from models.mentor import Mentor
-from api.v1.schemas import (
+from backend.core.config import settings
+from backend.models.user import User
+from backend.models.student import Student
+from backend.models.mentor import Mentor
+from backend.api.v1.schemas import (
     LoginRequest, 
     Token, 
     UserCreate, 
